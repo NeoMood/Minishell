@@ -6,11 +6,62 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/21 17:47:03 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/21 22:38:43 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	get_index(const char *s, int c)
+{
+	int		i;
+	char	cc;
+	char	*ss;
+
+	i = 0;
+	ss = (char *) s;
+	cc = (char) c;
+	while (ss[i] != cc && ss[i])
+		i++;
+	if (ss[i] == cc)
+		return (i);
+	else
+		return (0);
+}
+
+char	*get_key(const char *s, int c)
+{
+	int i;
+	int j;
+	char *key;
+	
+	key = ft_strdup("");
+	j = get_index(s, c);
+	i = 0;
+	while(i < j)
+	{
+		key[i] = s[i];
+		i++;
+	}
+	return(key);
+}
+
+int		if_exists(t_exp	*exp, char *key)
+{
+	t_exp	*tmp;
+
+	tmp = exp;
+	while(tmp)
+	{
+		if(!ft_strcmp(tmp->key, key))
+		{
+			// printf("lstkey: %s -- newkey: %s\n", tmp->key, key);
+			return(1);
+		}
+		tmp = tmp->next;
+	}
+	return(0);
+}
 
 t_exp	*ft_lstlast(t_exp *lst)
 {
@@ -105,22 +156,49 @@ t_exp   *env_to_exp(t_env *env)
 	return (exp);
 }
 
+void	update_value(t_exp	*exp, char *key, char *val)
+{
+	while(exp)
+	{
+		if(!ft_strcmp(exp->key, key))
+		{
+			exp->value = ft_strdup(val);
+		}
+		exp = exp->next;
+	}
+}
+
 void    ft_export(t_args *line, t_exp *exp)
 {
+	char *val;
+	char *key;
+	
 	if(line->arg[1])
 	{
 		if(ft_strchr(line->arg[1], '='))
 		{
-			printf("KAYNA =\n");
+			val = ft_strchr(line->arg[1], '=');
+			key = get_key(line->arg[1], '=');
+			if(if_exists(exp, key))
+			{
+				printf("%d\n", if_exists(exp, key));
+				update_value(exp, key, &val[1]);
+			}
+			else if(!if_exists(exp, key))
+			{
+				printf("%d\n", if_exists(exp, key));
+				ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
+			}
 		}
 		else if(!ft_strchr(line->arg[1], '='))
 		{
 			ft_lstadd_back(&exp, ft_createcell2(line->arg[1], ""));
 			sort_exp(&exp);
-			// printf("MAKAYNACH =\n");
 		}
 	}
 	else
+	{
 		sort_exp(&exp);
-	exp_print(&exp);
+		exp_print(&exp);
+	}
 }
