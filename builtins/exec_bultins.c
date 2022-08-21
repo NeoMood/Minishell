@@ -6,13 +6,13 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:27 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/20 16:06:49 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/21 18:04:00 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_builtins(t_args *new, t_env *envar)
+void	ft_builtins(t_args *new, t_env *envar, t_exp *exp)
 {
     if (!ft_strcmp(new->arg[0], "cd"))
         ft_cd(new, envar);
@@ -23,6 +23,5 @@ void	ft_builtins(t_args *new, t_env *envar)
     else if (!ft_strcmp(new->arg[0], "echo"))
         ft_echo(new);
     else if (!ft_strcmp(new->arg[0], "export"))
-        ft_export(new, envar);
-    
+        ft_export(new, exp);
 }
