@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/21 22:38:43 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/21 23:11:52 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,20 @@ t_exp   *env_to_exp(t_env *env)
 	return (exp);
 }
 
+int	check_plequal(char *arg)
+{
+	int i;
+
+	i = 0;
+	while(arg[i])
+	{
+		if(arg[i] == '+' && arg[i + 1] == '=')
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
 void	update_value(t_exp	*exp, char *key, char *val)
 {
 	while(exp)
@@ -177,17 +191,24 @@ void    ft_export(t_args *line, t_exp *exp)
 	{
 		if(ft_strchr(line->arg[1], '='))
 		{
-			val = ft_strchr(line->arg[1], '=');
-			key = get_key(line->arg[1], '=');
-			if(if_exists(exp, key))
+			if(check_plequal(line->arg[1]))
 			{
-				printf("%d\n", if_exists(exp, key));
-				update_value(exp, key, &val[1]);
+				printf("KAYNAAA\n");
 			}
-			else if(!if_exists(exp, key))
+			else
 			{
-				printf("%d\n", if_exists(exp, key));
-				ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
+				val = ft_strchr(line->arg[1], '=');
+				key = get_key(line->arg[1], '=');
+				if(if_exists(exp, key))
+				{
+					printf("%d\n", if_exists(exp, key));
+					update_value(exp, key, &val[1]);
+				}
+				else if(!if_exists(exp, key))
+				{
+					printf("%d\n", if_exists(exp, key));
+					ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
+				}
 			}
 		}
 		else if(!ft_strchr(line->arg[1], '='))
