@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/21 23:11:52 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 00:43:57 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ int		if_exists(t_exp	*exp, char *key)
 	while(tmp)
 	{
 		if(!ft_strcmp(tmp->key, key))
-		{
-			// printf("lstkey: %s -- newkey: %s\n", tmp->key, key);
 			return(1);
-		}
 		tmp = tmp->next;
 	}
 	return(0);
@@ -175,9 +172,36 @@ void	update_value(t_exp	*exp, char *key, char *val)
 	while(exp)
 	{
 		if(!ft_strcmp(exp->key, key))
-		{
 			exp->value = ft_strdup(val);
-		}
+		exp = exp->next;
+	}
+}
+
+char	*ft_strcat(char *dest, char *src)
+{
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	while (dest[i] != '\0')
+		++i;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i] = src[j];
+		i++;
+		++j;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+void	add_value(t_exp	*exp, char *key, char *val)
+{
+	while(exp)
+	{
+		if(!ft_strcmp(exp->key, key))
+			ft_strcat(exp->value, val);
 		exp = exp->next;
 	}
 }
@@ -193,22 +217,21 @@ void    ft_export(t_args *line, t_exp *exp)
 		{
 			if(check_plequal(line->arg[1]))
 			{
-				printf("KAYNAAA\n");
+				key = get_key(line->arg[1], '+');
+				val = ft_strchr(line->arg[1], '=');
+				if(if_exists(exp, key))
+					add_value(exp, key, &val[1]);
+				else if(!if_exists(exp, key))
+					ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
 			}
 			else
 			{
 				val = ft_strchr(line->arg[1], '=');
 				key = get_key(line->arg[1], '=');
 				if(if_exists(exp, key))
-				{
-					printf("%d\n", if_exists(exp, key));
 					update_value(exp, key, &val[1]);
-				}
 				else if(!if_exists(exp, key))
-				{
-					printf("%d\n", if_exists(exp, key));
 					ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
-				}
 			}
 		}
 		else if(!ft_strchr(line->arg[1], '='))

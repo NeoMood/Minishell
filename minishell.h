@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/21 16:49:46 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 00:40:24 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ft_putchar_fd(char c, int fd);
 char	*ft_strdup(const char *s1);
 int		ft_strlen(const char *s);
 int		ft_isalpha(int c);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 
 // LINKED LIST OF PARSING
 t_tk	*ft_input(char *data, int token);
