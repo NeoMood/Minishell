@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/22 15:41:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 17:09:32 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,20 @@ int		if_exists(t_exp	*exp, char *key)
 	t_exp	*tmp;
 
 	tmp = exp;
+	while(tmp)
+	{
+		if(!ft_strcmp(tmp->key, key))
+			return(1);
+		tmp = tmp->next;
+	}
+	return(0);
+}
+
+int		if_exists2(t_env	*env, char *key)
+{
+	t_env	*tmp;
+
+	tmp = env;
 	while(tmp)
 	{
 		if(!ft_strcmp(tmp->key, key))
@@ -204,6 +218,16 @@ void	update_value(t_exp	*exp, char *key, char *val)
 	}
 }
 
+void	update_envalue(t_env	*env, char *key, char *val)
+{
+	while(env)
+	{
+		if(!ft_strcmp(env->key, key))
+			env->value = ft_strdup(val);
+		env = env->next;
+	}
+}
+
 char	*ft_strcat(char *dest, char *src)
 {
 	unsigned int	i;
@@ -233,38 +257,70 @@ void	add_value(t_exp	*exp, char *key, char *val)
 	}
 }
 
-void    ft_export(t_args *line, t_exp *exp)
+void	add_envalue(t_env	*env, char *key, char *val)
+{
+	while(env)
+	{
+		if(!ft_strcmp(env->key, key))
+			ft_strcat(env->value, val);
+		env = env->next;
+	}
+}
+
+void    ft_export(t_args *line, t_exp *exp, t_env *env)
 {
 	char *val;
 	char *key;
+	int	i;
 	
+	i = 1;
 	if(line->arg[1])
 	{
-		if(ft_strchr(line->arg[1], '='))
+		while(line->arg[i])
 		{
-			if(check_plequal(line->arg[1]))
+			if(ft_strchr(line->arg[i], '='))
 			{
-				key = get_key(line->arg[1], '+');
-				val = ft_strchr(line->arg[1], '=');
-				if(if_exists(exp, key))
-					add_value(exp, key, &val[1]);
-				else if(!if_exists(exp, key))
-					ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
+				if(check_plequal(line->arg[i]))
+				{
+					key = get_key(line->arg[i], '+');
+					val = ft_strchr(line->arg[i], '=');
+					if(if_exists(exp, key))
+						add_value(exp, key, &val[1]);
+					if(if_exists2(env, key))
+						add_envalue(env, key, &val[1]);
+					else
+					{
+						ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
+						ft_addbacknode(&env, ft_createcell(key, &val[1]));
+					}
+				}
+				else
+				{
+					val = ft_strchr(line->arg[i], '=');
+					key = get_key(line->arg[i], '=');
+					if(if_exists(exp, key))
+					{
+						update_value(exp, key, &val[1]);
+						update_envalue(env, key, &val[1]);
+					}
+					else if(!if_exists(exp, key))
+					{
+						ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
+						ft_addbacknode(&env, ft_createcell(key, &val[1]));
+						
+					}
+				}
 			}
-			else
+			else if(!ft_strchr(line->arg[i], '='))
 			{
-				val = ft_strchr(line->arg[1], '=');
-				key = get_key(line->arg[1], '=');
-				if(if_exists(exp, key))
-					update_value(exp, key, &val[1]);
-				else if(!if_exists(exp, key))
-					ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
+				if(!if_exists(exp, line->arg[i]))
+				{
+					puts("Here");
+					ft_lstadd_back(&exp, ft_createcell2(line->arg[i], ""));
+					sort_exp(&exp);
+				}
 			}
-		}
-		else if(!ft_strchr(line->arg[1], '='))
-		{
-			ft_lstadd_back(&exp, ft_createcell2(line->arg[1], ""));
-			sort_exp(&exp);
+			i++;
 		}
 	}
 	else
