@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:27 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/21 18:04:00 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 01:30:40 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,6 @@ void	ft_builtins(t_args *new, t_env *envar, t_exp *exp)
         ft_echo(new);
     else if (!ft_strcmp(new->arg[0], "export"))
         ft_export(new, exp);
+    else if (!ft_strcmp(new->arg[0], "unset"))
+        ft_unset(new, envar);
 }

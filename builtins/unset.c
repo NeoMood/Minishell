@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/19 17:16:17 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/22 01:26:11 by sgmira           ###   ########.fr       */
+/*   Created: 2022/08/22 00:57:58 by sgmira            #+#    #+#             */
+/*   Updated: 2022/08/22 01:30:50 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    ft_env(t_env *env)
+// void	del_env()
+// {
+	
+// }
+
+// void	del_exp()
+// {
+	
+// }
+
+void    ft_unset(t_args *line, t_env *env)
 {
-    while(env->next)
-    {
-        if(env->key)
-            printf("%s=\"%s\"\n", env->key, env->value);
-        env = env->next;
-    }
+	if(line->arg[1])
+	{
+		while(env)
+		{
+			if(!ft_strcmp(env->key, line->arg[1]))
+			{
+				env->key = NULL;
+			}
+			env = env->next;
+		}
+	}
 }
