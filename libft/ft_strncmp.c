@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 12:46:43 by yamzil            #+#    #+#             */
-/*   Updated: 2022/07/24 16:26:52 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:49:35 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,40 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
+// int	ft_strcmp(const char *s1, const char *s2)
+// {
+// 	unsigned char	*s11;
+// 	unsigned char	*s22;
+// 	size_t			i;
+
+// 	i = 0;
+// 	s11 = (unsigned char *) s1;
+// 	s22 = (unsigned char *) s2;
+
+// 	while (s11[i] || s22[i])
+// 	{
+// 		if (s11[i] != s22[i])
+// 			return (s11[i] - s22[i]);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	unsigned char	*s11;
 	unsigned char	*s22;
-	size_t			i;
 
-	i = 0;
-	s11 = (unsigned char *) s1;
-	s22 = (unsigned char *) s2;
-
-	while (s11[i] || s22[i])
+	s11 = (unsigned char *)s1;
+	s22 = (unsigned char *)s2;
+	if (!s11 && !s22)
+		return (0);
+	if (!s11 || !s22)
+		return (1);
+	while (*s11 && *s22 && (*s11 == *s22))
 	{
-		if (s11[i] != s22[i])
-			return (s11[i] - s22[i]);
-		i++;
+		s11++;
+		s22++;
 	}
-	return (0);
+	return (*s11 - *s22);
 }

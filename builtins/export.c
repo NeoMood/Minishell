@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/22 00:43:57 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 15:41:22 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,22 @@ void	exp_print(t_exp **exp)
 	new = *exp;
 	while (new)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(new->key, 1);
-		if (*new->value != '\0')
+		if(new->key)
 		{
-			ft_putstr_fd("=", 1);
-			ft_putstr_fd("\"", 1);
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(new->key, 1);
+			if (*new->value != '\0')
+			{
+				ft_putstr_fd("=", 1);
+				ft_putstr_fd("\"", 1);
+			}
+			ft_putstr_fd(new->value, 1);
+			if (*new->value != '\0')
+			{
+				ft_putstr_fd("\"", 1);
+			}
+			ft_putstr_fd("\n", 1);
 		}
-		ft_putstr_fd(new->value, 1);
-		if (*new->value != '\0')
-		{
-			ft_putstr_fd("\"", 1);
-		}
-		ft_putstr_fd("\n", 1);
 		new = new->next;
 	}
 }
@@ -117,40 +120,64 @@ void	sort_exp(t_exp **exp)
 	i = *exp;
 	while (i)
 	{
-		j = i->next;
-		while (j)
+		if(i->key)
 		{
-			if (ft_strcmp(i->key, j->key) > 0)
+			j = i->next;
+			while (j)
 			{
-				tmp = i -> key;
-				i -> key = j -> key;
-				j -> key = tmp;
-				tmpv = i -> value;
-				i -> value = j -> value;
-				j -> value = tmpv;
+				if (ft_strcmp(i->key, j->key) > 0)
+				{
+					tmp = i -> key;
+					i -> key = j -> key;
+					j -> key = tmp;
+					tmpv = i -> value;
+					i -> value = j -> value;
+					j -> value = tmpv;
+				}
+				j = j->next;
 			}
-			j = j->next;
 		}
 		i = i->next;
 	}
 }
 
-t_exp   *env_to_exp(t_env *env)
+// t_exp   *env_to_exp(t_env *env)
+// {
+// 	t_exp   *exp;
+// 	char	*key;
+// 	char	*value;
+
+// 	exp = NULL;
+// 	while(env)
+// 	{
+// 		if(env->key)
+// 		{
+// 			key = ft_strdup(env->key);
+// 			value = ft_strdup(env->value);
+// 			ft_addbacknode2(&exp, ft_createcell2(key, value));
+// 		}
+// 		env = env->next;
+// 	}
+// 	return (exp);
+// }
+
+t_exp   *ft_getexp(char **env)
 {
-	t_exp   *exp;
+	t_exp	*save;
 	char	*key;
 	char	*value;
+	int		i;
 
-	exp = NULL;
-	while(env)
+	i = 0;
+	save = NULL;
+	while (env[i])
 	{
-		key = ft_strdup(env->key);
-		value = ft_strdup(env->value);
-		ft_addbacknode2(&exp, ft_createcell2(key, value));
-		if (env)
-			env = env->next;
+        key = ft_substr(env[i], 0,ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')));
+		value = ft_strdup(ft_strchr(env[i], '=') + 1);
+		ft_addbacknode2(&save, ft_createcell2(key, value));
+		i++;
 	}
-	return (exp);
+    return (save);
 }
 
 int	check_plequal(char *arg)

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/21 19:55:44 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 15:16:52 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, ft_handler);
 	signal(SIGQUIT, SIG_IGN);
 	envi = ft_getenv(env);
-	exp = env_to_exp(envi);
+	exp = ft_getexp(env);
 	while (1)
 	{
 		line = readline("Minishell-1.0 $> ");
