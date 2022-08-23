@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 18:47:19 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 22:58:30 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@ static t_args  *ft_corrector(t_args *parse)
     parse = ft_merge(parse); // correct parseing
 	parse = ft_joiner(parse); // joiner word
     return (parse);
+}
+
+int	check_pipe(t_args *args)
+{
+	while (args)
+	{
+		if (args->type == PIPE)
+			return (0);
+		args = args->next;
+	}
+	return (1);
 }
 
 static void	lastparse(char *line, t_env	*env, t_exp	*exp, char **envar)
@@ -33,15 +44,20 @@ static void	lastparse(char *line, t_env	*env, t_exp	*exp, char **envar)
 	list = ft_expand(list, env);
 	parse = ft_initialparsing(list); // parsing list
 	parse = ft_corrector(parse); // correct parseing
-	if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")
-		|| !ft_strcmp(parse->arg[0], "env") || !ft_strcmp(parse->arg[0], "echo")
-		|| !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
-		ft_builtins(parse, env, exp);
+	if (!check_pipe(parse))
+		puts("kaynaaa");
 	else
-		parse_cmd(parse->arg, env, envar);
+	{
+		if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")
+			|| !ft_strcmp(parse->arg[0], "env") || !ft_strcmp(parse->arg[0], "echo")
+			|| !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
+			ft_builtins(parse, env, exp);
+		else
+			parse_cmd(parse->arg, env, envar);	
+	}
 	ft_redirection(parse);
 	// printlist(list); // print the lexer list
-	// ft_printarg(parse); // print the parser list
+	ft_printarg(parse); // print the parser list
 }
 
 static void	ft_exit(void)

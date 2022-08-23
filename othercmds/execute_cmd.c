@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/23 18:14:48 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 22:38:00 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void    processing_cmd(char *path, char **cmd, char **env)
 {
     if (execve(path, cmd, env) == -1)
-		perror("execve");
+		return ;
 	exit(EXIT_FAILURE);
 }
 
