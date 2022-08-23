@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 18:17:11 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 18:47:19 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline("Minishell-1.0 $> ");
-		// if (ft_strcmp(line, "\n"))
-		// 	continue;
 		if (!line)
 			ft_exit();
+		if (ft_strncmp(line, "\n", 1) && !line[1])
+			continue ;
 		lastparse(line, envi, exp, env);
 		add_history (line);
 	}

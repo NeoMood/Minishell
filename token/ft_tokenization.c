@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:31:59 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/22 23:41:30 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 18:32:54 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_tk	*ft_lexer(char *line)
 
 	i = 0;
 	line = ft_strtrim(line, " ");
-	// ft_extraspace(line);
 	list = NULL;
 	while (line[i])
 		i = get_length_of_next_token(i, line, &list);
