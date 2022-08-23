@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/22 15:47:52 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 18:12:22 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,5 +177,7 @@ void	sort_exp(t_exp **exp);
 void	exp_print(t_exp **exp);
 void    ft_unset(t_args *line, t_env *env, t_exp *exp);
 t_exp   *ft_getexp(char **env);
+char    *get_path(t_env *env,  char **cmd);
+void    parse_cmd(char **cmd, t_env *env, char **envar);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 01:51:16 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 18:17:11 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_args  *ft_corrector(t_args *parse)
     return (parse);
 }
 
-static void	lastparse(char *line, t_env	*env, t_exp	*exp)
+static void	lastparse(char *line, t_env	*env, t_exp	*exp, char **envar)
 {
 	t_args *parse;
 	t_tk	*list;
@@ -33,16 +33,15 @@ static void	lastparse(char *line, t_env	*env, t_exp	*exp)
 	list = ft_expand(list, env);
 	parse = ft_initialparsing(list); // parsing list
 	parse = ft_corrector(parse); // correct parseing
-		// printf("\n\n\n\nggggg\n\n\n\n\n\n");
 	if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")
 		|| !ft_strcmp(parse->arg[0], "env") || !ft_strcmp(parse->arg[0], "echo")
 		|| !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
 		ft_builtins(parse, env, exp);
 	else
-		puts("Invalid");
+		parse_cmd(parse->arg, env, envar);
 	ft_redirection(parse);
-	printlist(list); // print the lexer list
-	ft_printarg(parse); // print the parser list
+	// printlist(list); // print the lexer list
+	// ft_printarg(parse); // print the parser list
 }
 
 static void	ft_exit(void)
@@ -78,7 +77,7 @@ int	main(int ac, char **av, char **env)
 		// 	continue;
 		if (!line)
 			ft_exit();
-		lastparse(line, envi, exp);
+		lastparse(line, envi, exp, env);
 		add_history (line);
 	}
 }
