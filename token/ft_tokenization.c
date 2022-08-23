@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:31:59 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/19 17:40:25 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 23:41:30 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int get_length_of_next_token(int i, char *line, t_tk **list) 
 {
+	
 	int word;
 
 	if (line[i] == '$')
@@ -21,7 +22,7 @@ static int get_length_of_next_token(int i, char *line, t_tk **list)
 	else if (line[i] == '\'')
 		return (ft_checksquotes(i + 1, line, list));
 	else if (line[i] == '\"')
-		return (ft_checkdquotes(i + 1, line, list));
+		return (ft_checkdquotes(i, line, list));
 	else if (line[i] == '|')
 		return (ft_checkpip(i, list));
 	else if (line[i] == '>' && line[i + 1] == '>')
@@ -47,7 +48,7 @@ t_tk	*ft_lexer(char *line)
 
 	i = 0;
 	line = ft_strtrim(line, " ");
-	ft_extraspace(line);
+	// ft_extraspace(line);
 	list = NULL;
 	while (line[i])
 		i = get_length_of_next_token(i, line, &list);

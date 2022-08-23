@@ -6,32 +6,31 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/19 17:41:18 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 23:26:27 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 int	ft_checkdquotes(int i, char *line, t_tk **list)
 {
 	int	j;
 	int	k;
 
 	j = i;
-	if (line[j - 1] ==  '\"')
-		return (j + 1);
 	while (line[j])
 	{
 		if (line[j] == '$')
 		{
-			if (line[j - 1] != '\"')
-				ft_addtolist(list, ft_input(ft_substr(line, i, j - i), WORD));
+			if (line[j - 1] != '\"' && i < j)
+				ft_addtolist(list, ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
 			k = ft_checkdollar(j, line, list);
 			if (line[k] == '\"')
 				return (k + 1);
 			else if (line[k] != '\"' && line[k] == '\0')
 			{
 				printf("Syntax Error\n");
-				exit (1);
+				return(j+1) ;
 			}
 			i = k;
 		}
@@ -39,12 +38,12 @@ int	ft_checkdquotes(int i, char *line, t_tk **list)
 		if (line[j] == '\"')
 			break ;
 	}
-	if (line[j] == '\"')
-		ft_addtolist(list, ft_input(ft_substr(line, i, j - i), WORD));
-	else
+	if (line[j] == '\"' && j != i + 1)
+		ft_addtolist(list, ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
+	else if (j != i + 1)
 	{
 		printf("Syntax Error\n");
-		exit (1);
+		return (j + 1);
 	}
 	return (j + 1);
 }
@@ -72,11 +71,7 @@ int	ft_checkdollar(int i, char *line, t_tk **list)
 
 	j = i + 1;
 	while (line[j] && ft_delimiter(line[j]))
-	{
-		if (line[i] == '\"' && line[i + 1] == '\"')
-			return (0);
 		j++;
-	}
 	ft_addtolist(list, ft_input(ft_substr(line, i, j - i), VAR));
 	return (j);
 }

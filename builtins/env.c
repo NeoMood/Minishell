@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 17:16:17 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/22 01:26:11 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 01:45:18 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    ft_env(t_env *env)
 {
-    while(env->next)
+    while(env)
     {
         if(env->key)
             printf("%s=\"%s\"\n", env->key, env->value);

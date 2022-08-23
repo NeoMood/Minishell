@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:32:51 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/09 18:04:35 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/08/22 23:03:38 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	ft_freelist(t_tk *list)
 
 void	printlist(t_tk *list)
 {
+	if (list == NULL)
+		return ;
 	while (list)
 	{
 		printf("%d ---- [%s]\n",list->token, list->input);

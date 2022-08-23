@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:40:32 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/13 16:59:49 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/08/22 22:15:42 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,27 @@ void	ft_collectword(t_tk **list, t_args **word)
 	tmp1 = NULL;
 	while ((*list) && ((*list)->token == WORD || (*list)->token == VAR || (*list)->token == SP ||  (*list)->token == SQUOTE))
 	{
-		if ((*list)->token == SP)
-			(*list) = (*list)->next;
+		// tmp = ft_strjoinv2(tmp, (*list)->input); // echo 
+		// (*list) = (*list)->next;
+		// if ((*list) && ((*list)->token == SP))
+		// {
+		// 	if ((*list)->token == SP)
+		// 		(*list) = (*list)->next;
+		// 	tmp1 = ft_table(tmp1, tmp);
+		// 	free (tmp);
+		// 	tmp = NULL;
+		// }
 		tmp = ft_strjoin_v2(tmp, (*list)->input);
+		if ((*list) && (*list)->next && (*list)->next->token == SP)
+			(*list) = (*list)->next;
+		tmp1 = ft_table(tmp1, tmp);
+		free (tmp);
+		tmp = NULL;
 		(*list) = (*list)->next;
-		if ((*list) && ((*list)->token == SP))
-		{
-			if ((*list)->token == SP)
-				(*list) = (*list)->next;
-			tmp1 = ft_table(tmp1, tmp);
-			free (tmp);
-			tmp = NULL;
-		}
 	}
 	tmp1 = ft_table(tmp1, tmp);
 	ft_addbackarg(word, ft_args_node(tmp1, COMMAND));
 }
-
 void	ft_collectpip(t_tk **list, t_args **pip)
 {
 	char	**tmp1;

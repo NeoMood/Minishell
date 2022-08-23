@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:33:14 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/22 16:30:35 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 01:21:28 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_exp	*ft_createcell2(char *key, char	*value)
 {
 	t_exp	*exp;
 
-	exp = malloc(sizeof(t_env));
+	exp = malloc(sizeof(t_exp));
 	if (!exp)
 		return (NULL);
 	exp->key = key;

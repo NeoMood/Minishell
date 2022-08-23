@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:52:26 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/20 15:45:44 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/22 23:37:15 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ int	ft_isspace(char c)
 	return (0);
 }
 
+int ft_find(int i, char *tmp)
+{
+    int     j;
+    char    *str;
+
+    j = i + 1;
+    while(tmp[j])
+    {
+        if (tmp[j] == '\"')
+            break;
+        j++;
+    }
+    str = ft_substr(tmp, i, j - i);
+    return (j);
+}
 void    ft_extraspace(char *line)
 {
     char    *str;
@@ -40,6 +55,8 @@ void    ft_extraspace(char *line)
         return ;
     while (++i < ft_strlen(line))
     {
+        if (line[i] == '\"')
+            i = ft_find(i, line);
         if (line[i] == ' ' && line[i + 1] == ' ')
             continue ;
         else

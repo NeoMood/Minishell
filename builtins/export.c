@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/22 17:09:32 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/23 01:48:40 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,7 @@ void    ft_export(t_args *line, t_exp *exp, t_env *env)
 					{
 						ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
 						ft_addbacknode(&env, ft_createcell(key, &val[1]));
-						
+						// printf("%s\n", ft_last_node(env)->key);
 					}
 				}
 			}
