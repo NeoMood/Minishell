@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 18:02:56 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:17:43 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,29 @@ int	check_pipe(t_args *args)
 	return (1);
 }
 
-static void	lastparse(char *line, t_env	*env, t_exp	*exp, char **envar)
+static void	lastparse(char *line, t_exenv exenv, char **envar)
 {
 	t_args *parse;
 	t_tk	*list;
 	t_tk	*tmp;
-	(void) exp;
 
 	list = ft_lexer(line);
 	tmp = list;
 	if (!ft_fullcheck(tmp))
 		return ;
-	list = ft_expand(list, env);
+	list = ft_expand(list, exenv.env);
 	parse = ft_initialparsing(list); // parsing list
 	parse = ft_corrector(parse); // correct parseing
 	if (!check_pipe(parse))
-		parse_multicmd(parse, env, envar);
+		parse_multicmd(parse, exenv, envar);
 	else
 	{
 		if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")
 			|| !ft_strcmp(parse->arg[0], "env") || !ft_strcmp(parse->arg[0], "echo")
 			|| !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
-			ft_builtins(parse, env, exp);
+			ft_builtins(parse, exenv);
 		else
-			parse_cmd(parse->arg, env, envar);
+			parse_cmd(parse->arg, exenv, envar);
 	}
 	ft_redirection(parse);
 	// printlist(list); // print the lexer list
@@ -73,8 +72,9 @@ int	main(int ac, char **av, char **env)
 	(void)	av;
 	(void ) env;
 	char	*line;
-	t_env	*envi;
-	t_exp	*exp;
+	// t_env	*envi;
+	// t_exp	*exp;
+	t_exenv exenv;
 
 	rl_catch_signals = 0;
 	if (ac != 1)
@@ -84,16 +84,17 @@ int	main(int ac, char **av, char **env)
 	}
 	signal(SIGINT, ft_handler);
 	signal(SIGQUIT, SIG_IGN);
-	envi = ft_getenv(env);
-	exp = ft_getexp(env);
+	exenv.env = ft_getenv(env);
+	exenv.exp = ft_getexp(env);
 	while (1)
 	{
-		line = readline("Minishell-1.0 $> ");
+		// line = readline("Minishell-1.0 $> ");
+		line = readline("➜ minishell $> ");
 		if (!line)
 			ft_exit();
 		if (ft_strncmp(line, "\n", 1) && !line[1])
 			continue ;
-		lastparse(line, envi, exp, env);
+		lastparse(line, exenv, env);
 		add_history (line);
 	}
 }

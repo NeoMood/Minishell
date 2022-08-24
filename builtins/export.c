@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/23 01:48:40 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:07:56 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ void	add_envalue(t_env	*env, char *key, char *val)
 	}
 }
 
-void    ft_export(t_args *line, t_exp *exp, t_env *env)
+void    ft_export(t_args *line, t_exenv exenv)
 {
 	char *val;
 	char *key;
@@ -284,40 +284,40 @@ void    ft_export(t_args *line, t_exp *exp, t_env *env)
 				{
 					key = get_key(line->arg[i], '+');
 					val = ft_strchr(line->arg[i], '=');
-					if(if_exists(exp, key))
-						add_value(exp, key, &val[1]);
-					if(if_exists2(env, key))
-						add_envalue(env, key, &val[1]);
+					if(if_exists(exenv.exp, key))
+						add_value(exenv.exp, key, &val[1]);
+					if(if_exists2(exenv.env, key))
+						add_envalue(exenv.env, key, &val[1]);
 					else
 					{
-						ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
-						ft_addbacknode(&env, ft_createcell(key, &val[1]));
+						ft_lstadd_back(&exenv.exp, ft_createcell2(key, &val[1]));
+						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
 					}
 				}
 				else
 				{
 					val = ft_strchr(line->arg[i], '=');
 					key = get_key(line->arg[i], '=');
-					if(if_exists(exp, key))
+					if(if_exists(exenv.exp, key))
 					{
-						update_value(exp, key, &val[1]);
-						update_envalue(env, key, &val[1]);
+						update_value(exenv.exp, key, &val[1]);
+						update_envalue(exenv.env, key, &val[1]);
 					}
-					else if(!if_exists(exp, key))
+					else if(!if_exists(exenv.exp, key))
 					{
-						ft_lstadd_back(&exp, ft_createcell2(key, &val[1]));
-						ft_addbacknode(&env, ft_createcell(key, &val[1]));
+						ft_lstadd_back(&exenv.exp, ft_createcell2(key, &val[1]));
+						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
 						// printf("%s\n", ft_last_node(env)->key);
 					}
 				}
 			}
 			else if(!ft_strchr(line->arg[i], '='))
 			{
-				if(!if_exists(exp, line->arg[i]))
+				if(!if_exists(exenv.exp, line->arg[i]))
 				{
 					puts("Here");
-					ft_lstadd_back(&exp, ft_createcell2(line->arg[i], ""));
-					sort_exp(&exp);
+					ft_lstadd_back(&exenv.exp, ft_createcell2(line->arg[i], ""));
+					sort_exp(&exenv.exp);
 				}
 			}
 			i++;
@@ -325,7 +325,7 @@ void    ft_export(t_args *line, t_exp *exp, t_env *env)
 	}
 	else
 	{
-		sort_exp(&exp);
-		exp_print(&exp);
+		sort_exp(&exenv.exp);
+		exp_print(&exenv.exp);
 	}
 }

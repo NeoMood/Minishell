@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 16:36:36 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 21:54:26 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int    execute_multicmd(t_vars *vars, char **cmd, char **env, int *fd)
 	return (0);
 }
 
-void    parse_multicmd(t_args *args, t_env *env, char **envar)
+void    parse_multicmd(t_args *args, t_exenv exenv, char **envar)
 {
     t_vars  vars;
 
@@ -121,7 +121,7 @@ void    parse_multicmd(t_args *args, t_env *env, char **envar)
     {
         if (args->type == COMMAND)
 		{
-            vars.path = get_path(env, args->arg);
+            vars.path = get_path(exenv.env, args->arg);
             execute_multicmd(&vars, args->arg, envar, vars.fd);
             free(vars.path);
             vars.i++;
