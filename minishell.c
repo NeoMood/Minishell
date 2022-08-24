@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 22:58:30 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 02:42:37 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	lastparse(char *line, t_env	*env, t_exp	*exp, char **envar)
 	parse = ft_initialparsing(list); // parsing list
 	parse = ft_corrector(parse); // correct parseing
 	if (!check_pipe(parse))
-		puts("kaynaaa");
+		parse_multicmd(parse, env, envar);
 	else
 	{
 		if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")

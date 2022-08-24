@@ -6,7 +6,7 @@
 #    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/08/23 18:36:59 by sgmira           ###   ########.fr        #
+#    Updated: 2022/08/24 01:46:54 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC =	minishell.c\
 		./builtins/unset.c\
 		./othercmds/get_path.c\
 		./othercmds/execute_cmd.c\
+		./othercmds/multi_cmd.c\
 		ft_redirections.c\
 		ft_environment.c\
 		ft_sighandler.c\

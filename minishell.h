@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 18:12:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 02:06:22 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ typedef struct s_args{
 	e_type 			type;
 	struct s_args	*next;
 }t_args ;
+
+typedef struct s_vars{
+	char *path;
+	int		fd[2];
+	int num;
+    int i;
+}t_vars ;
 
 // UTILS LIBFT
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -179,5 +186,6 @@ void    ft_unset(t_args *line, t_env *env, t_exp *exp);
 t_exp   *ft_getexp(char **env);
 char    *get_path(t_env *env,  char **cmd);
 void    parse_cmd(char **cmd, t_env *env, char **envar);
+void    parse_multicmd(t_args *args, t_env *env, char **envar);
 
 #endif
