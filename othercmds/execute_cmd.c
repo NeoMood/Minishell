@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 17:33:30 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 17:55:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@ void    processing_cmd(char *path, char **cmd, char **env)
 		return ;
 	exit(EXIT_FAILURE);
 }
-
-// void    processing_execfile(char **cmd, char **env)
-// {
-//     if (execve(NULL, cmd, env) == -1)
-// 		return ;
-// 	exit(EXIT_FAILURE);
-// }
-
 
 void   forking(char *path, char **cmd, char **env)
 {
@@ -39,20 +31,6 @@ void   forking(char *path, char **cmd, char **env)
 
     wait(&pid);
 }
-
-// void   forking2(char **cmd, char **env)
-// {
-//     int pid;
-
-//     pid = fork();
-// 	if (pid < 0)
-// 		return (perror("pipe"));
-// 	if (pid == 0)
-// 		processing_execfile(cmd, env);
-
-//     wait(&pid);
-// }
-
 
 void    parse_cmd(char **cmd, t_env *env, char **envar)
 {
