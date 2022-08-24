@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 22:18:11 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 23:07:01 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ typedef struct s_vars{
 
 typedef struct s_exenv{
 	t_env	*env;
-	t_exp	*exp;	
+	t_exp	*exp;
+	char	**envar;
 	int 	shlvl;
 }t_exenv ;
 
@@ -192,8 +193,8 @@ void	exp_print(t_exp **exp);
 void    ft_unset(t_args *line, t_exenv exenv);
 t_exp   *ft_getexp(char **env);
 char    *get_path(t_env *env,  char **cmd);
-void    parse_cmd(char **cmd, t_exenv exenv, char **envar);
-void    parse_multicmd(t_args *args, t_exenv exenv, char **envar);
+void    parse_cmd(char **cmd, t_exenv exenv);
+void    parse_multicmd(t_args *args, t_exenv exenv);
 int		get_error(char *s);
 char    *get_path2(t_env *env,  char **cmd);
 void    get_filerror(char **cmd);

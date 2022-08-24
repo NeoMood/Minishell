@@ -6,50 +6,11 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:31:11 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 22:42:27 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 22:44:29 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// char *get_envpath(char **env, char *target)
-// {
-// 	int i;
-// 	int j;
-// 	int x;
-
-// 	i = 0;
-// 	while(env[i])
-// 	{
-// 		j = 0;
-// 		x = 0;
-// 		while(target[j] == env[i][x])
-// 		{
-// 			if (env[i][j + 1] == '=')
-// 			{
-// 				return (&env[i][x + 2]);
-// 			}
-// 			j++;
-// 			x++;
-// 		}
-// 		i++;
-// 	}
-// 	return(0);
-// }
-
-// char *get_varpath(char *var)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while(var[i])
-// 	{
-// 		if(var[i] == '=')
-// 			return(&var[i + 1]);
-// 		i++;
-// 	}
-// 	return(0);
-// }
 
 void	change_pwd(t_exenv exenv, char *dest)
 {

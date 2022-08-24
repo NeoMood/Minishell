@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 22:18:45 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 23:05:41 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void   forking(char *path, char **cmd, char **env)
     wait(&pid);
 }
 
-void    parse_cmd(char **cmd, t_exenv exenv, char **envar)
+void    parse_cmd(char **cmd, t_exenv exenv)
 {
     char *path;
 
@@ -40,5 +40,5 @@ void    parse_cmd(char **cmd, t_exenv exenv, char **envar)
         path = get_path2(exenv.env, cmd);
     else
         path = get_path(exenv.env, cmd);
-    forking(path, cmd, envar);
+    forking(path, cmd, exenv.envar);
 }

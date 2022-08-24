@@ -6,13 +6,13 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 21:54:26 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 23:09:17 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	processing_firstcmd(char *path, char **cmd, char **env, int *fd)
+void	processing_firstcmd(char *path, char **cmd, t_exenv exenv, int *fd)
 {
 	// dup2(vars->f1, STDIN_FILENO);
 	// close(fd[0]);
@@ -25,30 +25,30 @@ void	processing_firstcmd(char *path, char **cmd, char **env, int *fd)
     //     ft_builtins(parse, env, exp);
     // else
     // {
-        if (execve(path, cmd, env) == -1)
+        if (execve(path, cmd, exenv.envar) == -1)
             write(2, "execve Error!", 14);
     // }
 	exit(EXIT_FAILURE);
 }
 
-void	processing_mdlcmd(char *path, char **cmd, char **env, int *fd)
+void	processing_mdlcmd(char *path, char **cmd, t_exenv exenv, int *fd)
 {
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	close(fd[0]);
-	if (execve(path, cmd, env) == -1)
+	if (execve(path, cmd, exenv.envar) == -1)
 		get_error(cmd[0]);
 	exit(EXIT_FAILURE);
 }
 
-void	processing_lastcmd(char *path, char **cmd, char **env, int *fd)
+void	processing_lastcmd(char *path, char **cmd, t_exenv exenv, int *fd)
 {
 	// dup2(vars->f2, STDOUT_FILENO);
 	close(fd[0]);
     dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
-	if (execve(path, cmd, env) == -1)
+	if (execve(path, cmd, exenv.envar) == -1)
 		get_error(cmd[0]);
 	exit(EXIT_FAILURE);
 }
@@ -69,7 +69,7 @@ int cmd_num(t_args *args)
     return(i);
 }
 
-int    execute_multicmd(t_vars *vars, char **cmd, char **env, int *fd)
+int    execute_multicmd(t_vars *vars, char **cmd, t_exenv exenv, int *fd)
 {
     int	pid1;
     // (void)cmd;
@@ -85,19 +85,19 @@ int    execute_multicmd(t_vars *vars, char **cmd, char **env, int *fd)
 	{
 		if (vars->i == 1)
         {
-			processing_firstcmd(vars->path, cmd, env, fd);
+			processing_firstcmd(vars->path, cmd, exenv, fd);
             printf("First %s\n",cmd[0]);
             // exit(1);
         }
 		else if (vars->i == (vars->num))
         {
-			processing_lastcmd(vars->path, cmd, env, fd);
+			processing_lastcmd(vars->path, cmd, exenv, fd);
             printf("Last  %s\n",cmd[0]);
             // exit(1);
         }
 		else
         {
-			processing_mdlcmd(vars->path, cmd, env, fd);
+			processing_mdlcmd(vars->path, cmd, exenv, fd);
             printf("Middle %s\n",cmd[0]);
             // exit(1);
         }
@@ -108,7 +108,7 @@ int    execute_multicmd(t_vars *vars, char **cmd, char **env, int *fd)
 	return (0);
 }
 
-void    parse_multicmd(t_args *args, t_exenv exenv, char **envar)
+void    parse_multicmd(t_args *args, t_exenv exenv)
 {
     t_vars  vars;
 
@@ -122,7 +122,7 @@ void    parse_multicmd(t_args *args, t_exenv exenv, char **envar)
         if (args->type == COMMAND)
 		{
             vars.path = get_path(exenv.env, args->arg);
-            execute_multicmd(&vars, args->arg, envar, vars.fd);
+            execute_multicmd(&vars, args->arg, exenv, vars.fd);
             free(vars.path);
             vars.i++;
         }
