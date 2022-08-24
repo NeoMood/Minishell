@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 02:43:17 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 16:14:59 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,39 @@
 void	processing_firstcmd(char *path, char **cmd, char **env, int *fd)
 {
 	// dup2(vars->f1, STDIN_FILENO);
+	// close(fd[0]);
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
-	if (execve(path, cmd, env) == -1)
-		write(2, "execve Error!", 14);
+    close(fd[1]);
+    // if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")
+    //     || !ft_strcmp(parse->arg[0], "env") || !ft_strcmp(parse->arg[0], "echo")
+    //     || !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
+    //     ft_builtins(parse, env, exp);
+    // else
+    // {
+        if (execve(path, cmd, env) == -1)
+            write(2, "execve Error!", 14);
+    // }
 	exit(EXIT_FAILURE);
 }
 
 void	processing_mdlcmd(char *path, char **cmd, char **env, int *fd)
 {
-	close(fd[0]);
+	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
+	close(fd[0]);
 	if (execve(path, cmd, env) == -1)
 		write(2, "execve Error!", 14);
 	exit(EXIT_FAILURE);
 }
 
-void	processing_lastcmd(char *path, char **cmd, char **env)
+void	processing_lastcmd(char *path, char **cmd, char **env, int *fd)
 {
 	// dup2(vars->f2, STDOUT_FILENO);
+	close(fd[0]);
+    dup2(fd[0], STDIN_FILENO);
+	close(fd[1]);
 	if (execve(path, cmd, env) == -1)
 		write(2, "execve Error!", 14);
 	exit(EXIT_FAILURE);
@@ -77,7 +91,7 @@ int    execute_multicmd(t_vars *vars, char **cmd, char **env, int *fd)
         }
 		else if (vars->i == (vars->num))
         {
-			processing_lastcmd(vars->path, cmd, env);
+			processing_lastcmd(vars->path, cmd, env, fd);
             printf("Last  %s\n",cmd[0]);
             // exit(1);
         }
@@ -89,8 +103,8 @@ int    execute_multicmd(t_vars *vars, char **cmd, char **env, int *fd)
         }
 	}
     waitpid(pid1,NULL,0);
-	// close(fd[1]);
-	// dup2(fd[0], STDIN_FILENO);
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
 	return (0);
 }
 

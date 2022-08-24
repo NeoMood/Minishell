@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 01:56:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 14:36:31 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_checkdquotes(int i, char *line, t_tk **list)
 			else if (line[k] != '\"' && line[k] == '\0')
 			{
 				printf("Syntax Error\n");
-				return(j+1) ;
+				return(j + 1);
 			}
 			i = k;
 		}

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 02:42:37 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 16:17:08 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static void	lastparse(char *line, t_env	*env, t_exp	*exp, char **envar)
 			|| !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
 			ft_builtins(parse, env, exp);
 		else
-			parse_cmd(parse->arg, env, envar);	
+			parse_cmd(parse->arg, env, envar);
 	}
 	ft_redirection(parse);
 	// printlist(list); // print the lexer list
-	ft_printarg(parse); // print the parser list
+	// ft_printarg(parse); // print the parser list
 }
 
 static void	ft_exit(void)

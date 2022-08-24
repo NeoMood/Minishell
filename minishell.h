@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 02:06:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 15:02:52 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_vars{
 	int		fd[2];
 	int num;
     int i;
+	char **cmd;
 }t_vars ;
 
 // UTILS LIBFT
