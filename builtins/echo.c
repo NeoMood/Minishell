@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:13:17 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/20 15:42:18 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 11:03:21 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    ft_echo(t_args *line)
         while(line->arg[i])
         {
             printf("%s", line->arg[i]);
-            printf(" ");
+            // printf(" ");
             i++;
         }
         printf("\n");

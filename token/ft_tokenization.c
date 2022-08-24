@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenization.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:31:59 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 18:32:54 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 10:54:09 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int get_length_of_next_token(int i, char *line, t_tk **list) 
 {
-	
 	int word;
 
 	if (line[i] == '$')

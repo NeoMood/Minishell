@@ -1,0 +1,89 @@
+make --dry-run --always-make --keep-going --print-directory
+make: brew: Command not found
+
+make: Entering directory `/Users/yamzil/Desktop/Minishell_v2'
+make: brew: Command not found
+
+cc -g -Wall -Werror -Wextra -I /include -c minishell.c -o minishell.o
+cc -g -Wall -Werror -Wextra -I /include -c minishell_utils/ft_list_utils_2.c -o minishell_utils/ft_list_utils_2.o
+cc -g -Wall -Werror -Wextra -I /include -c minishell_utils/ft_list_utils_3.c -o minishell_utils/ft_list_utils_3.o
+cc -g -Wall -Werror -Wextra -I /include -c minishell_utils/ft_list_utils_4.c -o minishell_utils/ft_list_utils_4.o
+cc -g -Wall -Werror -Wextra -I /include -c parse/ft_preparse.c -o parse/ft_preparse.o
+cc -g -Wall -Werror -Wextra -I /include -c parse/ft_parsing.c -o parse/ft_parsing.o
+cc -g -Wall -Werror -Wextra -I /include -c parse/ft_checksyntax.c -o parse/ft_checksyntax.o
+cc -g -Wall -Werror -Wextra -I /include -c token/ft_tokenization.c -o token/ft_tokenization.o
+cc -g -Wall -Werror -Wextra -I /include -c token/ft_token_utils.c -o token/ft_token_utils.o
+cc -g -Wall -Werror -Wextra -I /include -c token/ft_token_utils01.c -o token/ft_token_utils01.o
+cc -g -Wall -Werror -Wextra -I /include -c builtins/exec_bultins.c -o builtins/exec_bultins.o
+cc -g -Wall -Werror -Wextra -I /include -c builtins/cd.c -o builtins/cd.o
+cc -g -Wall -Werror -Wextra -I /include -c builtins/pwd.c -o builtins/pwd.o
+cc -g -Wall -Werror -Wextra -I /include -c builtins/env.c -o builtins/env.o
+cc -g -Wall -Werror -Wextra -I /include -c builtins/echo.c -o builtins/echo.o
+cc -g -Wall -Werror -Wextra -I /include -c builtins/export.c -o builtins/export.o
+cc -g -Wall -Werror -Wextra -I /include -c builtins/unset.c -o builtins/unset.o
+cc -g -Wall -Werror -Wextra -I /include -c othercmds/get_path.c -o othercmds/get_path.o
+cc -g -Wall -Werror -Wextra -I /include -c othercmds/execute_cmd.c -o othercmds/execute_cmd.o
+cc -g -Wall -Werror -Wextra -I /include -c othercmds/multi_cmd.c -o othercmds/multi_cmd.o
+cc -g -Wall -Werror -Wextra -I /include -c ft_redirections.c -o ft_redirections.o
+cc -g -Wall -Werror -Wextra -I /include -c ft_environment.c -o ft_environment.o
+cc -g -Wall -Werror -Wextra -I /include -c ft_sighandler.c -o ft_sighandler.o
+cc -g -Wall -Werror -Wextra -I /include -c ft_minishell_utils.c -o ft_minishell_utils.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_putstr_fd.c -o libft/ft_putstr_fd.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strchr.c -o libft/ft_strchr.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_bzero.c -o libft/ft_bzero.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strrchr.c -o libft/ft_strrchr.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strdup.c -o libft/ft_strdup.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strlen.c -o libft/ft_strlen.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strncmp.c -o libft/ft_strncmp.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_substr.c -o libft/ft_substr.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strtrim.c -o libft/ft_strtrim.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_isalpha.c -o libft/ft_isalpha.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_isalnum.c -o libft/ft_isalnum.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_split.c -o libft/ft_split.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strjoin.c -o libft/ft_strjoin.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_strlcpy.c -o libft/ft_strlcpy.o
+cc -g -Wall -Werror -Wextra -I /include -c libft/ft_putchar_fd.c -o libft/ft_putchar_fd.o
+cc -g -Wall -Werror -Wextra minishell.o ./minishell_utils/ft_list_utils_2.o ./minishell_utils/ft_list_utils_3.o ./minishell_utils/ft_list_utils_4.o ./parse/ft_preparse.o ./parse/ft_parsing.o ./parse/ft_checksyntax.o ./token/ft_tokenization.o ./token/ft_token_utils.o ./token/ft_token_utils01.o ./builtins/exec_bultins.o ./builtins/cd.o ./builtins/pwd.o ./builtins/env.o ./builtins/echo.o ./builtins/export.o ./builtins/unset.o ./othercmds/get_path.o ./othercmds/execute_cmd.o ./othercmds/multi_cmd.o ft_redirections.o ft_environment.o ft_sighandler.o ft_minishell_utils.o libft/ft_putstr_fd.o libft/ft_strchr.o libft/ft_bzero.o libft/ft_strrchr.o libft/ft_strdup.o libft/ft_strlen.o libft/ft_strncmp.o libft/ft_substr.o libft/ft_strtrim.o libft/ft_isalpha.o libft/ft_isalnum.o libft/ft_split.o libft/ft_strjoin.o libft/ft_strlcpy.o libft/ft_putchar_fd.o -I /include  -L /lib -o minishell -lreadline
+clear
+make: Leaving directory `/Users/yamzil/Desktop/Minishell_v2'
+ 
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+make: brew: Command not found
+
