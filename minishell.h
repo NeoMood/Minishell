@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 15:02:52 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 17:31:24 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,5 +188,8 @@ t_exp   *ft_getexp(char **env);
 char    *get_path(t_env *env,  char **cmd);
 void    parse_cmd(char **cmd, t_env *env, char **envar);
 void    parse_multicmd(t_args *args, t_env *env, char **envar);
+int		get_error(char *s);
+char    *get_path2(t_env *env,  char **cmd);
+void    get_filerror(char **cmd);
 
 #endif

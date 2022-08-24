@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 16:14:59 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 16:36:36 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	processing_mdlcmd(char *path, char **cmd, char **env, int *fd)
 	close(fd[1]);
 	close(fd[0]);
 	if (execve(path, cmd, env) == -1)
-		write(2, "execve Error!", 14);
+		get_error(cmd[0]);
 	exit(EXIT_FAILURE);
 }
 
@@ -49,7 +49,7 @@ void	processing_lastcmd(char *path, char **cmd, char **env, int *fd)
     dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
 	if (execve(path, cmd, env) == -1)
-		write(2, "execve Error!", 14);
+		get_error(cmd[0]);
 	exit(EXIT_FAILURE);
 }
 

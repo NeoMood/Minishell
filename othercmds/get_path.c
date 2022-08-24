@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/23 22:36:49 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/24 17:40:29 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ char    *env_path(t_env *env)
     while(clone)
     {
         if(!ft_strcmp(clone->key, "PATH"))
+            return(clone->value);
+        clone=clone->next;
+    }
+    return(NULL);
+}
+
+char    *env_pwd(t_env *env)
+{
+    t_env *clone;
+
+    clone = env;
+    while(clone)
+    {
+        if(!ft_strcmp(clone->key, "PWD"))
             return(clone->value);
         clone=clone->next;
     }
@@ -70,4 +84,33 @@ char    *get_path(t_env *env,  char **cmd)
     }
     get_error(cmd[0]);
     return(NULL);
+}
+
+
+void    get_filerror(char **cmd)
+{
+    ft_putstr_fd(cmd[0], 2);
+    ft_putstr_fd(": No such file or directory\n", 2);
+}
+
+char    *get_path2(t_env *env,  char **cmd)
+{
+    char *path;
+	char cwd[1024];
+	(void)env;
+
+	getcwd(cwd, sizeof(cwd));
+	path = ft_strdup(cwd);
+	path = ft_strjoin_v2(path, "/");
+	path = ft_strjoin_v2(path, &cmd[0][2]);
+	if (access(cmd[0], X_OK) == 0)
+	{
+		printf("%s\n", path);
+		return (path);
+	}
+	else
+	{
+		get_filerror(cmd);
+		return(NULL);
+	}
 }
