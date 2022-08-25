@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 17:19:23 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 17:48:10 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,6 @@ void    parse_multicmd(t_exenv exenv)
     {
         if (exenv.args->type == COMMAND)
 		{
-            // if(exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
-            //     printf("KAYNA");
-                // vars.path = get_path2(exenv.env, exenv.args->arg);
-            // else
             if(access(exenv.args->arg[0], X_OK) == 0)
             {
                 vars.path = exenv.args->arg[0];
@@ -144,7 +140,13 @@ void    parse_multicmd(t_exenv exenv)
             }
             else
             {
-                vars.path = get_path(exenv.env, exenv.args->arg);
+                if(exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
+                {
+                    printf("KAYNA");
+                    vars.path = get_path2(exenv.env, exenv.args->arg);
+                }
+                else
+                    vars.path = get_path(exenv.env, exenv.args->arg);
                 vars.cmd = exenv.args->arg;
             }
             execute_multicmd(&vars, exenv, vars.fd);
