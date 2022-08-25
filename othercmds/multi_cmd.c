@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 02:23:46 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 02:47:45 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	processing_firstcmd(char *path, t_exenv exenv, int *fd)
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
     close(fd[1]);
-    // if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")
-    //     || !ft_strcmp(parse->arg[0], "env") || !ft_strcmp(parse->arg[0], "echo")
-    //     || !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
-    //     ft_builtins(parse, env, exp);
-    // else
-    // {
+    if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
+        || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
+        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+        ft_builtins(exenv);
+    else
+    {
         if (execve(path, exenv.args->arg, exenv.envar) == -1)
             write(2, "execve Error!", 14);
-    // }
+    }
 	exit(EXIT_FAILURE);
 }
 
@@ -37,8 +37,15 @@ void	processing_mdlcmd(char *path, t_exenv exenv, int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	close(fd[0]);
-	if (execve(path, exenv.args->arg, exenv.envar) == -1)
-		write(2, "execve Error!", 14);
+    if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
+        || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
+        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+        ft_builtins(exenv);
+    else
+    {
+        if (execve(path, exenv.args->arg, exenv.envar) == -1)
+            write(2, "execve Error!", 14);
+    }
 	exit(EXIT_FAILURE);
 }
 
@@ -48,8 +55,15 @@ void	processing_lastcmd(char *path, t_exenv exenv, int *fd)
 	close(fd[0]);
     dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
-	if (execve(path, exenv.args->arg, exenv.envar) == -1)
-		write(2, "execve Error!", 14);
+    if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
+        || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
+        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+        ft_builtins(exenv);
+    else
+    {
+        if (execve(path, exenv.args->arg, exenv.envar) == -1)
+            write(2, "execve Error!", 14);
+    }
 	exit(EXIT_FAILURE);
 }
 
