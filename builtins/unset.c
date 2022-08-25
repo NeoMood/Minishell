@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 00:57:58 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 02:37:11 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 23:23:58 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void    ft_unset(t_exenv exenv)
 	int i;
 
 	i = 1;
+	exenv.head = exenv.env;
 	if(exenv.args->arg[1])
 	{
 		while(exenv.args->arg[i])

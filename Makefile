@@ -6,7 +6,7 @@
 #    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/08/24 01:46:54 by sgmira           ###   ########.fr        #
+#    Updated: 2022/08/25 18:28:53 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,8 @@ SRC =	minishell.c\
 		libft/ft_strjoin.c\
 		libft/ft_strlcpy.c\
 		libft/ft_putchar_fd.c\
+		libft/ft_atoi.c\
+		libft/ft_itoa.c\
 		# ft_checkcmd.c\
 		# ./builtins/cd.c\
 		# ./builtins/echo.c\

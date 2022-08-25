@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/25 17:16:24 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 23:23:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_exenv{
 	t_args	*args;
 	char	**envar;
 	int 	shlvl;
+	t_env	*head;
 }t_exenv ;
 
 // UTILS LIBFT
@@ -90,6 +91,8 @@ char	*ft_strdup(const char *s1);
 int		ft_strlen(const char *s);
 int		ft_isalpha(int c);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+char	*ft_itoa(int n);
+int		ft_atoi(const char *str);
 
 // LINKED LIST OF PARSING
 t_tk	*ft_input(char *data, int token);
@@ -200,5 +203,6 @@ int		get_error(char *s);
 char    *get_path2(t_env *env,  char **cmd);
 void    get_filerror(char **cmd);
 char 	**get_cmd(char **cmd);
+void    increase_shlvl(t_exenv exenv);
 
 #endif

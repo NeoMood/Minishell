@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 17:48:10 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 18:28:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,9 @@ void    parse_multicmd(t_exenv exenv)
             {
                 if(exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
                 {
-                    printf("KAYNA");
                     vars.path = get_path2(exenv.env, exenv.args->arg);
+                    if(!ft_strcmp(exenv.args->arg[0], "./minishell"))
+                        increase_shlvl(exenv);
                 }
                 else
                     vars.path = get_path(exenv.env, exenv.args->arg);

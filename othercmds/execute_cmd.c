@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 15:35:20 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 18:30:47 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,25 @@ char **get_cmd(char **cmd)
     return(cmd);
 }
 
+void    increase_shlvl(t_exenv exenv)
+{
+    exenv.shlvl++;
+
+    puts("here");
+    while(exenv.env)
+	{
+		if(!ft_strcmp(exenv.env->key, "SHLVL"))
+			exenv.env->value = ft_strdup(ft_itoa(exenv.shlvl));
+		exenv.env = exenv.env->next;
+	}
+    while(exenv.exp)
+	{
+		if(!ft_strcmp(exenv.exp->key, "SHLVL"))
+			exenv.exp->value = ft_strdup(ft_itoa(exenv.shlvl));
+		exenv.exp = exenv.exp->next;
+	}
+}
+
 void    parse_cmd(t_exenv exenv)
 {
     char *path;
@@ -59,7 +78,11 @@ void    parse_cmd(t_exenv exenv)
     else
     {
         if(exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
+        {
             path = get_path2(exenv.env, exenv.args->arg);
+            if(!ft_strcmp(exenv.args->arg[0], "./minishell"))
+                increase_shlvl(exenv);
+        }
         else
             path = get_path(exenv.env, exenv.args->arg);
         cmd = exenv.args->arg;

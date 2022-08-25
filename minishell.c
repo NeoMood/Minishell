@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/25 16:50:13 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 23:08:33 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	lastparse(char *line, t_exenv exenv)
 	}
 	ft_redirection(exenv.args);
 	// printlist(list); // print the lexer list
-	ft_printarg(exenv.args); // print the parser list
+	// ft_printarg(exenv.args); // print the parser list
 }
 
 static void	ft_exit(void)
@@ -70,12 +70,11 @@ static void	ft_exit(void)
 int	main(int ac, char **av, char **env)
 {
 	(void)	av;
-	// (void ) env;
 	char	*line;
-	// t_env	*envi;
-	// t_exp	*exp;
 	t_exenv exenv;
+
 	exenv.envar = env;
+	exenv.shlvl = 1;
 	rl_catch_signals = 0;
 	if (ac != 1)
 	{
