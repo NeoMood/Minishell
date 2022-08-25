@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 17:40:29 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 15:17:29 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,7 @@ char    *get_path2(t_env *env,  char **cmd)
 	path = ft_strjoin_v2(path, "/");
 	path = ft_strjoin_v2(path, &cmd[0][2]);
 	if (access(cmd[0], X_OK) == 0)
-	{
-		printf("%s\n", path);
 		return (path);
-	}
 	else
 	{
 		get_filerror(cmd);

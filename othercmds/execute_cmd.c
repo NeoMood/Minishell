@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 02:39:31 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 15:35:20 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,37 @@ void   forking(char *path, char **cmd, char **env)
     wait(&pid);
 }
 
+char **get_cmd(char **cmd)
+{
+    char **tmp;
+    int     i;
+
+    i = 0;
+    tmp = ft_split(cmd[0], '/');
+    while(tmp[i])
+        i++;
+    cmd[0] = ft_strdup(tmp[i - 1]);
+    return(cmd);
+}
+
 void    parse_cmd(t_exenv exenv)
 {
     char *path;
+    char **cmd;
 
-    if(exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
-        path = get_path2(exenv.env, exenv.args->arg);
+    // printf("%s\n", exenv.args->arg[0]);
+    if(access(exenv.args->arg[0], X_OK) == 0)
+    {
+        path = exenv.args->arg[0];
+        cmd = get_cmd(exenv.args->arg);
+    }
     else
-        path = get_path(exenv.env, exenv.args->arg);
-    forking(path, exenv.args->arg, exenv.envar);
+    {
+        if(exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
+            path = get_path2(exenv.env, exenv.args->arg);
+        else
+            path = get_path(exenv.env, exenv.args->arg);
+        cmd = exenv.args->arg;
+    }
+    forking(path, cmd, exenv.envar);
 }
