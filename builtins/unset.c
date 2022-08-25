@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 00:57:58 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 22:09:07 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 02:37:11 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ void	del_exp(char *var, t_exp *exp)
 	}
 }
 
-void    ft_unset(t_args *line, t_exenv exenv)
+void    ft_unset(t_exenv exenv)
 {
 	int i;
 
 	i = 1;
-	if(line->arg[1])
+	if(exenv.args->arg[1])
 	{
-		while(line->arg[i])
+		while(exenv.args->arg[i])
 		{
-			del_env(line->arg[i], exenv.env);
-			del_exp(line->arg[i], exenv.exp);
+			del_env(exenv.args->arg[i], exenv.env);
+			del_exp(exenv.args->arg[i], exenv.exp);
 			i++;
 		}
 	}

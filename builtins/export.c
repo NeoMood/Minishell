@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 22:07:56 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 02:35:44 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,23 +267,23 @@ void	add_envalue(t_env	*env, char *key, char *val)
 	}
 }
 
-void    ft_export(t_args *line, t_exenv exenv)
+void    ft_export(t_exenv exenv)
 {
 	char *val;
 	char *key;
 	int	i;
 	
 	i = 1;
-	if(line->arg[1])
+	if(exenv.args->arg[1])
 	{
-		while(line->arg[i])
+		while(exenv.args->arg[i])
 		{
-			if(ft_strchr(line->arg[i], '='))
+			if(ft_strchr(exenv.args->arg[i], '='))
 			{
-				if(check_plequal(line->arg[i]))
+				if(check_plequal(exenv.args->arg[i]))
 				{
-					key = get_key(line->arg[i], '+');
-					val = ft_strchr(line->arg[i], '=');
+					key = get_key(exenv.args->arg[i], '+');
+					val = ft_strchr(exenv.args->arg[i], '=');
 					if(if_exists(exenv.exp, key))
 						add_value(exenv.exp, key, &val[1]);
 					if(if_exists2(exenv.env, key))
@@ -296,8 +296,8 @@ void    ft_export(t_args *line, t_exenv exenv)
 				}
 				else
 				{
-					val = ft_strchr(line->arg[i], '=');
-					key = get_key(line->arg[i], '=');
+					val = ft_strchr(exenv.args->arg[i], '=');
+					key = get_key(exenv.args->arg[i], '=');
 					if(if_exists(exenv.exp, key))
 					{
 						update_value(exenv.exp, key, &val[1]);
@@ -311,12 +311,12 @@ void    ft_export(t_args *line, t_exenv exenv)
 					}
 				}
 			}
-			else if(!ft_strchr(line->arg[i], '='))
+			else if(!ft_strchr(exenv.args->arg[i], '='))
 			{
-				if(!if_exists(exenv.exp, line->arg[i]))
+				if(!if_exists(exenv.exp, exenv.args->arg[i]))
 				{
 					puts("Here");
-					ft_lstadd_back(&exenv.exp, ft_createcell2(line->arg[i], ""));
+					ft_lstadd_back(&exenv.exp, ft_createcell2(exenv.args->arg[i], ""));
 					sort_exp(&exenv.exp);
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 23:01:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 02:41:30 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_pipe(t_args *args)
 
 static void	lastparse(char *line, t_exenv exenv)
 {
-	t_args *parse;
+	// t_args *parse;
 	t_tk	*list;
 	t_tk	*tmp;
 
@@ -41,20 +41,20 @@ static void	lastparse(char *line, t_exenv exenv)
 	if (!ft_fullcheck(tmp))
 		return ;
 	list = ft_expand(list, exenv.env);
-	parse = ft_initialparsing(list); // parsing list
-	parse = ft_corrector(parse); // correct parseing
-	if (!check_pipe(parse))
-		parse_multicmd(parse, exenv);
+	exenv.args = ft_initialparsing(list); // parsing list
+	exenv.args = ft_corrector(exenv.args); // correct parseing
+	if (!check_pipe(exenv.args))
+		parse_multicmd(exenv);
 	else
 	{
-		if(!ft_strcmp(parse->arg[0], "cd") || !ft_strcmp(parse->arg[0], "pwd")
-			|| !ft_strcmp(parse->arg[0], "env") || !ft_strcmp(parse->arg[0], "echo")
-			|| !ft_strcmp(parse->arg[0], "export") || !ft_strcmp(parse->arg[0], "unset"))
-			ft_builtins(parse, exenv);
+		if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
+			|| !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
+			|| !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+			ft_builtins(exenv);
 		else
-			parse_cmd(parse->arg, exenv);
+			parse_cmd(exenv);
 	}
-	ft_redirection(parse);
+	ft_redirection(exenv.args);
 	// printlist(list); // print the lexer list
 	// ft_printarg(parse); // print the parser list
 }

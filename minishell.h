@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 23:07:01 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 02:39:48 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_vars{
 typedef struct s_exenv{
 	t_env	*env;
 	t_exp	*exp;
+	t_args	*args;
 	char	**envar;
 	int 	shlvl;
 }t_exenv ;
@@ -173,7 +174,7 @@ void    ft_redirection(t_args *parse);
 
 // COMMANDS
 char	*char_checker(t_env *envar, char *arg);
-void	ft_builtins(t_args *new, t_exenv exenv);
+void	ft_builtins(t_exenv exenv);
 char	*expansion(t_env *envar, char *str);
 // void	ft_unset(t_args *line, t_env *envar);
 // void	ft_echo(t_args *line, t_env *envar);
@@ -182,19 +183,19 @@ char	*expansion(t_env *envar, char *str);
 // void    ft_cd(t_args *line, t_env *envar);
 
 // NEO COMMANDS
-void	ft_cd(t_args *line, t_exenv exenv);
+void	ft_cd(t_exenv exenv);
 void    ft_pwd(void);
 void    ft_env(t_exenv exenv);
-void    ft_echo(t_args *line);
-void    ft_export(t_args *line, t_exenv exenv);
+void    ft_echo(t_exenv exenv);
+void    ft_export(t_exenv exenv);
 t_exp   *env_to_exp(t_env *env);
 void	sort_exp(t_exp **exp);
 void	exp_print(t_exp **exp);
-void    ft_unset(t_args *line, t_exenv exenv);
+void    ft_unset(t_exenv exenv);
 t_exp   *ft_getexp(char **env);
 char    *get_path(t_env *env,  char **cmd);
-void    parse_cmd(char **cmd, t_exenv exenv);
-void    parse_multicmd(t_args *args, t_exenv exenv);
+void    parse_cmd(t_exenv exenv);
+void    parse_multicmd(t_exenv exenv);
 int		get_error(char *s);
 char    *get_path2(t_env *env,  char **cmd);
 void    get_filerror(char **cmd);

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:31:11 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/24 22:44:29 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/25 02:27:02 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ void	change_pwd(t_exenv exenv, char *dest)
 	}
 }
 
-void	ft_cd(t_args *line, t_exenv exenv)
+void	ft_cd(t_exenv exenv)
 {
 	change_pwd(exenv, "OLDPWD");
-	if (!line->arg[1])
+	if (!exenv.args->arg[1])
 	{
 		if(chdir(var_value(exenv.env, "HOME")) == -1)
 			printf("path not found\n");
 	}
 	else
 	{
-		if(chdir(line->arg[1]) == -1)
+		if(chdir(exenv.args->arg[1]) == -1)
 			printf("path not found\n");
 	}
 	change_pwd(exenv, "PWD");
