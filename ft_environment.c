@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/24 23:35:24 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 15:12:07 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ char	*ft_getvalue(t_env *env, char *key)
 char	*var_value(t_env *env, char *varname)
 {
 	t_env  *tmp;
-	int		len;
+	// int		len;
 
 	tmp = env;
-	len = ft_strlen(varname);
+	// len = ft_strlen(varname);
 	while (tmp->next)
 	{
-		if (ft_strncmp(tmp->key, varname, len) == 0)
+		if (ft_strcmp(tmp->key, varname) == 0)
 			break ;
 		tmp = tmp->next;
 	}

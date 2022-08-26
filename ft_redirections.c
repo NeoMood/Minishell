@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 00:57:08 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 17:13:18 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,21 @@ static int ft_append(t_args *new)
 	return (in);
 }
 
-void    ft_redirection(t_args *parse)
+// void    ft_redirection(t_args *parse)
+void    ft_redirection(t_exenv exenv)
 {
     int heredoc_fd;
     // int redirectioninput_fd;
-    int redirectionoutput_fd;
-    int append_fd;
-    while (parse)
+    // int redirectionoutput_fd;
+    // int append_fd;
+    while (exenv.args)
     {
-        if (parse && parse->type == HEREDOC)
-            heredoc_fd = ft_document(parse);
-        else if (parse && parse->type == OUT)
-            redirectionoutput_fd = ft_openout(parse);
-        else if (parse && parse->type == APPEND)
-            append_fd = ft_append(parse);
-        parse = parse->next;
+        if (exenv.args && exenv.args->type == HEREDOC)
+            heredoc_fd = ft_document(exenv.args);
+        else if (exenv.args && exenv.args->type == OUT)
+            exenv.out_fd = ft_openout(exenv.args);
+        else if (exenv.args && exenv.args->type == APPEND)
+            exenv.in_fd = ft_append(exenv.args);
+        exenv.args = exenv.args->next;
     }
 }

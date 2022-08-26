@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:27 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 18:11:15 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 17:12:20 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 void	ft_builtins(t_exenv exenv)
 {
+    t_args  *tmp;
+
+    tmp = exenv.args;
+    while(tmp)
+    {
+        if(tmp->type == IN)
+            dup2(exenv.in_fd, STDIN_FILENO);
+        if(tmp->type == OUT)
+            dup2(exenv.out_fd, STDOUT_FILENO);
+        tmp = tmp->next;   
+    }
     if (!ft_strcmp(exenv.args->arg[0], "cd"))
         ft_cd(exenv);
     else if (!ft_strcmp(exenv.args->arg[0], "pwd"))

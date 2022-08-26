@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/25 23:23:23 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 17:12:08 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ typedef struct s_exenv{
 	char	**envar;
 	int 	shlvl;
 	t_env	*head;
+	int		in_fd;
+	int		out_fd;
+	int		heredoc_fd;
 }t_exenv ;
 
 // UTILS LIBFT
@@ -173,7 +176,7 @@ void	ft_printarg(t_args *args);
 t_args *ft_last_arg(t_args *new);
 
 // Exuction PART
-void    ft_redirection(t_args *parse);
+void    ft_redirection(t_exenv exenv);
 
 // COMMANDS
 char	*char_checker(t_env *envar, char *arg);
