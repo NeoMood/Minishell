@@ -6,32 +6,41 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 00:57:58 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 23:23:58 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 01:55:30 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	del_env(char *var, t_env *env)
+void	del_env(char *var, t_env *env, t_env	*head)
 {
 	while(env)
 	{
 		if(!ft_strcmp(env->key, var))
 		{
-			env->key = NULL;
+			if (!ft_strcmp(env->key, head->key))
+			{
+				puts("hna");
+				env = env->next;
+			}
+			else
+				env->key = NULL;
 			break;
 		}
 		env = env->next;
 	}
 }
 
-void	del_exp(char *var, t_exp *exp)
+void	del_exp(char *var, t_exp *exp, t_env	*head)
 {
 	while(exp)
 	{
 		if(!ft_strcmp(exp->key, var))
 		{
-			exp->key = NULL;
+			if (!ft_strcmp(exp->key, head->key))
+				exp = exp->next;
+			else
+				exp->key = NULL;
 			break;
 		}
 		exp = exp->next;
@@ -48,8 +57,8 @@ void    ft_unset(t_exenv exenv)
 	{
 		while(exenv.args->arg[i])
 		{
-			del_env(exenv.args->arg[i], exenv.env);
-			del_exp(exenv.args->arg[i], exenv.exp);
+			del_env(exenv.args->arg[i], exenv.env, exenv.head);
+			del_exp(exenv.args->arg[i], exenv.exp, exenv.head);
 			i++;
 		}
 	}
