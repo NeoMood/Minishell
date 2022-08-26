@@ -6,13 +6,13 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:27 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/26 17:12:20 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 18:12:22 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_builtins(t_exenv exenv)
+void	ft_builtins(t_exenv exenv, t_fds    *fds)
 {
     t_args  *tmp;
 
@@ -20,9 +20,9 @@ void	ft_builtins(t_exenv exenv)
     while(tmp)
     {
         if(tmp->type == IN)
-            dup2(exenv.in_fd, STDIN_FILENO);
+            dup2(fds->in_fd, STDIN_FILENO);
         if(tmp->type == OUT)
-            dup2(exenv.out_fd, STDOUT_FILENO);
+            dup2(fds->out_fd, STDOUT_FILENO);
         tmp = tmp->next;   
     }
     if (!ft_strcmp(exenv.args->arg[0], "cd"))

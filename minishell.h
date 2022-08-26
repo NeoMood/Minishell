@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/26 17:48:52 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 18:22:35 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ typedef struct s_vars{
 	char **cmd;
 }t_vars ;
 
+typedef struct s_fds{
+	int		in_fd;
+	int		out_fd;
+	int		heredoc_fd;
+}t_fds ;
+
 typedef struct s_exenv{
 	t_env	*env;
 	t_exp	*exp;
@@ -70,9 +76,6 @@ typedef struct s_exenv{
 	char	**envar;
 	int 	shlvl;
 	t_env	*head;
-	int		in_fd;
-	int		out_fd;
-	int		heredoc_fd;
 }t_exenv ;
 
 // UTILS LIBFT
@@ -176,11 +179,11 @@ void	ft_printarg(t_args *args);
 t_args *ft_last_arg(t_args *new);
 
 // Exuction PART
-void    ft_redirection(t_exenv *exenv);
+void    ft_redirection(t_fds    *fds, t_exenv exenv);
 
 // COMMANDS
 char	*char_checker(t_env *envar, char *arg);
-void	ft_builtins(t_exenv exenv);
+void	ft_builtins(t_exenv exenv, t_fds    *fds);
 char	*expansion(t_env *envar, char *str);
 // void	ft_unset(t_args *line, t_env *envar);
 // void	ft_echo(t_args *line, t_env *envar);
@@ -201,7 +204,7 @@ void    ft_unset(t_exenv exenv);
 t_exp   *ft_getexp(char **env);
 char    *get_path(t_env *env,  char **cmd);
 void    parse_cmd(t_exenv exenv);
-void    parse_multicmd(t_exenv exenv);
+void    parse_multicmd(t_exenv exenv, t_fds	*fds);
 int		get_error(char *s);
 char    *get_path2(t_env *env,  char **cmd);
 void    get_filerror(char **cmd);

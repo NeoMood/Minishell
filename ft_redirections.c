@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/26 17:53:55 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 18:11:13 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,21 @@ static int ft_openin(t_args *new)
 // 	return (in);
 // }
 
-void    ft_redirection(t_exenv *exenv)
+void    ft_redirection(t_fds    *fds, t_exenv exenv)
 {
-    exenv->in_fd = 0;
-	exenv->out_fd = 0;
-    exenv->heredoc_fd = 0;
-    while (exenv->args)
+    fds->in_fd = 0;
+	fds->out_fd = 0;
+    fds->heredoc_fd = 0;
+    while (exenv.args)
     {
-        if (exenv->args && exenv->args->type == HEREDOC)
-            exenv->heredoc_fd = ft_document(exenv->args);
-        else if (exenv->args && exenv->args->type == OUT)
-            exenv->out_fd = ft_openout(exenv->args);
+        if (exenv.args && exenv.args->type == HEREDOC)
+            fds->heredoc_fd = ft_document(exenv.args);
+        else if (exenv.args && exenv.args->type == OUT)
+            fds->out_fd = ft_openout(exenv.args);
         // else if (exenv->args && exenv->args->type == APPEND)
         //     exenv->in_fd = ft_append(exenv->args);
-         else if (exenv->args && exenv->args->type == IN)
-            exenv->in_fd = ft_openin(exenv->args);
-        exenv->args = exenv->args->next;
+        else if (exenv.args && exenv.args->type == IN)
+            fds->in_fd = ft_openin(exenv.args);
+        exenv.args = exenv.args->next;
     }
 }
