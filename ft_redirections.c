@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/26 18:11:13 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 21:33:00 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static int ft_openout(t_args *new)
 {
 	int	out;
 
-	out = open(*(new->arg), O_TRUNC | O_CREAT | O_RDWR, 0777);
+	out = open(*(new->arg), O_TRUNC | O_CREAT | O_WRONLY, 0777);
+    // out = open(*(new->arg), O_CREAT | O_WRONLY | O_TRUNC, 0777);
     if (out == -1)
         perror(*(new->arg));
 	return (out);
@@ -66,9 +67,6 @@ static int ft_openin(t_args *new)
 
 void    ft_redirection(t_fds    *fds, t_exenv exenv)
 {
-    fds->in_fd = 0;
-	fds->out_fd = 0;
-    fds->heredoc_fd = 0;
     while (exenv.args)
     {
         if (exenv.args && exenv.args->type == HEREDOC)

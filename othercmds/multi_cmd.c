@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/26 18:23:21 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 22:06:50 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,11 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     vars.i = 1;
     while(exenv.args)
     {
+        if(exenv.args->type == OUT)
+        {
+            dup2(fds->out_fd, STDOUT_FILENO);
+            exenv.args = exenv.args->next;
+        }
         if (exenv.args->type == COMMAND)
 		{
             if(access(exenv.args->arg[0], X_OK) == 0)
