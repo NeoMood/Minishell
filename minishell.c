@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/26 16:42:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 17:54:57 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static void	lastparse(char *line, t_exenv exenv)
 	t_tk	*list;
 	t_tk	*tmp;
 
-	exenv.in_fd = 0;
-	exenv.out_fd = 0;
 	list = ft_lexer(line);
 	tmp = list;
 	if (!ft_fullcheck(tmp))
@@ -45,7 +43,7 @@ static void	lastparse(char *line, t_exenv exenv)
 	list = ft_expand(list, exenv.env);
 	exenv.args = ft_initialparsing(list); // parsing list
 	exenv.args = ft_corrector(exenv.args); // correct parseing
-	ft_redirection(exenv);
+	ft_redirection(&exenv);
 	if (!check_pipe(exenv.args))
 		parse_multicmd(exenv);
 	else
