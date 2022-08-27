@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/26 22:05:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/27 22:26:53 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_vars{
 typedef struct s_fds{
 	int		in_fd;
 	int		out_fd;
+	int		ap_fd;
 	int		heredoc_fd;
 }t_fds ;
 

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:27 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/26 22:04:27 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/27 22:15:43 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	ft_builtins(t_exenv exenv, t_fds    *fds)
     //     tmp = tmp->next;   
     // }
     (void)fds;
-    if(exenv.args->type == OUT)
-	{
-		dup2(fds->out_fd, STDOUT_FILENO);
-		exenv.args = exenv.args->next;
-	}
+    // if(exenv.args->type == OUT)
+	// {
+	// 	dup2(fds->out_fd, STDOUT_FILENO);
+	// 	exenv.args = exenv.args->next;
+	// }
     if(exenv.args->type == COMMAND)
     {
         if (!ft_strcmp(exenv.args->arg[0], "cd"))

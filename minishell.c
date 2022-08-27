@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/27 16:56:01 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/27 22:40:35 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ int	check_pipe(t_args *args)
 	return (1);
 }
 
+void	check_file(t_args *args, t_fds	*fds)
+{
+	while (args)
+	{
+		if(args->type == OUT && args->next->type == OUT)
+			args = args->next;
+		else if(args->type == OUT && args->next->type == COMMAND)
+		{
+			dup2(fds->out_fd, STDOUT_FILENO);
+			args = args->next;
+		}
+		else
+			break;
+	}
+}
+
 static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 {
 	// t_args *parse;
@@ -50,6 +66,27 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	exenv.args = ft_corrector(exenv.args); // correct parseing
 	i = cmd_num(exenv.args);
 	ft_redirection(fds, exenv);
+	ft_printarg(exenv.args); // print the parser list
+	// ÷check_file(exenv.args, fds);
+	while (exenv.args)
+	{
+		if((exenv.args->type == OUT && exenv.args->next->type == OUT) || (exenv.args->type == APPEND && exenv.args->next->type == APPEND))
+			exenv.args = exenv.args->next;
+		else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
+		{
+			dup2(fds->out_fd, STDOUT_FILENO);
+			exenv.args = exenv.args->next;
+		}
+		else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
+		{
+			dup2(fds->ap_fd, STDOUT_FILENO);
+			puts("HERE");
+			exenv.args = exenv.args->next;
+		}
+		else
+			break;
+	}
+	// printf("%s\n", exenv.args->arg[0]);
 	if (!check_pipe(exenv.args))
 		parse_multicmd(exenv, fds);
 	else
@@ -65,7 +102,6 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	}
 	// }
 	// printlist(list); // print the lexer list
-	// ft_printarg(exenv.args); // print the parser list
 }
 
 static void	ft_exit(void)
