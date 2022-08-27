@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/26 22:06:50 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/26 22:27:14 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,11 @@ int    execute_multicmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	if (pid1 == 0)
 	{
 		if (vars->i == 1)
-        {
 			processing_firstcmd(vars, exenv, fd, fds);
-            printf("First %s\n",exenv.args->arg[0]);
-            // exit(1);
-        }
 		else if (vars->i == (vars->num))
-        {
 			processing_lastcmd(vars, exenv, fd, fds);
-            printf("Last  %s\n", exenv.args->arg[0]);
-            // exit(1);
-        }
 		else
-        {
 			processing_mdlcmd(vars, exenv, fd, fds);
-            printf("Middle %s\n", exenv.args->arg[0]);
-            // exit(1);
-        }
 	}
     waitpid(pid1,NULL,0);
 	close(fd[1]);
