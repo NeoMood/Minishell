@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/29 18:03:08 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 19:33:13 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_pipe(t_args *args)
 // 			args = args->next;
 // 		else if(args->type == OUT && args->next->type == COMMAND)
 // 		{
-// 			dup2(fds->out_fd, STDOUT_FILENO);
+// 			dup2(fds->out_f_fd, STDOUT_FILENO);
 // 			args = args->next;
 // 		}
 // 		else
@@ -51,7 +51,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	// t_args *parse;
 	t_tk	*list;
 	t_tk	*tmp;
-	t_out	*tmp2;
+	// t_file	*tmp2;
 	int		i;
 	int 	t = dup(1);
 	
@@ -64,12 +64,12 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	exenv.args = ft_corrector(exenv.args); // correct parseing
 	i = cmd_num(exenv.args);
 	ft_redirection(fds, exenv);
-	tmp2 = fds->out;
-	while(tmp2)
-	{
-		printf("%d\n", tmp2->fd);
-		tmp2=tmp2->next;
-	}
+	// tmp2 = fds->out_f;
+	// while(tmp2)
+	// {
+	// 	printf("%d\n", tmp2->fd);
+	// 	tmp2=tmp2->next;
+	// }
 	// ft_printarg(exenv.args); // print the parser list
 	// check_file(exenv.args, fds);
 	// printf("%s\n", exenv.args->arg[0]);
@@ -77,20 +77,29 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		parse_multicmd(exenv, fds);
 	else
 	{
+		ft_printarg(exenv.args);
 		while (exenv.args)
 		{
 			if((exenv.args->type == OUT && exenv.args->next->type == OUT) || (exenv.args->type == APPEND && exenv.args->next->type == APPEND))
+			{
+				// printf("-----%d\n", fds->out_f->fd);
+				// printf("-----%d\n", fds->out_f->next->fd);
+				dup2(fds->out_f->next->fd, STDOUT_FILENO);
+				close(fds->out_f->next->fd);
+				fds->out_f = fds->out_f->next;
 				exenv.args = exenv.args->next;
+			}
 			else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
 			{
-				fds->out = fds->out->next;
-				printf("%d\n", fds->out->fd);
-				dup2(fds->out->fd, STDOUT_FILENO);
+				// printf("-----%d\n", fds->out_f->fd);
+				// printf("-----%d\n", fds->out_f->next->fd);
+				dup2(fds->out_f->next->fd, STDOUT_FILENO);
+				close(fds->out_f->next->fd);
 				exenv.args = exenv.args->next;
 			}
 			else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
 			{
-				dup2(fds->ap_fd, STDOUT_FILENO);
+				dup2(fds->app_f->fd, STDOUT_FILENO);
 				exenv.args = exenv.args->next;
 			}
 			else

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/29 18:26:13 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 19:32:53 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,17 @@ typedef struct s_vars{
 	char **cmd;
 }t_vars ;
 
-typedef struct s_out{
-	struct s_out	*prev;
+typedef struct s_file{
 	int 			fd;
-	struct s_out	*next;
-}t_out ;
+	struct s_file	*next;
+	struct s_file	*prev;
+}t_file ;
 
 typedef struct s_fds{
 	int		in_fd;
-	t_out	*out;
-	int		ap_fd;
+	t_file	*out_f;
+	t_file	*in_f;
+	t_file	*app_f;
 	int		heredoc_fd;
 }t_fds ;
 

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/29 17:34:30 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 19:34:31 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int ft_append(t_args *new)
 	return (ap);
 }
 
-t_out	*ft_lstlastfd(t_out *lst)
+t_file	*ft_lstlastfd(t_file *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -74,11 +74,11 @@ t_out	*ft_lstlastfd(t_out *lst)
 	return (ft_lstlastfd(lst -> next));
 }
 
-t_out	*ft_lstnewfd(int fd)
+t_file	*ft_lstnewfd(int fd)
 {
-	t_out	*new_fd;
+	t_file	*new_fd;
 
-	new_fd = (t_out *) malloc (sizeof (t_out));
+	new_fd = (t_file *) malloc (sizeof (t_file));
 	if (!new_fd)
 		return (NULL);
 	new_fd->fd = fd;
@@ -86,9 +86,9 @@ t_out	*ft_lstnewfd(int fd)
 	return (new_fd);
 }
 
-void	ft_fdadd_back(t_out **lst, t_out *new)
+void	ft_fdadd_back(t_file **lst, t_file *new)
 {
-	t_out	*head;
+	t_file	*head;
 
 	if (*lst)
 	{
@@ -103,7 +103,8 @@ void	ft_fdadd_back(t_out **lst, t_out *new)
 void    ft_redirection(t_fds    *fds, t_exenv exenv)
 {
     fds->in_fd = 0;
-	fds->out = ft_lstnewfd(0);
+	fds->out_f = ft_lstnewfd(1);
+	fds->app_f = ft_lstnewfd(1);
     fds->heredoc_fd = 0;
 
     while (exenv.args)
@@ -111,9 +112,9 @@ void    ft_redirection(t_fds    *fds, t_exenv exenv)
         if (exenv.args && exenv.args->type == HEREDOC)
             fds->heredoc_fd = ft_document(exenv.args);
         else if (exenv.args && exenv.args->type == OUT)
-            ft_fdadd_back(&fds->out, ft_lstnewfd(ft_openout(exenv.args)));
+            ft_fdadd_back(&fds->out_f, ft_lstnewfd(ft_openout(exenv.args)));
         else if (exenv.args && exenv.args->type == APPEND)
-            fds->ap_fd = ft_append(exenv.args);
+            ft_fdadd_back(&fds->app_f, ft_lstnewfd(ft_append(exenv.args)));
         else if (exenv.args && exenv.args->type == IN)
             fds->in_fd = ft_openin(exenv.args);
         exenv.args = exenv.args->next;
