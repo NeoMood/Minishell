@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/29 19:58:15 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/30 00:18:06 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-	// dup2(vars->f1, STDIN_FILENO);
 	// close(fd[0]);
-	close(fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-    // printf("fd: %d\n", fds->out_f_fd);
-    // dup2(fds->out_f_fd, STDOUT_FILENO);
-    close(fd[1]);
+    if(vars->f == 0)
+    {
+	    close(fd[0]);
+	    dup2(fd[1], STDOUT_FILENO);
+        close(fd[1]);
+    }
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
         || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
@@ -36,9 +36,12 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
 	dup2(fd[0], STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
-	close(fd[0]);
+    if(vars->f == 0)
+    {
+	    close(fd[0]);
+	    dup2(fd[1], STDOUT_FILENO);
+        close(fd[1]);
+    }
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
         || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
@@ -118,26 +121,29 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     t_vars  vars;
 
     vars.num = cmd_num(exenv.args);
-    // printf("-----%d----\n", vars.num);
     vars.i = 1;
+    vars.f = 0;
+    int tmp;
+
+    tmp = dup(1);
     while(exenv.args)
     {
         if((exenv.args->type == OUT && exenv.args->next->type == OUT))
         {
-            // printf("-----%d\n", fds->out_f->fd);
-            // printf("-----%d\n", fds->out_f->next->fd);
             dup2(fds->out_f->next->fd, STDOUT_FILENO);
             close(fds->out_f->next->fd);
             fds->out_f = fds->out_f->next;
             exenv.args = exenv.args->next;
+            vars.f = 1;
         }
         else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
         {
-            // printf("-----%d\n", fds->out_f->fd);
-            // printf("-----%d\n", fds->out_f->next->fd);
+            printf("HERE: %s to--> %s fd: %d\n", exenv.args->next->arg[0], exenv.args->arg[0], fds->out_f->next->fd);
             dup2(fds->out_f->next->fd, STDOUT_FILENO);
             close(fds->out_f->next->fd);
+            fds->out_f = fds->out_f->next;
             exenv.args = exenv.args->next;
+            vars.f = 1;
         }
         else if(exenv.args->type == APPEND && exenv.args->next->type == APPEND)
         {
@@ -150,7 +156,16 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
         {
             dup2(fds->app_f->next->fd, STDOUT_FILENO);
             close(fds->app_f->next->fd);
+            fds->app_f = fds->app_f->next;
             exenv.args = exenv.args->next;
+        }
+        else
+        {
+            if(vars.f == 1)
+            {
+                dup2(tmp, STDOUT_FILENO);
+                close(tmp);
+            }
         }
         if (exenv.args->type == COMMAND)
 		{

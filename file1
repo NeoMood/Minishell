@@ -1,0 +1,3 @@
+  PID TTY           TIME CMD
+ 1330 ttys001    0:00.62 /bin/zsh -l
+16274 ttys001    0:00.00 ./minishell

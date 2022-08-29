@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/29 19:32:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 22:33:18 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_vars{
 	int		fd[2];
 	int num;
     int i;
+	int f;
 	char **cmd;
 }t_vars ;
 
