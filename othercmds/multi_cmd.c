@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/29 19:37:39 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 19:58:15 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,25 +122,36 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     vars.i = 1;
     while(exenv.args)
     {
-        if((exenv.args->type == OUT && exenv.args->next->type == OUT) || (exenv.args->type == APPEND && exenv.args->next->type == APPEND))
+        if((exenv.args->type == OUT && exenv.args->next->type == OUT))
+        {
+            // printf("-----%d\n", fds->out_f->fd);
+            // printf("-----%d\n", fds->out_f->next->fd);
+            dup2(fds->out_f->next->fd, STDOUT_FILENO);
+            close(fds->out_f->next->fd);
+            fds->out_f = fds->out_f->next;
             exenv.args = exenv.args->next;
+        }
         else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
         {
-            printf("-------%s\n", exenv.args->arg[0]);
-            fds->out_f = fds->out_f->next;
-			dup2(fds->out_f->fd, STDOUT_FILENO);
+            // printf("-----%d\n", fds->out_f->fd);
+            // printf("-----%d\n", fds->out_f->next->fd);
+            dup2(fds->out_f->next->fd, STDOUT_FILENO);
+            close(fds->out_f->next->fd);
+            exenv.args = exenv.args->next;
+        }
+        else if(exenv.args->type == APPEND && exenv.args->next->type == APPEND)
+        {
+            dup2(fds->app_f->next->fd, STDOUT_FILENO);
+            close(fds->app_f->next->fd);
+            fds->app_f = fds->app_f->next;
             exenv.args = exenv.args->next;
         }
         else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
         {
-            dup2(fds->app_f->fd, STDOUT_FILENO);
+            dup2(fds->app_f->next->fd, STDOUT_FILENO);
+            close(fds->app_f->next->fd);
             exenv.args = exenv.args->next;
         }
-        // if(exenv.args->type == OUT)
-        // {
-        //     dup2(fds->out_f_fd, STDOUT_FILENO);
-        //     exenv.args = exenv.args->next;
-        // }
         if (exenv.args->type == COMMAND)
 		{
             if(access(exenv.args->arg[0], X_OK) == 0)

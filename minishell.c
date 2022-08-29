@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/29 19:33:13 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 19:54:31 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		ft_printarg(exenv.args);
 		while (exenv.args)
 		{
-			if((exenv.args->type == OUT && exenv.args->next->type == OUT) || (exenv.args->type == APPEND && exenv.args->next->type == APPEND))
+			if((exenv.args->type == OUT && exenv.args->next->type == OUT))
 			{
 				// printf("-----%d\n", fds->out_f->fd);
 				// printf("-----%d\n", fds->out_f->next->fd);
@@ -97,9 +97,17 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 				close(fds->out_f->next->fd);
 				exenv.args = exenv.args->next;
 			}
+			else if(exenv.args->type == APPEND && exenv.args->next->type == APPEND)
+			{
+				dup2(fds->app_f->next->fd, STDOUT_FILENO);
+				close(fds->app_f->next->fd);
+				fds->app_f = fds->app_f->next;
+				exenv.args = exenv.args->next;
+			}
 			else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
 			{
-				dup2(fds->app_f->fd, STDOUT_FILENO);
+				dup2(fds->app_f->next->fd, STDOUT_FILENO);
+				close(fds->app_f->next->fd);
 				exenv.args = exenv.args->next;
 			}
 			else
