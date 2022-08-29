@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/27 22:26:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 18:26:13 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,15 @@ typedef struct s_vars{
 	char **cmd;
 }t_vars ;
 
+typedef struct s_out{
+	struct s_out	*prev;
+	int 			fd;
+	struct s_out	*next;
+}t_out ;
+
 typedef struct s_fds{
 	int		in_fd;
-	int		out_fd;
+	t_out	*out;
 	int		ap_fd;
 	int		heredoc_fd;
 }t_fds ;
@@ -204,7 +210,7 @@ void	exp_print(t_exp **exp);
 void    ft_unset(t_exenv exenv);
 t_exp   *ft_getexp(char **env);
 char    *get_path(t_env *env,  char **cmd);
-void    parse_cmd(t_exenv exenv, t_fds	*fds);
+void    parse_cmd(t_exenv exenv);
 void    parse_multicmd(t_exenv exenv, t_fds	*fds);
 int		get_error(char *s);
 char    *get_path2(t_env *env,  char **cmd);
@@ -212,5 +218,6 @@ void    get_filerror(char **cmd);
 char 	**get_cmd(char **cmd);
 void    increase_shlvl(t_exenv exenv);
 int 	cmd_num(t_args *args);
+void	ft_lstadd_back(t_exp **lst, t_exp	*new);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/27 18:44:14 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:22:45 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	// close(fd[0]);
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
+    // printf("fd: %d\n", fds->out_fd);
+    // dup2(fds->out_fd, STDOUT_FILENO);
     close(fd[1]);
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
@@ -51,9 +53,10 @@ void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 
 void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-	// dup2(vars->f2, STDOUT_FILENO);
 	close(fd[0]);
     dup2(fd[0], STDIN_FILENO);
+    // printf("fd: %d\n", fds->out_fd);
+    // dup2(fds->out_fd, STDOUT_FILENO);
 	close(fd[1]);
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
@@ -119,11 +122,25 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     vars.i = 1;
     while(exenv.args)
     {
-        if(exenv.args->type == OUT)
+        if((exenv.args->type == OUT && exenv.args->next->type == OUT) || (exenv.args->type == APPEND && exenv.args->next->type == APPEND))
+            exenv.args = exenv.args->next;
+        else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
         {
-            dup2(fds->out_fd, STDOUT_FILENO);
+            printf("-------%s\n", exenv.args->arg[0]);
+            fds->out = fds->out->next;
+			dup2(fds->out->fd, STDOUT_FILENO);
             exenv.args = exenv.args->next;
         }
+        else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
+        {
+            dup2(fds->ap_fd, STDOUT_FILENO);
+            exenv.args = exenv.args->next;
+        }
+        // if(exenv.args->type == OUT)
+        // {
+        //     dup2(fds->out_fd, STDOUT_FILENO);
+        //     exenv.args = exenv.args->next;
+        // }
         if (exenv.args->type == COMMAND)
 		{
             if(access(exenv.args->arg[0], X_OK) == 0)

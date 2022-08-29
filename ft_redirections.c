@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/27 22:41:24 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:34:30 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,45 @@ static int ft_append(t_args *new)
 	return (ap);
 }
 
+t_out	*ft_lstlastfd(t_out *lst)
+{
+	if (!lst)
+		return (NULL);
+	if (lst -> next == NULL)
+		return (lst);
+	return (ft_lstlastfd(lst -> next));
+}
+
+t_out	*ft_lstnewfd(int fd)
+{
+	t_out	*new_fd;
+
+	new_fd = (t_out *) malloc (sizeof (t_out));
+	if (!new_fd)
+		return (NULL);
+	new_fd->fd = fd;
+	new_fd->next = NULL;
+	return (new_fd);
+}
+
+void	ft_fdadd_back(t_out **lst, t_out *new)
+{
+	t_out	*head;
+
+	if (*lst)
+	{
+		head = *lst;
+		head = ft_lstlastfd(head);
+		head->next = new;
+	}
+	else
+		(*lst) = new;
+}
+
 void    ft_redirection(t_fds    *fds, t_exenv exenv)
 {
     fds->in_fd = 0;
-	fds->out_fd = 0;
+	fds->out = ft_lstnewfd(0);
     fds->heredoc_fd = 0;
 
     while (exenv.args)
@@ -76,7 +111,7 @@ void    ft_redirection(t_fds    *fds, t_exenv exenv)
         if (exenv.args && exenv.args->type == HEREDOC)
             fds->heredoc_fd = ft_document(exenv.args);
         else if (exenv.args && exenv.args->type == OUT)
-            fds->out_fd = ft_openout(exenv.args);
+            ft_fdadd_back(&fds->out, ft_lstnewfd(ft_openout(exenv.args)));
         else if (exenv.args && exenv.args->type == APPEND)
             fds->ap_fd = ft_append(exenv.args);
         else if (exenv.args && exenv.args->type == IN)

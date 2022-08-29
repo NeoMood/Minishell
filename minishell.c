@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/27 22:40:35 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 18:03:08 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,31 @@ int	check_pipe(t_args *args)
 	return (1);
 }
 
-void	check_file(t_args *args, t_fds	*fds)
-{
-	while (args)
-	{
-		if(args->type == OUT && args->next->type == OUT)
-			args = args->next;
-		else if(args->type == OUT && args->next->type == COMMAND)
-		{
-			dup2(fds->out_fd, STDOUT_FILENO);
-			args = args->next;
-		}
-		else
-			break;
-	}
-}
+// void	check_file(t_args *args, t_fds	*fds)
+// {
+// 	while (args)
+// 	{
+// 		if(args->type == OUT && args->next->type == OUT)
+// 			args = args->next;
+// 		else if(args->type == OUT && args->next->type == COMMAND)
+// 		{
+// 			dup2(fds->out_fd, STDOUT_FILENO);
+// 			args = args->next;
+// 		}
+// 		else
+// 			break;
+// 	}
+// }
 
 static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 {
 	// t_args *parse;
 	t_tk	*list;
 	t_tk	*tmp;
+	t_out	*tmp2;
 	int		i;
 	int 	t = dup(1);
 	
-	fds->in_fd = 0;
-	fds->out_fd = 0;
-    fds->heredoc_fd = 0;
 	list = ft_lexer(line);
 	tmp = list;
 	if (!ft_fullcheck(tmp))
@@ -66,37 +64,44 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	exenv.args = ft_corrector(exenv.args); // correct parseing
 	i = cmd_num(exenv.args);
 	ft_redirection(fds, exenv);
-	ft_printarg(exenv.args); // print the parser list
-	// ÷check_file(exenv.args, fds);
-	while (exenv.args)
+	tmp2 = fds->out;
+	while(tmp2)
 	{
-		if((exenv.args->type == OUT && exenv.args->next->type == OUT) || (exenv.args->type == APPEND && exenv.args->next->type == APPEND))
-			exenv.args = exenv.args->next;
-		else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
-		{
-			dup2(fds->out_fd, STDOUT_FILENO);
-			exenv.args = exenv.args->next;
-		}
-		else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
-		{
-			dup2(fds->ap_fd, STDOUT_FILENO);
-			puts("HERE");
-			exenv.args = exenv.args->next;
-		}
-		else
-			break;
+		printf("%d\n", tmp2->fd);
+		tmp2=tmp2->next;
 	}
+	// ft_printarg(exenv.args); // print the parser list
+	// check_file(exenv.args, fds);
 	// printf("%s\n", exenv.args->arg[0]);
 	if (!check_pipe(exenv.args))
 		parse_multicmd(exenv, fds);
 	else
 	{
+		while (exenv.args)
+		{
+			if((exenv.args->type == OUT && exenv.args->next->type == OUT) || (exenv.args->type == APPEND && exenv.args->next->type == APPEND))
+				exenv.args = exenv.args->next;
+			else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
+			{
+				fds->out = fds->out->next;
+				printf("%d\n", fds->out->fd);
+				dup2(fds->out->fd, STDOUT_FILENO);
+				exenv.args = exenv.args->next;
+			}
+			else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
+			{
+				dup2(fds->ap_fd, STDOUT_FILENO);
+				exenv.args = exenv.args->next;
+			}
+			else
+				break;
+		}
 		if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
 			|| !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
 			|| !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
 			ft_builtins(exenv, fds);
 		else
-			parse_cmd(exenv, fds);
+			parse_cmd(exenv);
 		dup2(t, 1);
 		close(t);
 	}
@@ -140,8 +145,7 @@ int	main(int ac, char **av, char **env)
 		line = readline("➜ minishell 💩💩$> ");
 		if (!line)
 			ft_exit();
-		if (ft_strncmp(line, "\n", 1) && !line[1])
-			continue ;
+ 
 		lastparse(line, exenv, fds);
 		add_history (line);
 	}

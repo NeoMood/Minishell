@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/26 22:05:00 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:18:18 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,12 @@ void    increase_shlvl(t_exenv exenv)
 	}
 }
 
-void    parse_cmd(t_exenv exenv, t_fds	*fds)
+void    parse_cmd(t_exenv exenv)
 {
     char *path;
     char **cmd;
 
     // printf("----%s\n", exenv.args->arg[0]);
-    if(exenv.args->type == OUT)
-	{
-		dup2(fds->out_fd, STDOUT_FILENO);
-		exenv.args = exenv.args->next;
-	}
     if(access(exenv.args->arg[0], X_OK) == 0)
     {
         path = exenv.args->arg[0];
