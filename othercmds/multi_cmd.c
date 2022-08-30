@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/30 00:18:06 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/30 01:38:24 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
             close(fds->app_f->next->fd);
             fds->app_f = fds->app_f->next;
             exenv.args = exenv.args->next;
+            vars.f = 1;
         }
         else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
         {
@@ -158,6 +159,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
             close(fds->app_f->next->fd);
             fds->app_f = fds->app_f->next;
             exenv.args = exenv.args->next;
+            vars.f = 1;
         }
         else
         {
