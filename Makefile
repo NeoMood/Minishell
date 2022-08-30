@@ -6,7 +6,7 @@
 #    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/08/25 18:28:53 by sgmira           ###   ########.fr        #
+#    Updated: 2022/08/30 18:55:56 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC =	minishell.c\
 		./builtins/echo.c\
 		./builtins/export.c\
 		./builtins/unset.c\
+		./builtins/exit.c\
 		./othercmds/get_path.c\
 		./othercmds/execute_cmd.c\
 		./othercmds/multi_cmd.c\
@@ -65,6 +66,7 @@ SRC =	minishell.c\
 		libft/ft_putchar_fd.c\
 		libft/ft_atoi.c\
 		libft/ft_itoa.c\
+		libft/ft_isdigit.c\
 		# ft_checkcmd.c\
 		# ./builtins/cd.c\
 		# ./builtins/echo.c\

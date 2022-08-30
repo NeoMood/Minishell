@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/30 00:15:20 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/30 18:57:52 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		}
 		if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
 			|| !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-			|| !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+			|| !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset") || !ft_strcmp(exenv.args->arg[0], "exit"))
 			ft_builtins(exenv, fds);
 		else
 			parse_cmd(exenv);
@@ -126,7 +126,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	// printlist(list); // print the lexer list
 }
 
-static void	ft_exit(void)
+static void	my_exit(void)
 {
 	rl_on_new_line();
 	rl_redisplay();
@@ -161,7 +161,7 @@ int	main(int ac, char **av, char **env)
 		// line = readline("Minishell-1.0 $> ");
 		line = readline("➜ minishell 💩💩$> ");
 		if (!line)
-			ft_exit();
+			my_exit();
  
 		lastparse(line, exenv, fds);
 		add_history (line);

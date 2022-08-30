@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 02:35:44 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 00:41:48 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ void	exp_print(t_exp **exp)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(new->key, 1);
+			if(*new->value == '\0')
+			{
+				ft_putstr_fd("=", 1);
+				ft_putstr_fd("\"\"", 1);
+			}
 			if (*new->value != '\0')
 			{
 				ft_putstr_fd("=", 1);
@@ -267,6 +272,23 @@ void	add_envalue(t_env	*env, char *key, char *val)
 	}
 }
 
+int check_key(char *key)
+{
+	int i;
+
+	i = 0;
+	if(ft_isdigit(key[0]))
+		return(1);
+	while(key[i])
+	{
+		if(key[i] < 48 || (key[i] > 57 && key[i] < 65) || (key[i] > 90 && key[i] < 97) || key[i] > 122)
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
+
 void    ft_export(t_exenv exenv)
 {
 	char *val;
@@ -284,6 +306,11 @@ void    ft_export(t_exenv exenv)
 				{
 					key = get_key(exenv.args->arg[i], '+');
 					val = ft_strchr(exenv.args->arg[i], '=');
+					if(check_key(key))
+					{
+						printf("export: `%s': not a valid identifier\n", key);
+						return ;
+					}
 					if(if_exists(exenv.exp, key))
 						add_value(exenv.exp, key, &val[1]);
 					if(if_exists2(exenv.env, key))
@@ -298,6 +325,12 @@ void    ft_export(t_exenv exenv)
 				{
 					val = ft_strchr(exenv.args->arg[i], '=');
 					key = get_key(exenv.args->arg[i], '=');
+					// printf("###%s\n", &val[1]);
+					if(check_key(key))
+					{
+						printf("export: `%s': not a valid identifier\n", key);
+						return ;
+					}
 					if(if_exists(exenv.exp, key))
 					{
 						update_value(exenv.exp, key, &val[1]);
@@ -313,9 +346,13 @@ void    ft_export(t_exenv exenv)
 			}
 			else if(!ft_strchr(exenv.args->arg[i], '='))
 			{
+				if(check_key(exenv.args->arg[i]))
+				{
+					printf("export: `%s': not a valid identifier\n", exenv.args->arg[i]);
+					return ;
+				}
 				if(!if_exists(exenv.exp, exenv.args->arg[i]))
 				{
-					puts("Here");
 					ft_lstadd_back(&exenv.exp, ft_createcell2(exenv.args->arg[i], ""));
 					sort_exp(&exenv.exp);
 				}

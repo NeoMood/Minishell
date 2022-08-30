@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/30 01:38:24 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/30 21:50:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
     {
 	    close(fd[0]);
 	    dup2(fd[1], STDOUT_FILENO);
-        close(fd[1]);
+        // close(fd[1]);
     }
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset")
+        || !ft_strcmp(exenv.args->arg[0], "exit"))
         ft_builtins(exenv, fds);
     else
     {
@@ -35,16 +36,16 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 
 void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-	dup2(fd[0], STDIN_FILENO);
+	// dup2(fd[0], STDIN_FILENO);
     if(vars->f == 0)
     {
 	    close(fd[0]);
 	    dup2(fd[1], STDOUT_FILENO);
-        close(fd[1]);
     }
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset")
+        || !ft_strcmp(exenv.args->arg[0], "exit"))
         ft_builtins(exenv, fds);
     else
     {
@@ -56,14 +57,16 @@ void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 
 void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-	close(fd[0]);
-    dup2(fd[0], STDIN_FILENO);
+	// close(fd[0]);
+    // dup2(fd[0], STDIN_FILENO);
     // printf("fd: %d\n", fds->out_f_fd);
     // dup2(fds->out_f_fd, STDOUT_FILENO);
-	close(fd[1]);
+	// close(fd[1]);
+    (void)fd;
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset"))
+        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset")
+        || !ft_strcmp(exenv.args->arg[0], "exit"))
         ft_builtins(exenv, fds);
     else
     {
@@ -89,12 +92,9 @@ int cmd_num(t_args *args)
     return(i);
 }
 
-int    execute_multicmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
+int    execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 {
     int	pid1;
-    // (void)cmd;
-    // (void)env;
-    // (void)fd;
 
 	if (pipe(vars->fd) == -1)
 		return (1);
@@ -104,15 +104,16 @@ int    execute_multicmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	if (pid1 == 0)
 	{
 		if (vars->i == 1)
-			processing_firstcmd(vars, exenv, fd, fds);
+			processing_firstcmd(vars, exenv, vars->fd, fds);
 		else if (vars->i == (vars->num))
-			processing_lastcmd(vars, exenv, fd, fds);
+			processing_lastcmd(vars, exenv, vars->fd, fds);
 		else
-			processing_mdlcmd(vars, exenv, fd, fds);
+			processing_mdlcmd(vars, exenv, vars->fd, fds);
 	}
     waitpid(pid1,NULL,0);
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
+	close(vars->fd[1]);
+	dup2(vars->fd[0], STDIN_FILENO);
+    // close(vars->fd[0]);
 	return (0);
 }
 
@@ -188,7 +189,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
                     vars.path = get_path(exenv.env, exenv.args->arg);
                 vars.cmd = exenv.args->arg;
             }
-            execute_multicmd(&vars, exenv, vars.fd, fds);
+            execute_multicmd(&vars, exenv, fds);
             free(vars.path);
             vars.i++;
         }

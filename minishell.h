@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/29 22:33:18 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/30 18:54:48 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
+
+int  g_exit_status;
 
 typedef enum {PIP,VAR,SQUOTE,DQUOTE,RINPUT,ROUTPUT,DINPUT,DOUTPUT,WORD,SP, WILDCARD} e_def;
 
@@ -108,6 +110,7 @@ int		ft_isalpha(int c);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
 
 // LINKED LIST OF PARSING
 t_tk	*ft_input(char *data, int token);
@@ -221,5 +224,6 @@ char 	**get_cmd(char **cmd);
 void    increase_shlvl(t_exenv exenv);
 int 	cmd_num(t_args *args);
 void	ft_lstadd_back(t_exp **lst, t_exp	*new);
+int    ft_exit(t_exenv exenv);
 
 #endif
