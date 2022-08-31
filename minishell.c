@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 22:35:05 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 23:28:08 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		close(tmp1);
 	}
 	// printlist(list); // print the lexer list
-	// ft_printarg(exenv.args);
+	ft_printarg(exenv.args);
 }
 
 int	main(int ac, char **av, char **env)

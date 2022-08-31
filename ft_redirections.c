@@ -6,18 +6,18 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 22:34:00 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 23:26:51 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_document(t_args *here)
+static int	ft_document(t_env *envar, t_args *here)
 {
 	char *heredoc;
     int fd;
 
-    fd = open("/tmp/tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0777);
+    fd = open("tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd < 0)
         return (0);
 	while (1)
@@ -27,6 +27,8 @@ static int	ft_document(t_args *here)
 			return fd; 
 		if (!ft_strcmp(heredoc, *here->arg))
 			break ;
+        if (heredoc[0] == '$')
+            heredoc = ft_getvalue(envar, &heredoc[1]);
 		ft_putstr_fd(heredoc, fd);
         ft_putstr_fd("\n", fd);
 	}
@@ -72,7 +74,7 @@ void    ft_redirection(t_fds *fds, t_exenv exenv)
     while (exenv.args)
     {
         if (exenv.args && exenv.args->type == HEREDOC)
-            fds->heredoc_fd = ft_document(exenv.args);
+            fds->heredoc_fd = ft_document(exenv.env, exenv.args);
         else if (exenv.args && exenv.args->type == OUT)
             ft_fdadd_back(&fds->out_f, ft_lstnewfd(ft_openout(exenv.args)));
         else if (exenv.args && exenv.args->type == APPEND)
