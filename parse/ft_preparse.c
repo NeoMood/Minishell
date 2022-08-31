@@ -6,37 +6,40 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:18:10 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/13 20:07:53 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/08/31 22:08:14 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static t_args *ft_merge_util1(t_args *parse, t_args *new)
+{
+	while (parse && parse->type != PIPE)
+	{
+		if (parse && (parse->type == IN || parse->type == OUT || parse->type == APPEND || parse->type == HEREDOC))
+		{
+			if (parse && parse->type == APPEND)
+				ft_addbackarg(&new, ft_args_node(parse->arg, APPEND));
+			else if (parse && (parse->type == OUT))
+				ft_addbackarg(&new, ft_args_node(parse->arg, OUT));
+			else if (parse && parse->type == IN)
+				ft_addbackarg(&new, ft_args_node(parse->arg, IN));
+			else if (parse && parse->type == HEREDOC)
+					ft_addbackarg(&new, ft_args_node(parse->arg, HEREDOC));
+		}
+		parse = parse->next;
+	}
+	return (new);
+}
+
 t_args	*ft_merge(t_args *parse)
 {
 	t_args	*new;
-	t_args	*tmp;
 
 	new = NULL;
 	while (parse)
 	{
-		tmp = parse;
-		while (parse && parse->type != PIPE)
-		{
-			if (parse && (parse->type == IN || parse->type == OUT || parse->type == APPEND || parse->type == HEREDOC))
-			{
-				if (parse && parse->type == APPEND)
-					ft_addbackarg(&new, ft_args_node(parse->arg, APPEND));
-				else if (parse && (parse->type == OUT))
-					ft_addbackarg(&new, ft_args_node(parse->arg, OUT));
-				else if (parse && parse->type == IN)
-					ft_addbackarg(&new, ft_args_node(parse->arg, IN));
-				else if (parse && parse->type == HEREDOC)
-					ft_addbackarg(&new, ft_args_node(parse->arg, HEREDOC));
-			}
-			parse = parse->next;
-		}
-		parse = tmp;
+		new = ft_merge_util1(parse, new);
 		while (parse && parse->type != PIPE)
 		{
 			if (parse && parse->type == COMMAND)

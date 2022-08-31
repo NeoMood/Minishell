@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_environment.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/27 16:54:03 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:20:15 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ char	*ft_getvalue(t_env *env, char *key)
 char	*var_value(t_env *env, char *varname)
 {
 	t_env  *tmp;
-	// int		len;
 
 	tmp = env;
-	// len = ft_strlen(varname);
 	while (tmp->next)
 	{
 		if (ft_strcmp(tmp->key, varname) == 0)
@@ -70,26 +68,9 @@ t_tk	*ft_expand(t_tk *list, t_env *ev)
 		{
 			temp = list->input;
 			list->input = ft_strdup(ft_getvalue(ev, list->input + 1));
-			// list->token = WORD;
 			free(temp);
 		}
 		list = list->next;
     }
 	return (tmp);
 }
-
-// char	*expansion(t_env *envar, char *str)
-// {
-// 	t_env	*tmp;
-// 	int		length;
-
-// 	tmp = envar;
-// 	while (tmp && tmp->next)
-// 	{
-// 		length = ft_strlen(tmp->key);
-// 		if (ft_strncmp(tmp->key, str, length) == 0)
-// 			return (tmp->value);
-// 		tmp = tmp->next;
-// 	}
-// 	return (NULL);
-// }

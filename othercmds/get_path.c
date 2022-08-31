@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/25 15:17:29 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:15:48 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char    *env_path(t_env *env)
     {
         if(!ft_strcmp(clone->key, "PATH"))
             return(clone->value);
-        clone=clone->next;
+        clone = clone->next;
     }
     return(NULL);
 }
@@ -68,7 +68,6 @@ char    *get_path(t_env *env,  char **cmd)
     char **paths;
     char *path;
     int i;
-    // printf("%s\n", cmd[0]);
     paths = ft_split(env_path(env), ':');
     i = 0;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/30 18:54:48 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 22:13:53 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 
-int  g_exit_status;
-
 typedef enum {PIP,VAR,SQUOTE,DQUOTE,RINPUT,ROUTPUT,DINPUT,DOUTPUT,WORD,SP, WILDCARD} e_def;
 
 typedef enum {COMMAND, PIPE, IN, OUT,APPEND, HEREDOC, REDIRECTION} e_type;
@@ -38,6 +36,11 @@ typedef struct s_env{
 	char			*value;
 	struct s_env	*next;
 }t_env ;
+
+typedef struct s_global{
+	int g_exit_status;
+	int g_sig;
+}t_global ;
 
 typedef struct s_exp{
 	char			*key;
@@ -85,6 +88,7 @@ typedef struct s_exenv{
 	t_exp	*exp;
 	t_args	*args;
 	char	**envar;
+	char	*line;
 	int 	shlvl;
 	t_env	*head;
 }t_exenv ;
@@ -116,7 +120,7 @@ int		ft_isdigit(int c);
 t_tk	*ft_input(char *data, int token);
 void	ft_freelist(t_tk *list);
 t_tk	*ft_findlast(t_tk *lst);
-void	ft_addtolist(t_tk **list, t_tk *new);
+void	ft_addtolist(t_tk **list, t_tk *lst);
 void	printlist(t_tk *list);
 
 // MINISHELL UTILS
@@ -127,18 +131,18 @@ int		ft_isspace(char c);
 void	ft_free(char **tmp);
 
 // LEXER
+t_tk    *ft_token_space(t_tk *list);
 t_tk	*ft_lexer(char *line);
 
 // ENV AND ITS UTILS
-// char	*get_var_value(t_env *envar, char *var);
 char	*var_value(t_env *env, char *varname);
 t_env	*ft_createcell(char *key, char	*value);
 t_exp	*ft_createcell2(char *key, char	*value);
-void	ft_addbacknode(t_env **env, t_env *new);
-void	ft_addbacknode2(t_exp **exp, t_exp *new);
+void	ft_addbacknode(t_env **env, t_env *nv);
+void	ft_addbacknode2(t_exp **exp, t_exp *nv);
 char	*ft_getvalue(t_env *env, char *key);
-t_env	*ft_last_node(t_env	*new);
-t_exp	*ft_last_node2(t_exp	*new);
+t_exp	*ft_last_node2(t_exp *nv);
+t_env	*ft_last_node(t_env	*nv);
 t_env	*ft_getenv(char **envp);
 void    printenv(t_env *ev);
 
@@ -183,12 +187,14 @@ t_args	*ft_finalparsing(char *line, char **env);
 void	ft_collectpip(t_tk **list, t_args **pip);
 
 // MINISHELL UTILS
-void	ft_addbackarg(t_args **new, t_args *nv);
-void	ft_addfrontarg(t_args **lst, t_args *new);
+void	ft_fdadd_back(t_file **lst, t_file *nv);
+t_file	*ft_lstnewfd(int fd);
+t_file	*ft_lstlastfd(t_file *lst);
+void	ft_addbackarg(t_args **pars, t_args *nv);
 t_args  *ft_args_node(char **ar, e_type type);
 t_args	*ft_initialparsing(t_tk *list);
 void	ft_printarg(t_args *args);
-t_args *ft_last_arg(t_args *new);
+t_args *ft_last_arg(t_args *lst);
 
 // Exuction PART
 void    ft_redirection(t_fds    *fds, t_exenv exenv);
@@ -197,11 +203,7 @@ void    ft_redirection(t_fds    *fds, t_exenv exenv);
 char	*char_checker(t_env *envar, char *arg);
 void	ft_builtins(t_exenv exenv, t_fds    *fds);
 char	*expansion(t_env *envar, char *str);
-// void	ft_unset(t_args *line, t_env *envar);
-// void	ft_echo(t_args *line, t_env *envar);
-// void	ft_pwd(void);
-// void	ft_env(t_args *line, t_env *envar);
-// void    ft_cd(t_args *line, t_env *envar);
+
 
 // NEO COMMANDS
 void	ft_cd(t_exenv exenv);
@@ -223,7 +225,13 @@ void    get_filerror(char **cmd);
 char 	**get_cmd(char **cmd);
 void    increase_shlvl(t_exenv exenv);
 int 	cmd_num(t_args *args);
-void	ft_lstadd_back(t_exp **lst, t_exp	*new);
+void	ft_lstadd_back(t_exp **lst, t_exp *nv);
 int    ft_exit(t_exenv exenv);
 
+// MAIN UTILS
+void    ft_execution(t_exenv exenv, t_fds *fds);
+int		ft_check_builtins(t_exenv exenv);
+t_args	*ft_corrector(t_args *parse);
+int		check_pipe(t_args *args);
+void	my_exit(void);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:51:49 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/30 19:05:30 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:39:39 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void    ft_negativenum(int j, t_exenv exenv)
             l++;
             if (ft_isdigit(exenv.args->arg[1][l]))
             {
-                g_exit_status = 256 + ft_atoi(exenv.args->arg[1]) % 256;
+                // g_exit_status = 256 + ft_atoi(exenv.args->arg[1]) % 256;
                 write (1, "exit\n", 5);
                 exit (0);
             }
@@ -74,7 +74,7 @@ static void    ft_postifnum(int j, t_exenv exenv)
     {
         if (ft_isdigit(exenv.args->arg[1][l]))
         {
-            g_exit_status = ft_atoi(&exenv.args->arg[1][l]) % 256;
+            // g_exit_status = ft_atoi(&exenv.args->arg[1][l]) % 256;
             write (1, "exit\n", 5);
             exit (0);
         }
@@ -85,13 +85,11 @@ static void    ft_postifnum(int j, t_exenv exenv)
         ft_handlelong(exenv);
 }
 
-int    ft_exit(t_exenv exenv)
+int	ft_exit(t_exenv exenv)
 {
-    // int        len;
-    int        i;
-    int        j;
+    int	i;
+    int	j;
 
-    // len = ft_strlen(exenv.args->arg[1]);
     i = 0;
     if (exenv.args->arg[1])
     {

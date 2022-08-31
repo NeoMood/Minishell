@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
+#    By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/08/30 18:55:56 by sgmira           ###   ########.fr        #
+#    Updated: 2022/08/31 22:17:24 by yamzil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ LIB_READLINE = $(addprefix $(READLINE),/lib)
 READLINE = $(shell brew --prefix readline)
 
 SRC =	minishell.c\
+		utils_main.c\
+		./minishell_utils/ft_list_utils_1.c\
 		./minishell_utils/ft_list_utils_2.c\
 		./minishell_utils/ft_list_utils_3.c\
 		./minishell_utils/ft_list_utils_4.c\
@@ -34,6 +36,7 @@ SRC =	minishell.c\
 		./token/ft_tokenization.c\
 		./token/ft_token_utils.c\
 		./token/ft_token_utils01.c\
+		./token/ft_token_space.c\
 		./builtins/exec_bultins.c\
 		./builtins/cd.c\
 		./builtins/pwd.c\
@@ -67,13 +70,6 @@ SRC =	minishell.c\
 		libft/ft_atoi.c\
 		libft/ft_itoa.c\
 		libft/ft_isdigit.c\
-		# ft_checkcmd.c\
-		# ./builtins/cd.c\
-		# ./builtins/echo.c\
-		# ./builtins/env.c\
-		# ./builtins/pwd.c\
-		# ./builtins/unset.c\
-		# ./builtins/echo_cheker.c\
 
 OBJS = $(SRC:.c=.o)
 
@@ -83,7 +79,7 @@ OBJS = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(HEADER)
-	$(CC) $(CFLAGS) $(OBJS) -I $(INCLUDE_READLINE)  -L $(LIB_READLINE) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -I $(INCLUDE_READLINE) -L $(LIB_READLINE) -o $(NAME) -lreadline
 	clear
 
 clean : 
