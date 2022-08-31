@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 18:14:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 18:22:20 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-	// close(fd[0]);
     if(vars->f == 0)
     {
 	    close(fd[0]);
 	    dup2(fd[1], STDOUT_FILENO);
-        // close(fd[1]);
     }
     if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
         || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
@@ -110,7 +108,6 @@ int    execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 		else
 			processing_mdlcmd(vars, exenv, vars->fd, fds);
 	}
-    // waitpid(pid1,NULL,0);
 	close(vars->fd[1]);
 	dup2(vars->fd[0], STDIN_FILENO);
     close(vars->fd[0]);
@@ -200,14 +197,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
         }
 		exenv.args = exenv.args->next;
     }
-    // close(vars.fd[0]);
-    // close(vars.fd[1]);
     while(vars.num--)
-    {
-        printf("!!!!%d\n", vars.num);
         wait(&status);
-        // vars.num--;
-    }
     dup2(tmp2, STDIN_FILENO);
-    // printf("%d\n", vars.num);
 }

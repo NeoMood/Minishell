@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 17:51:14 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:07:26 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	exenv.args = ft_corrector(exenv.args); // correct parseing
 	i = cmd_num(exenv.args);
 	ft_redirection(fds, exenv);
-	ft_printarg(exenv.args);
+	// ft_printarg(exenv.args);
 	// tmp2 = fds->out_f;
 	// while(tmp2)
 	// {
@@ -109,12 +109,15 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 			else
 				break;
 		}
-		if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
-			|| !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-			|| !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset") || !ft_strcmp(exenv.args->arg[0], "exit"))
-			ft_builtins(exenv, fds);
-		else
-			parse_cmd(exenv);
+		if(exenv.args->type == COMMAND)
+		{
+			if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
+				|| !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
+				|| !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset") || !ft_strcmp(exenv.args->arg[0], "exit"))
+				ft_builtins(exenv, fds);
+			else
+				parse_cmd(exenv);
+		}
 		dup2(t, 1);
 		close(t);
 	}
