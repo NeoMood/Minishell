@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/30 21:50:23 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 18:14:53 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,23 +110,28 @@ int    execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 		else
 			processing_mdlcmd(vars, exenv, vars->fd, fds);
 	}
-    waitpid(pid1,NULL,0);
+    // waitpid(pid1,NULL,0);
 	close(vars->fd[1]);
 	dup2(vars->fd[0], STDIN_FILENO);
-    // close(vars->fd[0]);
+    close(vars->fd[0]);
 	return (0);
 }
 
 void    parse_multicmd(t_exenv exenv, t_fds	*fds)
 {
     t_vars  vars;
+    
 
     vars.num = cmd_num(exenv.args);
     vars.i = 1;
     vars.f = 0;
     int tmp;
+    int tmp2;
+    int status;
 
+    status = 0;
     tmp = dup(1);
+    tmp2 = dup(STDIN_FILENO);
     while(exenv.args)
     {
         if((exenv.args->type == OUT && exenv.args->next->type == OUT))
@@ -139,7 +144,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
         }
         else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
         {
-            printf("HERE: %s to--> %s fd: %d\n", exenv.args->next->arg[0], exenv.args->arg[0], fds->out_f->next->fd);
+            // printf("HERE: %s to--> %s fd: %d\n", exenv.args->next->arg[0], exenv.args->arg[0], fds->out_f->next->fd);
             dup2(fds->out_f->next->fd, STDOUT_FILENO);
             close(fds->out_f->next->fd);
             fds->out_f = fds->out_f->next;
@@ -195,4 +200,14 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
         }
 		exenv.args = exenv.args->next;
     }
+    // close(vars.fd[0]);
+    // close(vars.fd[1]);
+    while(vars.num--)
+    {
+        printf("!!!!%d\n", vars.num);
+        wait(&status);
+        // vars.num--;
+    }
+    dup2(tmp2, STDIN_FILENO);
+    // printf("%d\n", vars.num);
 }
