@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:32:51 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/22 23:03:38 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:09:47 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ t_tk	*ft_findlast(t_tk *lst)
 	return (lst);
 }
 
-void	ft_addtolist(t_tk **list, t_tk *new)
+void	ft_addtolist(t_tk **list, t_tk *lst)
 {
 	if (*list)
-		ft_findlast(*list)->next = new;
+		ft_findlast(*list)->next = lst;
 	else
-		*list = new;
+		*list = lst;
 }
 
 void	ft_freelist(t_tk *list)

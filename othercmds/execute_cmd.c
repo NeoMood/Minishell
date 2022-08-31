@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/29 17:18:18 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:15:04 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void    parse_cmd(t_exenv exenv)
     char *path;
     char **cmd;
 
-    // printf("----%s\n", exenv.args->arg[0]);
     if(access(exenv.args->arg[0], X_OK) == 0)
     {
         path = exenv.args->arg[0];

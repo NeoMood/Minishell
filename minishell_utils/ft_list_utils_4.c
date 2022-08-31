@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_utils_4.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:22:13 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/27 22:03:55 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:14:02 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,30 @@ t_args  *ft_args_node(char **ar, e_type type)
 	return (new);
 }
 
-t_args *ft_last_arg(t_args *new)
+t_args *ft_last_arg(t_args *lst)
 {
-	while (new)
+	while (lst)
 	{
-		if (new->next == NULL)
+		if (lst->next == NULL)
 			break ;
-		new = new->next;
+		lst = lst->next;
 	}
-	return (new);
+	return (lst);
 }
 
-void	ft_addbackarg(t_args **new, t_args *nv)
+void	ft_addbackarg(t_args **pars, t_args *nv)
 {
 	t_args *tmp;
 
-	tmp = (*new);
-	if ((*new))
+	tmp = (*pars);
+	if ((*pars))
 	{
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = nv;	
 	}
 	else
-		*new = nv;
-}
-
-void	ft_addfrontarg(t_args **lst, t_args *new)
-{
-	new->next = *lst;
-	*lst = new;
+		*pars = nv;
 }
 
 void	ft_printarg(t_args *args)

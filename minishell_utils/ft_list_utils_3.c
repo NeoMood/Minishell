@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_utils_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:33:14 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/23 01:21:28 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:11:49 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,42 +38,42 @@ t_exp	*ft_createcell2(char *key, char	*value)
 	return (exp);
 }
 
-t_env	*ft_last_node(t_env	*new)
+t_env	*ft_last_node(t_env	*nv)
 {
-	while (new)
+	while (nv)
 	{
-		if (new->next == NULL)
+		if (nv->next == NULL)
 			break ;
-		new = new->next;
+		nv = nv->next;
 	}
-	return (new);
+	return (nv);
 }
 
-t_exp	*ft_last_node2(t_exp	*new)
+t_exp	*ft_last_node2(t_exp *nv)
 {
-	while (new)
+	while (nv)
 	{
-		if (new->next == NULL)
+		if (nv->next == NULL)
 			break ;
-		new = new->next;
+		nv = nv->next;
 	}
-	return (new);
+	return (nv);
 }
 
-void	ft_addbacknode(t_env **env, t_env *new)
+void	ft_addbacknode(t_env **env, t_env *nv)
 {
     if (*env)
-		ft_last_node(*env)->next = new;
+		ft_last_node(*env)->next = nv;
 	else
-		*env = new;
+		*env = nv;
 }
 
-void	ft_addbacknode2(t_exp **exp, t_exp *new)
+void	ft_addbacknode2(t_exp **exp, t_exp *nv)
 {
     if (*exp)
-		ft_last_node2(*exp)->next = new;
+		ft_last_node2(*exp)->next = nv;
 	else
-		*exp = new;
+		*exp = nv;
 }
 
 void    printenv(t_env *ev)

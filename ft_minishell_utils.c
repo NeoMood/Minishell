@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:52:26 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/22 23:37:15 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:20:27 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,44 +25,6 @@ int	ft_isspace(char c)
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\r' || c == '\f')
 		return(1);
 	return (0);
-}
-
-int ft_find(int i, char *tmp)
-{
-    int     j;
-    char    *str;
-
-    j = i + 1;
-    while(tmp[j])
-    {
-        if (tmp[j] == '\"')
-            break;
-        j++;
-    }
-    str = ft_substr(tmp, i, j - i);
-    return (j);
-}
-void    ft_extraspace(char *line)
-{
-    char    *str;
-    int     i;
-    int     j;
-
-    i = -1;
-    j = -1;
-    str = malloc(sizeof(char ) * ft_strlen(line));
-    if (!str)
-        return ;
-    while (++i < ft_strlen(line))
-    {
-        if (line[i] == '\"')
-            i = ft_find(i, line);
-        if (line[i] == ' ' && line[i + 1] == ' ')
-            continue ;
-        else
-            str[++j] = line[i];
-    }
-    ft_strlcpy_v2(line, str);
 }
 
 void	ft_free(char **str)

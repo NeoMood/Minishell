@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 18:22:20 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 22:33:53 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	    close(fd[0]);
 	    dup2(fd[1], STDOUT_FILENO);
     }
-    if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
-        || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset")
-        || !ft_strcmp(exenv.args->arg[0], "exit"))
+    if(!ft_check_builtins(exenv))
         ft_builtins(exenv, fds);
     else
     {
@@ -34,16 +31,12 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 
 void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-	// dup2(fd[0], STDIN_FILENO);
     if(vars->f == 0)
     {
 	    close(fd[0]);
 	    dup2(fd[1], STDOUT_FILENO);
     }
-    if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
-        || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset")
-        || !ft_strcmp(exenv.args->arg[0], "exit"))
+    if(!ft_check_builtins(exenv))
         ft_builtins(exenv, fds);
     else
     {
@@ -55,16 +48,8 @@ void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 
 void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-	// close(fd[0]);
-    // dup2(fd[0], STDIN_FILENO);
-    // printf("fd: %d\n", fds->out_f_fd);
-    // dup2(fds->out_f_fd, STDOUT_FILENO);
-	// close(fd[1]);
     (void)fd;
-    if(!ft_strcmp(exenv.args->arg[0], "cd") || !ft_strcmp(exenv.args->arg[0], "pwd")
-        || !ft_strcmp(exenv.args->arg[0], "env") || !ft_strcmp(exenv.args->arg[0], "echo")
-        || !ft_strcmp(exenv.args->arg[0], "export") || !ft_strcmp(exenv.args->arg[0], "unset")
-        || !ft_strcmp(exenv.args->arg[0], "exit"))
+    if(!ft_check_builtins(exenv))
         ft_builtins(exenv, fds);
     else
     {
@@ -117,7 +102,6 @@ int    execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 void    parse_multicmd(t_exenv exenv, t_fds	*fds)
 {
     t_vars  vars;
-    
 
     vars.num = cmd_num(exenv.args);
     vars.i = 1;
@@ -141,7 +125,6 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
         }
         else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
         {
-            // printf("HERE: %s to--> %s fd: %d\n", exenv.args->next->arg[0], exenv.args->arg[0], fds->out_f->next->fd);
             dup2(fds->out_f->next->fd, STDOUT_FILENO);
             close(fds->out_f->next->fd);
             fds->out_f = fds->out_f->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 00:41:48 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/08/31 21:32:00 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_exp	*ft_lstlast(t_exp *lst)
 	return (ft_lstlast(lst -> next));
 }
 
-void	ft_lstadd_back(t_exp **lst, t_exp	*new)
+void	ft_lstadd_back(t_exp **lst, t_exp *nv)
 {
 	t_exp	*head;
 
@@ -91,10 +91,10 @@ void	ft_lstadd_back(t_exp **lst, t_exp	*new)
 	{
 		head = *lst;
 		head = ft_lstlast(head);
-		head -> next = new;
+		head -> next = nv;
 	}
 	else
-		(*lst) = new;
+		(*lst) = nv;
 }
 
 void	exp_print(t_exp **exp)
@@ -159,26 +159,6 @@ void	sort_exp(t_exp **exp)
 		i = i->next;
 	}
 }
-
-// t_exp   *env_to_exp(t_env *env)
-// {
-// 	t_exp   *exp;
-// 	char	*key;
-// 	char	*value;
-
-// 	exp = NULL;
-// 	while(env)
-// 	{
-// 		if(env->key)
-// 		{
-// 			key = ft_strdup(env->key);
-// 			value = ft_strdup(env->value);
-// 			ft_addbacknode2(&exp, ft_createcell2(key, value));
-// 		}
-// 		env = env->next;
-// 	}
-// 	return (exp);
-// }
 
 t_exp   *ft_getexp(char **env)
 {
@@ -287,7 +267,6 @@ int check_key(char *key)
 	}
 	return(0);
 }
-
 
 void    ft_export(t_exenv exenv)
 {
