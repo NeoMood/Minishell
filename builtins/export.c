@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:40:58 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ void	exp_print(t_exp **exp)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(new->key, 1);
-			if(*new->value == '\0')
-			{
-				ft_putstr_fd("=", 1);
-				ft_putstr_fd("\"\"", 1);
-			}
+			// if(*new->value == '\0')
+			// {
+			// 	ft_putstr_fd("=", 1);
+			// 	ft_putstr_fd("\"\"", 1);
+			// }
 			if (*new->value != '\0')
 			{
 				ft_putstr_fd("=", 1);

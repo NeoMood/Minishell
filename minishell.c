@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 19:52:45 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:40:29 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	t_tk	*list;
 	t_tk	*tmp;
 	int 	tmp1;
+	int 	tmp2;
 	
 	tmp1 = dup(1);
+	tmp2 = dup(0);
 	list = ft_lexer(line);
 	list = ft_token_space(list);
 	tmp = list;
@@ -34,27 +36,46 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	{
 		while (exenv.args)
 		{
-			if((exenv.args->type == OUT && exenv.args->next->type == OUT))
+			if((exenv.args->next && exenv.args->type == OUT && exenv.args->next->type == OUT))
 			{
 				dup2(fds->out_f->next->fd, STDOUT_FILENO);
 				close(fds->out_f->next->fd);
 				fds->out_f = fds->out_f->next;
 				exenv.args = exenv.args->next;
 			}
-			else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
+			else if(exenv.args->next && exenv.args->type == OUT && exenv.args->next->type == COMMAND)
 			{
 				dup2(fds->out_f->next->fd, STDOUT_FILENO);
 				close(fds->out_f->next->fd);
 				exenv.args = exenv.args->next;
 			}
-			else if(exenv.args->type == APPEND && exenv.args->next->type == APPEND)
+			else if(exenv.args->next && exenv.args->type == IN && exenv.args->next->type == IN)
+			{
+				dup2(fds->in_f->next->fd, STDIN_FILENO);
+				close(fds->in_f->next->fd);
+				fds->in_f = fds->in_f->next;
+				exenv.args = exenv.args->next;
+			}
+			else if(exenv.args->next && exenv.args->type == IN && exenv.args->next->type == COMMAND)
+			{
+				dup2(fds->in_f->next->fd, STDIN_FILENO);
+				close(fds->in_f->next->fd);
+				exenv.args = exenv.args->next;
+			}
+			else if(exenv.args->next && exenv.args->type == APPEND && exenv.args->next->type == APPEND)
 			{
 				dup2(fds->app_f->next->fd, STDOUT_FILENO);
 				close(fds->app_f->next->fd);
 				fds->app_f = fds->app_f->next;
 				exenv.args = exenv.args->next;
 			}
-			else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
+			else if(exenv.args->next && exenv.args->type == HEREDOC && exenv.args->next->type == COMMAND)
+			{
+				dup2(fds->here_f->next->fd, 0);
+				close(fds->here_f->next->fd);
+				exenv.args = exenv.args->next;
+			}
+			else if(exenv.args->next && exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
 			{
 				dup2(fds->app_f->next->fd, STDOUT_FILENO);
 				close(fds->app_f->next->fd);
@@ -72,6 +93,8 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		}
 		dup2(tmp1, 1);
 		close(tmp1);
+		dup2(tmp2, 0);
+		close(tmp2);
 	}
 	// printlist(list); // print the lexer list
 	// ft_printarg(exenv.args);

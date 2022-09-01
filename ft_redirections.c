@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 20:04:26 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:39:48 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,24 @@
 
 static int	ft_document(t_env *envar, t_args *here)
 {
-	char	*heredoc;
-    int		status;
-    int		pid;
-    int		fd;
+	char		*heredoc;
+    int			fd[2];
 
-    fd = open("/tmp/.tmpfile42022000", O_TRUNC | O_CREAT | O_RDWR, 0644);
-    if (fd < 0)
-        return (0);
-    pid = fork ();
-    if (pid < 0)
-        return (0);
-    if (pid == 0)
-    {
-        while (1)
-        {
-            // signal(SIGINT, SIG_DFL);
-            heredoc = readline("> "); // free here
-            if (!heredoc) 
-                return fd; 
-            if (!ft_strcmp(heredoc, *here->arg))
-                break ;
-            if (heredoc[0] == '$')
-                heredoc = ft_getvalue(envar, &heredoc[1]);
-            ft_putendl_fd(heredoc, fd);
-        }
-    }
-    waitpid(pid, &status, 0);
-	return (fd);
+    if (pipe(fd) == -1)
+        perror("pipe");
+	while (1)
+	{
+		heredoc = readline("> "); // free here
+		if (!heredoc) 
+			return close(fd[1]), fd[0]; 
+		if (!ft_strcmp(heredoc, *here->arg))
+			break ;
+        if (heredoc[0] == '$')
+            heredoc = ft_getvalue(envar, &heredoc[1]);
+        ft_putendl_fd(heredoc, fd[1]);
+	}
+    close (fd[1]);
+	return (fd[0]);
 }
 
 static int ft_openout(t_args *new)
@@ -62,7 +52,7 @@ static int ft_openin(t_args *new)
 {
 	int	in;
 
-	in = open(*(new->arg), O_TRUNC | O_CREAT | O_RDWR, 0777);
+	in = open(*(new->arg), O_RDONLY, 0777);
     if (in == -1)
         perror(*(new->arg));
 	return (in);
@@ -80,20 +70,20 @@ static int ft_append(t_args *new)
 
 void    ft_redirection(t_fds *fds, t_exenv exenv)
 {
-    fds->in_fd = 0;
+    fds->in_f = ft_lstnewfd(0);
 	fds->out_f = ft_lstnewfd(1);
 	fds->app_f = ft_lstnewfd(1);
-    fds->heredoc_fd = 0;
+    fds->here_f = ft_lstnewfd(1);
     while (exenv.args)
     {
         if (exenv.args && exenv.args->type == HEREDOC)
-            fds->heredoc_fd = ft_document(exenv.env, exenv.args);
+            ft_fdadd_back(&fds->here_f, ft_lstnewfd(ft_document(exenv.env, exenv.args)));
         else if (exenv.args && exenv.args->type == OUT)
             ft_fdadd_back(&fds->out_f, ft_lstnewfd(ft_openout(exenv.args)));
         else if (exenv.args && exenv.args->type == APPEND)
             ft_fdadd_back(&fds->app_f, ft_lstnewfd(ft_append(exenv.args)));
         else if (exenv.args && exenv.args->type == IN)
-            fds->in_fd = ft_openin(exenv.args);
+            ft_fdadd_back(&fds->in_f, ft_lstnewfd(ft_openin(exenv.args)));
         exenv.args = exenv.args->next;
     }
 }

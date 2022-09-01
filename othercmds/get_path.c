@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:40:03 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,13 @@ char    *get_path(t_env *env,  char **cmd)
     char **paths;
     char *path;
     int i;
+
+	if(!env)
+	{
+		return(NULL);
+	}
     paths = ft_split(env_path(env), ':');
     i = 0;
-
     while(paths[i])
     {
         path = ft_strdup(paths[i]);

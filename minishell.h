@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 20:02:56 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:40:39 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ typedef struct s_file{
 }t_file ;
 
 typedef struct s_fds{
-	int		in_fd;
 	t_file	*out_f;
 	t_file	*in_f;
 	t_file	*app_f;
+	t_file	*here_f;
 	int		heredoc_fd;
 }t_fds ;
 

@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 18:55:26 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:39:59 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 void    processing_cmd(char *path, char **cmd, char **env)
 {
     if (execve(path, cmd, env) == -1)
+    {
+        puts("11HERE");
+        ft_putstr_fd("Error!\n", 2);
 		return ;
+    }
 	exit(EXIT_FAILURE);
 }
 
