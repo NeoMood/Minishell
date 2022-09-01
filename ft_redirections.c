@@ -6,34 +6,60 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 15:27:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:09:12 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
+#include <unistd.h>
 
 static int	ft_document(t_env *envar, t_args *here)
 {
-	char *heredoc;
-    int fd;
+	char		*heredoc;
+    int			fd[2];
 
-    fd = open("tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
-    if (fd < 0)
-        return (0);
+    // fd = open("/tmp/tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
+    if (pipe(fd) == -1)
+        exit(1);
 	while (1)
 	{
 		heredoc = readline("> "); // free here
 		if (!heredoc) 
-			return fd; 
+			return close(fd[1]), fd[0]; 
 		if (!ft_strcmp(heredoc, *here->arg))
 			break ;
         if (heredoc[0] == '$')
             heredoc = ft_getvalue(envar, &heredoc[1]);
-		ft_putstr_fd(heredoc, fd);
-        ft_putstr_fd("\n", fd);
+		ft_putstr_fd(heredoc, fd[1]);
+        ft_putstr_fd("\n", fd[1]);
 	}
-	return (fd);
+    close (fd[1]);
+	return (fd[0]);
 }
+
+
+// static int	ft_document(t_env *envar, t_args *here)
+// {
+// 	char		*heredoc;
+//     int			fd;
+
+//     fd = open("/tmp/tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
+// 	while (1)
+// 	{
+// 		heredoc = readline("> "); // free here
+// 		if (!heredoc) 
+// 			return close(fd), open("/tmp/tmpfile", O_RDWR, 0644); 
+// 		if (!ft_strcmp(heredoc, *here->arg))
+// 			break ;
+//         if (heredoc[0] == '$')
+//             heredoc = ft_getvalue(envar, &heredoc[1]);
+// 		ft_putstr_fd(heredoc, fd);
+//         ft_putstr_fd("\n", fd);
+// 	}
+//     close (fd);
+// 	return (open("/tmp/tmpfile", O_RDWR, 0644));
+// }
 
 static int ft_openout(t_args *new)
 {
@@ -49,7 +75,7 @@ static int ft_openin(t_args *new)
 {
 	int	in;
 
-	in = open(*(new->arg), O_TRUNC | O_CREAT | O_RDWR, 0777);
+	in = open(*(new->arg), O_RDONLY, 0777);
     if (in == -1)
         perror(*(new->arg));
 	return (in);
@@ -74,14 +100,12 @@ void    ft_redirection(t_fds *fds, t_exenv exenv)
     while (exenv.args)
     {
         if (exenv.args && exenv.args->type == HEREDOC)
-            // fds->heredoc_fd = ft_document(exenv.env, exenv.args);
             ft_fdadd_back(&fds->here_f, ft_lstnewfd(ft_document(exenv.env, exenv.args)));
         else if (exenv.args && exenv.args->type == OUT)
             ft_fdadd_back(&fds->out_f, ft_lstnewfd(ft_openout(exenv.args)));
         else if (exenv.args && exenv.args->type == APPEND)
             ft_fdadd_back(&fds->app_f, ft_lstnewfd(ft_append(exenv.args)));
         else if (exenv.args && exenv.args->type == IN)
-            // fds->in_fd = ft_openin(exenv.args);
             ft_fdadd_back(&fds->in_f, ft_lstnewfd(ft_openin(exenv.args)));
         exenv.args = exenv.args->next;
     }

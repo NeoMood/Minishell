@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 22:33:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 17:42:39 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     int tmp2;
     int status;
 
-    status = 0;
+    // status = 0;
     tmp = dup(1);
     tmp2 = dup(STDIN_FILENO);
     while(exenv.args)
@@ -131,6 +131,21 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
             exenv.args = exenv.args->next;
             vars.f = 1;
         }
+        if((exenv.args->type == IN && exenv.args->next->type == IN))
+        {
+            dup2(fds->in_f->next->fd, STDIN_FILENO);
+            close(fds->in_f->next->fd);
+            fds->in_f = fds->in_f->next;
+            exenv.args = exenv.args->next;
+        }
+        else if(exenv.args->type == IN && exenv.args->next->type == COMMAND)
+        {
+            dup2(fds->in_f->next->fd, STDIN_FILENO);
+            close(fds->in_f->next->fd);
+            exenv.args = exenv.args->next;
+        }
+        else if(exenv.args->type == HEREDOC)
+            exenv.args = exenv.args->next;
         else if(exenv.args->type == APPEND && exenv.args->next->type == APPEND)
         {
             dup2(fds->app_f->next->fd, STDOUT_FILENO);
@@ -182,5 +197,10 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     }
     while(vars.num--)
         wait(&status);
+    if (wait(&status) != -1)
+    {
+        if (WIFEXITED(status))
+            g_exit = WEXITSTATUS(status);
+    }
     dup2(tmp2, STDIN_FILENO);
 }

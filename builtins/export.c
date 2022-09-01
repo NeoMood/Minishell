@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 21:32:00 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 17:59:33 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ void	exp_print(t_exp **exp)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(new->key, 1);
-			if(*new->value == '\0')
-			{
-				ft_putstr_fd("=", 1);
-				ft_putstr_fd("\"\"", 1);
-			}
+			// if(*new->value == '\0')
+			// {
+			// 	ft_putstr_fd("=", 1);
+			// 	ft_putstr_fd("\"\"", 1);
+			// }
 			if (*new->value != '\0')
 			{
 				ft_putstr_fd("=", 1);

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 15:15:21 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 16:01:14 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ typedef struct s_env{
 	struct s_env	*next;
 }t_env ;
 
-typedef struct s_global{
-	int g_exit_status;
-	int g_sig;
-}t_global ;
+// typedef struct s_global{
+	// int g_sig;
+// }t_global ;
+
+// extern t_global	mode;
+int g_exit;
 
 typedef struct s_exp{
 	char			*key;
@@ -84,13 +86,13 @@ typedef struct s_fds{
 }t_fds ;
 
 typedef struct s_exenv{
-	t_env	*env;
-	t_exp	*exp;
-	t_args	*args;
-	char	**envar;
-	char	*line;
-	int 	shlvl;
-	t_env	*head;
+	t_env		*env;
+	t_exp		*exp;
+	t_args		*args;
+	char		**envar;
+	char		*line;
+	int 		shlvl;
+	t_env		*head;
 }t_exenv ;
 
 // UTILS LIBFT

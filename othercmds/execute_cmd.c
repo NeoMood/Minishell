@@ -6,17 +6,19 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 15:55:24 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:15:40 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/wait.h>
 
 void    processing_cmd(char *path, char **cmd, char **env)
 {
     if (execve(path, cmd, env) == -1)
     {
-        ft_putstr_fd("Error ^__^\n", 2);
+        puts("11HERE");
+        ft_putstr_fd("Error!\n", 2);
 		return ;
     }
 	exit(EXIT_FAILURE);
@@ -24,6 +26,7 @@ void    processing_cmd(char *path, char **cmd, char **env)
 
 void   forking(char *path, char **cmd, char **env)
 {
+    int status;
     int pid;
 
     pid = fork();
@@ -31,8 +34,12 @@ void   forking(char *path, char **cmd, char **env)
 		return (perror("pipe"));
 	if (pid == 0)
 		processing_cmd(path, cmd, env);
-
     wait(&pid);
+    if (wait(&status) != -1)
+    {
+        if (WIFEXITED(status))
+            g_exit = WEXITSTATUS(status);
+    }
 }
 
 char **get_cmd(char **cmd)
