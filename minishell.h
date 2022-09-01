@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 01:40:13 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 20:02:56 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ typedef struct s_env{
 	struct s_env	*next;
 }t_env ;
 
-// typedef struct s_global{
-	// int g_sig;
-// }t_global ;
+typedef struct s_global{
+	int g_sig;
+	int g_exit;	
+}t_global ;
 
-// extern t_global	mode;
-int g_exit;
+t_global mode;
 
 typedef struct s_exp{
 	char			*key;
@@ -97,6 +97,7 @@ typedef struct s_exenv{
 
 // UTILS LIBFT
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char	*ft_strtrim(char const *s1, char const *set);
@@ -108,14 +109,14 @@ char    *ft_strjoin_v2(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strchr(const char *s, int c);
+void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 char	*ft_strdup(const char *s1);
+int		ft_atoi(const char *str);
 int		ft_strlen(const char *s);
 int		ft_isalpha(int c);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_itoa(int n);
-int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 
 // LINKED LIST OF PARSING
@@ -149,6 +150,7 @@ t_env	*ft_getenv(char **envp);
 void    printenv(t_env *ev);
 
 // SIGNALS
+// void	ft_signalmodes(t_args *lst);
 void	ft_handler(int sig);
 
 // LEXER UTILS

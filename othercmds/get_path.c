@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 21:15:48 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	get_error(char *s)
 	if (!s)
 	{
 		write(2, "invalid command!\n", 18);
+		mode.g_exit = 127;
 		return (1);
 	}
 	else
@@ -58,6 +59,7 @@ int	get_error(char *s)
 			i++;
 		}
 		write(2, ": Command not found\n", 20);
+		mode.g_exit = 127;
 		return (1);
 	}
 	return (1);

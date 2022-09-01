@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:31:11 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/26 15:09:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,18 @@ void	ft_cd(t_exenv exenv)
 	if (!exenv.args->arg[1])
 	{
 		if(chdir(var_value(exenv.env, "HOME")) == -1)
-			printf("path not found\n");
+		{
+			printf("Minishell: cd: HOME not set\n");
+			mode.g_exit = 1;
+		}
 	}
 	else
 	{
 		if(chdir(exenv.args->arg[1]) == -1)
-			printf("path not found\n");
+		{
+			printf("%s: No such file or directory\n", exenv.args->arg[1]);
+			mode.g_exit = 127;
+		}
 	}
 	change_pwd(exenv, "PWD");
 }

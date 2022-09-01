@@ -6,34 +6,45 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 00:15:36 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 20:04:26 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
+#include <stdio.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 static int	ft_document(t_env *envar, t_args *here)
 {
-	char		*heredoc;
-    int			fd;
+	char	*heredoc;
+    int		status;
+    int		pid;
+    int		fd;
 
-    fd = open("/tmp/tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
+    fd = open("/tmp/.tmpfile42022000", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd < 0)
         return (0);
-	while (1)
-	{
-		heredoc = readline("> "); // free here
-		if (!heredoc) 
-			return fd; 
-		if (!ft_strcmp(heredoc, *here->arg))
-			break ;
-        if (heredoc[0] == '$')
-            heredoc = ft_getvalue(envar, &heredoc[1]);
-		ft_putstr_fd(heredoc, fd);
-        ft_putstr_fd("\n", fd);
-	}
+    pid = fork ();
+    if (pid < 0)
+        return (0);
+    if (pid == 0)
+    {
+        while (1)
+        {
+            // signal(SIGINT, SIG_DFL);
+            heredoc = readline("> "); // free here
+            if (!heredoc) 
+                return fd; 
+            if (!ft_strcmp(heredoc, *here->arg))
+                break ;
+            if (heredoc[0] == '$')
+                heredoc = ft_getvalue(envar, &heredoc[1]);
+            ft_putendl_fd(heredoc, fd);
+        }
+    }
+    waitpid(pid, &status, 0);
 	return (fd);
 }
 

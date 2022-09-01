@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 00:31:05 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 19:52:45 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	t_tk	*list;
 	t_tk	*tmp;
 	int 	tmp1;
-	// int		i;
 	
 	tmp1 = dup(1);
 	list = ft_lexer(line);
@@ -28,8 +27,6 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	list = ft_expand(list, exenv.env);
 	exenv.args = ft_initialparsing(list);
 	exenv.args = ft_corrector(exenv.args);
-	(void) fds;
-	// i = cmd_num(exenv.args);
 	ft_redirection(fds, exenv);
 	if (!check_pipe(exenv.args))
 		parse_multicmd(exenv, fds);
@@ -77,7 +74,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		close(tmp1);
 	}
 	// printlist(list); // print the lexer list
-	ft_printarg(exenv.args);
+	// ft_printarg(exenv.args);
 }
 
 int	main(int ac, char **av, char **env)
@@ -95,7 +92,7 @@ int	main(int ac, char **av, char **env)
 		printf("\033[0;31m Invalid Number Arguments !\n");
 		return (1);
 	}
-	signal(SIGINT, ft_handler);
+	// ft_signalmodes(exenv.args);
 	signal(SIGQUIT, SIG_IGN);
 	exenv.env = ft_getenv(exenv.envar);
 	exenv.exp = ft_getexp(exenv.envar);

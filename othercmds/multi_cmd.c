@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 01:50:11 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,10 +182,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     }
     while(vars.num--)
         wait(&status);
-    if (wait(&status) != -1)
-    {
-        if (WIFEXITED(status))
-            g_exit = WEXITSTATUS(status);
-    }
+     if (WIFEXITED(status))
+        mode.g_exit = WEXITSTATUS(status);
     dup2(tmp2, STDIN_FILENO);
 }

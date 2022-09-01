@@ -6,7 +6,7 @@
 #    By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/08/31 22:17:24 by yamzil           ###   ########.fr        #
+#    Updated: 2022/09/01 20:03:22 by yamzil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRC =	minishell.c\
 		libft/ft_strjoin.c\
 		libft/ft_strlcpy.c\
 		libft/ft_putchar_fd.c\
+		libft/ft_putendl_fd.c\
 		libft/ft_atoi.c\
 		libft/ft_itoa.c\
 		libft/ft_isdigit.c\

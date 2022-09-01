@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:51:49 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 14:48:18 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static void	ft_handlelong(t_exenv exenv)
     {
         if (!ft_strcmp(exenv.args->arg[1], "9223372036854775807"))
         {
-            g_exit = 255; 
             write (1, "exit\n", 5);
-            exit (0);
+            mode.g_exit = 255;
+            exit (255);
         }
         else
         {
-            g_exit = 255;
+            mode.g_exit = 255;
             ft_error(exenv);
         }
         j++;
@@ -54,9 +54,9 @@ static void	ft_negativenum(int j, t_exenv exenv)
             l++;
             if (ft_isdigit(exenv.args->arg[1][l]))
             {
-                g_exit = 256 + ft_atoi(exenv.args->arg[1]) % 256;
                 write (1, "exit\n", 5);
-                exit (0);
+                mode.g_exit = 256 + ft_atoi(exenv.args->arg[1]) % 256;
+                exit (213);
             }
             else
                 ft_error(exenv);
@@ -77,9 +77,9 @@ static void	ft_postifnum(int j, t_exenv exenv)
     {
         if (ft_isdigit(exenv.args->arg[1][l]))
         {
-            g_exit = ft_atoi(&exenv.args->arg[1][l]) % 256;
             write (1, "exit\n", 5);
-            exit (0);
+            mode.g_exit = ft_atoi(&exenv.args->arg[1][l]) % 256;
+            exit (ft_atoi(&exenv.args->arg[1][l]) % 256);
         }
         else
             ft_error(exenv);
@@ -109,6 +109,7 @@ int	ft_exit(t_exenv exenv)
     else 
     {
         write (1, "exit\n", 5);
+        mode.g_exit = 0;
         exit (0);
     }
     return 0;

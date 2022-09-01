@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 14:43:01 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:55:26 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ void   forking(char *path, char **cmd, char **env)
 		return (perror("pipe"));
 	if (pid == 0)
 		processing_cmd(path, cmd, env);
-    wait(&pid);
-    if (wait(&status) != -1)
-    {
-        if (WIFEXITED(status))
-            g_exit = WEXITSTATUS(status);
-    }
+    waitpid(pid, &status, 0);
+    if (WIFEXITED(status))
+        mode.g_exit = WEXITSTATUS(status);
 }
 
 char **get_cmd(char **cmd)

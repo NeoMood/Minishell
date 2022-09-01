@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:27:57 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/15 16:57:10 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:40:11 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_checkfirst(t_tk *list)
 		else if (list->token == ROUTPUT && list->next == NULL)
 			return (0);
         else if (list->token == PIP && list->next == NULL)
-            return (0);
+			return (0);
 		else if (list->token == DOUTPUT && list->next == NULL)
 			return (0);
 		else if (list->token == DINPUT && list->next == NULL)
@@ -55,6 +55,7 @@ int	ft_fullcheck(t_tk *list)
 	if (!ft_checksyntaxpip(list) || !ft_checkfirst(list))
 	{
 		printf("Minishell-1.0 : Syntax Error\n");
+		mode.g_exit = 258;
 		return (0);
 	}
 	return (1);

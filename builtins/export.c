@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 21:32:00 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ void    ft_export(t_exenv exenv)
 					if(check_key(key))
 					{
 						printf("export: `%s': not a valid identifier\n", key);
+						mode.g_exit = 1;
 						return ;
 					}
 					if(if_exists(exenv.exp, key))
@@ -308,6 +309,7 @@ void    ft_export(t_exenv exenv)
 					if(check_key(key))
 					{
 						printf("export: `%s': not a valid identifier\n", key);
+						mode.g_exit = 1;
 						return ;
 					}
 					if(if_exists(exenv.exp, key))
@@ -328,6 +330,7 @@ void    ft_export(t_exenv exenv)
 				if(check_key(exenv.args->arg[i]))
 				{
 					printf("export: `%s': not a valid identifier\n", exenv.args->arg[i]);
+					mode.g_exit = 1;
 					return ;
 				}
 				if(!if_exists(exenv.exp, exenv.args->arg[i]))

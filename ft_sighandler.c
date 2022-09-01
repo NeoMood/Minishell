@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 17:29:40 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 00:12:55 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 19:51:30 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@ void	ft_handler(int sig)
 	}
 }
 
-// void	ft_signalmodes(t_args *lst, t_global *gol)
+// void	ft_signalmodes(t_args *lst)
 // {
-// 	(void) sig;
-// 	if (lst->type == HEREDOC && gol->g_sig == 1)
-// 		ft_handler(sig);
+// 	if (mode.g_sig == 1 && lst->type == HEREDOC)
+// 	{
+// 		puts("ok");
+// 		signal(SIGINT, ft_handler);
+// 	}
+// 	if (mode.g_sig == 0)
+// 		signal(SIGINT, ft_handler);
 // }
