@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:27 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 15:33:47 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 22:51:55 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_builtins(t_exenv exenv, t_fds    *fds)
         else if (!ft_strcmp(exenv.args->arg[0], "env"))
             ft_env(exenv);
         else if (!ft_strcmp(exenv.args->arg[0], "echo"))
-            ft_echo(exenv);
+            ft_echo(exenv.args->arg);
         else if (!ft_strcmp(exenv.args->arg[0], "export"))
             ft_export(exenv);
         else if (!ft_strcmp(exenv.args->arg[0], "unset"))
