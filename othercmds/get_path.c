@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 21:15:48 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 15:54:07 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ char    *get_path(t_env *env,  char **cmd)
     char **paths;
     char *path;
     int i;
+
+	if(!env)
+	{
+		return(NULL);
+	}
     paths = ft_split(env_path(env), ':');
     i = 0;
-
     while(paths[i])
     {
         path = ft_strdup(paths[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 22:13:53 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 15:15:21 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ typedef struct s_file{
 }t_file ;
 
 typedef struct s_fds{
-	int		in_fd;
 	t_file	*out_f;
 	t_file	*in_f;
 	t_file	*app_f;
+	t_file	*here_f;
 	int		heredoc_fd;
 }t_fds ;
 

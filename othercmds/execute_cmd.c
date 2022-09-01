@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 21:15:04 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 15:55:24 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void    processing_cmd(char *path, char **cmd, char **env)
 {
     if (execve(path, cmd, env) == -1)
+    {
+        ft_putstr_fd("Error ^__^\n", 2);
 		return ;
+    }
 	exit(EXIT_FAILURE);
 }
 

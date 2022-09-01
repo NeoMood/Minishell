@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 23:28:08 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 15:37:25 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,19 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 			{
 				dup2(fds->out_f->next->fd, STDOUT_FILENO);
 				close(fds->out_f->next->fd);
+				exenv.args = exenv.args->next;
+			}
+			if((exenv.args->type == IN && exenv.args->next->type == IN))
+			{
+				dup2(fds->in_f->next->fd, STDIN_FILENO);
+				close(fds->in_f->next->fd);
+				fds->in_f = fds->in_f->next;
+				exenv.args = exenv.args->next;
+			}
+			else if(exenv.args->type == IN && exenv.args->next->type == COMMAND)
+			{
+				dup2(fds->in_f->next->fd, STDIN_FILENO);
+				close(fds->in_f->next->fd);
 				exenv.args = exenv.args->next;
 			}
 			else if(exenv.args->type == APPEND && exenv.args->next->type == APPEND)

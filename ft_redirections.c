@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 23:26:51 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 15:27:22 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,22 @@ static int ft_append(t_args *new)
 
 void    ft_redirection(t_fds *fds, t_exenv exenv)
 {
-    fds->in_fd = 0;
+    fds->in_f = ft_lstnewfd(0);
 	fds->out_f = ft_lstnewfd(1);
 	fds->app_f = ft_lstnewfd(1);
-    fds->heredoc_fd = 0;
+    fds->here_f = ft_lstnewfd(1);
     while (exenv.args)
     {
         if (exenv.args && exenv.args->type == HEREDOC)
-            fds->heredoc_fd = ft_document(exenv.env, exenv.args);
+            // fds->heredoc_fd = ft_document(exenv.env, exenv.args);
+            ft_fdadd_back(&fds->here_f, ft_lstnewfd(ft_document(exenv.env, exenv.args)));
         else if (exenv.args && exenv.args->type == OUT)
             ft_fdadd_back(&fds->out_f, ft_lstnewfd(ft_openout(exenv.args)));
         else if (exenv.args && exenv.args->type == APPEND)
             ft_fdadd_back(&fds->app_f, ft_lstnewfd(ft_append(exenv.args)));
         else if (exenv.args && exenv.args->type == IN)
-            fds->in_fd = ft_openin(exenv.args);
+            // fds->in_fd = ft_openin(exenv.args);
+            ft_fdadd_back(&fds->in_f, ft_lstnewfd(ft_openin(exenv.args)));
         exenv.args = exenv.args->next;
     }
 }
