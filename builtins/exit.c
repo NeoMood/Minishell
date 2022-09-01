@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:51:49 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 21:39:39 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 14:48:18 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,31 @@ static void ft_error(t_exenv exenv)
     exit (1);
 }
 
-static void    ft_handlelong(t_exenv exenv)
+static void	ft_handlelong(t_exenv exenv)
 {
-    int    j;
+    int	j;
 
     j = 0;
     while (exenv.args->arg[1][j])
     {
         if (!ft_strcmp(exenv.args->arg[1], "9223372036854775807"))
         {
-            // g_exit_status =
+            g_exit = 255; 
             write (1, "exit\n", 5);
             exit (0);
         }
         else
+        {
+            g_exit = 255;
             ft_error(exenv);
+        }
         j++;
     }
 }
 
-static void    ft_negativenum(int j, t_exenv exenv)
+static void	ft_negativenum(int j, t_exenv exenv)
 {
-    int    l;
+    int	l;
 
     l = 0;
     if (exenv.args->arg[1][j] == '-')
@@ -51,7 +54,7 @@ static void    ft_negativenum(int j, t_exenv exenv)
             l++;
             if (ft_isdigit(exenv.args->arg[1][l]))
             {
-                // g_exit_status = 256 + ft_atoi(exenv.args->arg[1]) % 256;
+                g_exit = 256 + ft_atoi(exenv.args->arg[1]) % 256;
                 write (1, "exit\n", 5);
                 exit (0);
             }
@@ -62,10 +65,10 @@ static void    ft_negativenum(int j, t_exenv exenv)
     }
 }
 
-static void    ft_postifnum(int j, t_exenv exenv)
+static void	ft_postifnum(int j, t_exenv exenv)
 {
-    int    len;
-    int    l;
+    int	len;
+    int	l;
     
     
     l = j;
@@ -74,7 +77,7 @@ static void    ft_postifnum(int j, t_exenv exenv)
     {
         if (ft_isdigit(exenv.args->arg[1][l]))
         {
-            // g_exit_status = ft_atoi(&exenv.args->arg[1][l]) % 256;
+            g_exit = ft_atoi(&exenv.args->arg[1][l]) % 256;
             write (1, "exit\n", 5);
             exit (0);
         }

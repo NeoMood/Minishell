@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 23:26:51 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 00:15:36 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
+#include <unistd.h>
 
 static int	ft_document(t_env *envar, t_args *here)
 {
-	char *heredoc;
-    int fd;
+	char		*heredoc;
+    int			fd;
 
-    fd = open("tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
+    fd = open("/tmp/tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (fd < 0)
         return (0);
 	while (1)

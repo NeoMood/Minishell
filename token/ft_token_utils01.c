@@ -6,11 +6,13 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 21:19:53 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 01:07:52 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int g_exit;
 
 int	ft_checkdquotes(int i, char *line, t_tk **list)
 {
@@ -70,6 +72,11 @@ int	ft_checkdollar(int i, char *line, t_tk **list)
 	int	j;
 
 	j = i + 1;
+	if (line[j - 1] == '$' && line[j] == '?')
+	{
+		ft_addtolist(list, ft_input(ft_strdup(ft_itoa(g_exit)), WORD));
+		return (j + 1);
+	}
 	while (line[j] && ft_delimiter(line[j]))
 		j++;
 	ft_addtolist(list, ft_input(ft_substr(line, i, j - i), VAR));

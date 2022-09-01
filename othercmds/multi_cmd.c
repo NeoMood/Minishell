@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 22:33:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 01:50:11 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     int tmp2;
     int status;
 
-    status = 0;
+    // status = 0;
     tmp = dup(1);
     tmp2 = dup(STDIN_FILENO);
     while(exenv.args)
@@ -182,5 +182,10 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     }
     while(vars.num--)
         wait(&status);
+    if (wait(&status) != -1)
+    {
+        if (WIFEXITED(status))
+            g_exit = WEXITSTATUS(status);
+    }
     dup2(tmp2, STDIN_FILENO);
 }

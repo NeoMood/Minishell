@@ -6,11 +6,12 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/31 21:15:04 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 14:43:01 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/wait.h>
 
 void    processing_cmd(char *path, char **cmd, char **env)
 {
@@ -21,6 +22,7 @@ void    processing_cmd(char *path, char **cmd, char **env)
 
 void   forking(char *path, char **cmd, char **env)
 {
+    int status;
     int pid;
 
     pid = fork();
@@ -28,8 +30,12 @@ void   forking(char *path, char **cmd, char **env)
 		return (perror("pipe"));
 	if (pid == 0)
 		processing_cmd(path, cmd, env);
-
     wait(&pid);
+    if (wait(&status) != -1)
+    {
+        if (WIFEXITED(status))
+            g_exit = WEXITSTATUS(status);
+    }
 }
 
 char **get_cmd(char **cmd)
