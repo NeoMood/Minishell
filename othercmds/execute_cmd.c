@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 21:15:40 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/02 15:05:39 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ void    processing_cmd(char *path, char **cmd, char **env)
 {
     if (execve(path, cmd, env) == -1)
     {
-        puts("11HERE");
-        ft_putstr_fd("Error!\n", 2);
+        // ft_putstr_fd("Error!\n", 2);
 		return ;
     }
 	exit(EXIT_FAILURE);
