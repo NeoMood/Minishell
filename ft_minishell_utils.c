@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:52:26 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 21:20:27 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 15:54:33 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	ft_delimiter(char c)
 {
-    if (!(c >= '0' && c <= '9') && !(c >= 'A' && c <= 'Z')
-        && !(c >= 'a' && c <= 'z') && c != '_' && c != '?')
-        return (0);
-    return (1);
+	if (!(c >= '0' && c <= '9') && !(c >= 'A' && c <= 'Z')
+		&& !(c >= 'a' && c <= 'z') && c != '_' && c != '?')
+		return (0);
+	return (1);
 }
 
 int	ft_isspace(char c)
@@ -60,4 +60,9 @@ char    **ft_table(char **tmp2, char *tmp1)
     final_arr[i++] = ft_strdup(tmp1);
     final_arr[i] = NULL;
     return (final_arr);
+}
+
+int	event(void)
+{
+	return (0);
 }

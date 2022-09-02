@@ -6,18 +6,21 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 15:05:39 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:06:31 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/signal.h>
 #include <sys/wait.h>
 
 void    processing_cmd(char *path, char **cmd, char **env)
 {
+    signal(SIGQUIT, SIG_DFL);
+    signal(SIGINT, SIG_DFL);
     if (execve(path, cmd, env) == -1)
     {
-        // ft_putstr_fd("Error!\n", 2);
+        ft_putstr_fd("Error!\n", 2);
 		return ;
     }
 	exit(EXIT_FAILURE);
@@ -33,11 +36,15 @@ void   forking(char *path, char **cmd, char **env)
 		return (perror("pipe"));
 	if (pid == 0)
 		processing_cmd(path, cmd, env);
-    wait(&pid);
-    if (wait(&status) != -1)
+    waitpid(pid, &status, 0);
+    if (WIFEXITED(status))
+        mode.g_exit = WEXITSTATUS(status);
+    else if (WIFSIGNALED(status))
     {
-        if (WIFEXITED(status))
-            g_exit = WEXITSTATUS(status);
+        if (WTERMSIG(status) == SIGQUIT)
+            printf("Quit: %d\n", WTERMSIG(status));
+        else if (WTERMSIG(status) != SIGINT)
+            printf("SIGNALED: %d\n", WTERMSIG(status));
     }
 }
 
@@ -85,7 +92,7 @@ void    parse_cmd(t_exenv exenv)
     }
     else
     {
-        if(exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
+        if (exenv.args->arg[0] && exenv.args->arg[0][0] == '.' && exenv.args->arg[0][1] == '/')
         {
             path = get_path2(exenv.env, exenv.args->arg);
             if(!ft_strcmp(exenv.args->arg[0], "./minishell"))

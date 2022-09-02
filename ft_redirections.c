@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 21:09:12 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/01 23:48:00 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
+#include <stdio.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 static int	ft_document(t_env *envar, t_args *here)
@@ -19,9 +21,9 @@ static int	ft_document(t_env *envar, t_args *here)
 	char		*heredoc;
     int			fd[2];
 
-    // fd = open("/tmp/tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
     if (pipe(fd) == -1)
-        exit(1);
+        perror("pipe");
+    ft_handlermodes("heredoc");
 	while (1)
 	{
 		heredoc = readline("> "); // free here
@@ -31,35 +33,11 @@ static int	ft_document(t_env *envar, t_args *here)
 			break ;
         if (heredoc[0] == '$')
             heredoc = ft_getvalue(envar, &heredoc[1]);
-		ft_putstr_fd(heredoc, fd[1]);
-        ft_putstr_fd("\n", fd[1]);
+        ft_putendl_fd(heredoc, fd[1]);
 	}
     close (fd[1]);
 	return (fd[0]);
 }
-
-
-// static int	ft_document(t_env *envar, t_args *here)
-// {
-// 	char		*heredoc;
-//     int			fd;
-
-//     fd = open("/tmp/tmpfile", O_TRUNC | O_CREAT | O_RDWR, 0644);
-// 	while (1)
-// 	{
-// 		heredoc = readline("> "); // free here
-// 		if (!heredoc) 
-// 			return close(fd), open("/tmp/tmpfile", O_RDWR, 0644); 
-// 		if (!ft_strcmp(heredoc, *here->arg))
-// 			break ;
-//         if (heredoc[0] == '$')
-//             heredoc = ft_getvalue(envar, &heredoc[1]);
-// 		ft_putstr_fd(heredoc, fd);
-//         ft_putstr_fd("\n", fd);
-// 	}
-//     close (fd);
-// 	return (open("/tmp/tmpfile", O_RDWR, 0644));
-// }
 
 static int ft_openout(t_args *new)
 {

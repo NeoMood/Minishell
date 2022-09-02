@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 15:06:59 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/02 17:20:01 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char    *env_pwd(t_env *env)
     {
         if(!ft_strcmp(clone->key, "PWD"))
             return(clone->value);
-        clone=clone->next;
+        clone = clone->next;
     }
     return(NULL);
 }
@@ -48,6 +48,7 @@ int	get_error(char *s)
 	if (!s)
 	{
 		write(2, "invalid command!\n", 18);
+		mode.g_exit = 127;
 		return (1);
 	}
 	else
@@ -57,7 +58,8 @@ int	get_error(char *s)
 			write(1, &s[i], 1);
 			i++;
 		}
-		write(2, ": Command not found\n", 20);
+		write(2, ": No such file or directory\n", 29);
+		mode.g_exit = 127;
 		return (1);
 	}
 	return (1);
@@ -75,16 +77,19 @@ char    *get_path(t_env *env,  char **cmd)
 	}
     paths = ft_split(env_path(env), ':');
     i = 0;
-    while(paths[i])
-    {
-        path = ft_strdup(paths[i]);
-		path = ft_strjoin_v2(path, "/");
-		path = ft_strjoin_v2(path, cmd[0]);
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-    }
+	if(paths)
+	{
+		while(paths[i])
+		{
+			path = ft_strdup(paths[i]);
+			path = ft_strjoin_v2(path, "/");
+			path = ft_strjoin_v2(path, cmd[0]);
+			if (access(path, X_OK) == 0)
+				return (path);
+			free(path);
+			i++;
+		}
+	}
     get_error(cmd[0]);
     return(NULL);
 }

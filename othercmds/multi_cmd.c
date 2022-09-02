@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 17:42:39 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/02 19:32:34 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
     {
 	    close(fd[0]);
 	    dup2(fd[1], STDOUT_FILENO);
+    }
+    else
+    {
+        dup2(fds->new_out, STDOUT_FILENO);
     }
     if(!ft_check_builtins(exenv))
         ft_builtins(exenv, fds);
@@ -36,6 +40,10 @@ void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	    close(fd[0]);
 	    dup2(fd[1], STDOUT_FILENO);
     }
+    else
+    {
+        dup2(fds->new_out, STDOUT_FILENO);
+    }
     if(!ft_check_builtins(exenv))
         ft_builtins(exenv, fds);
     else
@@ -49,6 +57,7 @@ void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
     (void)fd;
+    dup2(fds->new_out, STDOUT_FILENO);
     if(!ft_check_builtins(exenv))
         ft_builtins(exenv, fds);
     else
@@ -106,70 +115,91 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
     vars.num = cmd_num(exenv.args);
     vars.i = 1;
     vars.f = 0;
-    int tmp;
-    int tmp2;
+	int		tmp1;
+	int		tmp2;
     int status;
 
     // status = 0;
-    tmp = dup(1);
-    tmp2 = dup(STDIN_FILENO);
+	tmp1 = dup(1);
+	tmp2 = dup(0);
     while(exenv.args)
     {
-        if((exenv.args->type == OUT && exenv.args->next->type == OUT))
+        if(exenv.args->type == OUT)
         {
-            dup2(fds->out_f->next->fd, STDOUT_FILENO);
-            close(fds->out_f->next->fd);
+            fds->new_out = fds->out_f->next->fd;
             fds->out_f = fds->out_f->next;
-            exenv.args = exenv.args->next;
             vars.f = 1;
         }
-        else if(exenv.args->type == OUT && exenv.args->next->type == COMMAND)
+        else if(exenv.args->type == APPEND)
         {
-            dup2(fds->out_f->next->fd, STDOUT_FILENO);
-            close(fds->out_f->next->fd);
-            fds->out_f = fds->out_f->next;
-            exenv.args = exenv.args->next;
+            fds->new_out = fds->app_f->next->fd;
+            fds->app_f = fds->app_f->next;
             vars.f = 1;
         }
-        if((exenv.args->type == IN && exenv.args->next->type == IN))
+        else if(exenv.args->type == IN)
         {
-            dup2(fds->in_f->next->fd, STDIN_FILENO);
-            close(fds->in_f->next->fd);
+            fds->new_in = fds->in_f->next->fd;
             fds->in_f = fds->in_f->next;
-            exenv.args = exenv.args->next;
-        }
-        else if(exenv.args->type == IN && exenv.args->next->type == COMMAND)
-        {
-            dup2(fds->in_f->next->fd, STDIN_FILENO);
-            close(fds->in_f->next->fd);
-            exenv.args = exenv.args->next;
+            vars.f = 2;
         }
         else if(exenv.args->type == HEREDOC)
-            exenv.args = exenv.args->next;
-        else if(exenv.args->type == APPEND && exenv.args->next->type == APPEND)
         {
-            dup2(fds->app_f->next->fd, STDOUT_FILENO);
-            close(fds->app_f->next->fd);
-            fds->app_f = fds->app_f->next;
-            exenv.args = exenv.args->next;
-            vars.f = 1;
+            fds->new_in = fds->here_f->next->fd;
+            fds->here_f = fds->here_f->next;
+            vars.f = 2;
         }
-        else if(exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
-        {
-            dup2(fds->app_f->next->fd, STDOUT_FILENO);
-            close(fds->app_f->next->fd);
-            fds->app_f = fds->app_f->next;
-            exenv.args = exenv.args->next;
-            vars.f = 1;
-        }
-        else
-        {
-            if(vars.f == 1)
-            {
-                dup2(tmp, STDOUT_FILENO);
-                close(tmp);
-            }
-        }
+        // if((exenv.args->next && exenv.args->type == OUT && exenv.args->next->type == OUT))
+        // {
+        //     dup2(fds->out_f->next->fd, STDOUT_FILENO);
+        //     close(fds->out_f->next->fd);
+        //     fds->out_f = fds->out_f->next;
+        //     // exenv.args = exenv.args->next;
+        // }
+        // else if(exenv.args->next && exenv.args->type == OUT && exenv.args->next->type == COMMAND)
+        // {
+        //     // printf("cmd: %s, to fd: %d\n", exenv.args->next->arg[0], fds->out_f->next->fd);
+        //     dup2(fds->out_f->next->fd, STDOUT_FILENO);
+        //     close(fds->out_f->next->fd);
+        //     if (fds->out_f->next)
+        //         fds->out_f = fds->out_f->next;
+        //     // exenv.args = exenv.args->next;
+        // }
+        // else if(exenv.args->next && exenv.args->type == IN && exenv.args->next->type == IN)
+        // {
+        //     dup2(fds->in_f->next->fd, STDIN_FILENO);
+        //     close(fds->in_f->next->fd);
+        //     fds->in_f = fds->in_f->next;
+        //     // exenv.args = exenv.args->next;
+        // }
+        // else if(exenv.args->next && exenv.args->type == IN && exenv.args->next->type == COMMAND)
+        // {
+        //     dup2(fds->in_f->next->fd, STDIN_FILENO);
+        //     close(fds->in_f->next->fd);
+        //     fds->in_f = fds->in_f->next;
+        //     // exenv.args = exenv.args->next;
+        // }
+        // else if(exenv.args->next && exenv.args->type == APPEND && exenv.args->next->type == APPEND)
+        // {
+        //     dup2(fds->app_f->next->fd, STDOUT_FILENO);
+        //     close(fds->app_f->next->fd);
+        //     fds->app_f = fds->app_f->next;
+        //     // exenv.args = exenv.args->next;
+        // }
+        // else if(exenv.args->next && exenv.args->type == HEREDOC && exenv.args->next->type == COMMAND)
+        // {
+        //     dup2(fds->here_f->next->fd, 0);
+        //     close(fds->here_f->next->fd);
+        //     fds->here_f = fds->here_f->next;
+        //     // exenv.args = exenv.args->next;
+        // }
+        // else if(exenv.args->next && exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
+        // {
+        //     dup2(fds->app_f->next->fd, STDOUT_FILENO);
+        //     close(fds->app_f->next->fd);
+        //     fds->app_f = fds->app_f->next;
+        //     // exenv.args = exenv.args->next;
+        // }
+            
         if (exenv.args->type == COMMAND)
 		{
             if(access(exenv.args->arg[0], X_OK) == 0)
@@ -191,16 +221,19 @@ void    parse_multicmd(t_exenv exenv, t_fds	*fds)
             }
             execute_multicmd(&vars, exenv, fds);
             free(vars.path);
+            fds->new_out = 1;
+            fds->new_in = 0;
             vars.i++;
         }
 		exenv.args = exenv.args->next;
     }
+    
     while(vars.num--)
         wait(&status);
-    if (wait(&status) != -1)
-    {
-        if (WIFEXITED(status))
-            g_exit = WEXITSTATUS(status);
-    }
-    dup2(tmp2, STDIN_FILENO);
+    if (WIFEXITED(status))
+        mode.g_exit = WEXITSTATUS(status);
+    dup2(tmp1, 1);
+	close(tmp1);
+	dup2(tmp2, 0);
+	close(tmp2);
 }

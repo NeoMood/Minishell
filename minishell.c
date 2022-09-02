@@ -6,19 +6,22 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 23:30:37 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/02 19:17:33 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
-static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
+static	void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 {
 	t_tk	*list;
 	t_tk	*tmp;
-	int 	tmp1;
-	int 	tmp2;
-	
+	int		tmp1;
+	int		tmp2;
+
+	fds->new_out = 1;
+	fds->new_in = 0;
 	tmp1 = dup(1);
 	tmp2 = dup(0);
 	list = ft_lexer(line);
@@ -69,6 +72,13 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 				fds->app_f = fds->app_f->next;
 				exenv.args = exenv.args->next;
 			}
+			else if(exenv.args->next && exenv.args->type == HEREDOC && exenv.args->next->type == HEREDOC)
+			{
+				dup2(fds->here_f->next->fd, STDIN_FILENO);
+				close(fds->here_f->next->fd);
+				fds->here_f = fds->here_f->next;
+				exenv.args = exenv.args->next;
+			}
 			else if(exenv.args->next && exenv.args->type == HEREDOC && exenv.args->next->type == COMMAND)
 			{
 				dup2(fds->here_f->next->fd, 0);
@@ -103,20 +113,20 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 int	main(int ac, char **av, char **env)
 {
 	(void)	av;
-	t_exenv exenv;
+	t_exenv	exenv;
 	t_fds	*fds;
 
 	fds = malloc(sizeof(t_fds));
 	exenv.envar = env;
 	exenv.shlvl = 1;
 	rl_catch_signals = 0;
+	mode.g_exit = 0;
 	if (ac != 1)
 	{
 		printf("\033[0;31m Invalid Number Arguments !\n");
 		return (1);
 	}
-	signal(SIGINT, ft_handler);
-	signal(SIGQUIT, SIG_IGN);
+	ft_handlermodes("Minishell");
 	exenv.env = ft_getenv(exenv.envar);
 	exenv.exp = ft_getexp(exenv.envar);
 	while (1)

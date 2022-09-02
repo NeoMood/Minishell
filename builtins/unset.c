@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 00:57:58 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/26 14:46:10 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/02 17:05:35 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@ void	del_env(char *var, t_env *env)
 	{
 		if(!ft_strcmp(env->key, var))
 		{
-			// if (!ft_strcmp(env->key, head->key))
-			// {
-			// 	puts("hna");
-			// 	env = env->next;
-			// }
-			// else
-				env->key = NULL;
+			env->key = NULL;
 			break;
 		}
 		env = env->next;
@@ -37,10 +31,7 @@ void	del_exp(char *var, t_exp *exp)
 	{
 		if(!ft_strcmp(exp->key, var))
 		{
-			// if (!ft_strcmp(exp->key, head->key))
-			// 	exp = exp->next;
-			// else
-				exp->key = NULL;
+			exp->key = NULL;
 			break;
 		}
 		exp = exp->next;
@@ -52,7 +43,6 @@ void    ft_unset(t_exenv exenv)
 	int i;
 
 	i = 1;
-	// exenv.head = exenv.env;
 	if(exenv.args->arg[1])
 	{
 		while(exenv.args->arg[i])
