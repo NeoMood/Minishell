@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 16:02:26 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:19:09 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,15 @@ int	main(int ac, char **av, char **env)
 	exenv.shlvl = 1;
 	rl_catch_signals = 0;
 	mode.g_exit = 0;
+	mode.g_sig = 0;
 	if (ac != 1)
 	{
 		printf("\033[0;31m Invalid Number Arguments !\n");
 		return (1);
 	}
-	ft_handlermodes("Minishell");
+	// ft_handlermodes("Minishell");
+	signal(SIGINT, ft_handler);
+	signal(SIGQUIT, SIG_IGN);
 	exenv.env = ft_getenv(exenv.envar);
 	exenv.exp = ft_getexp(exenv.envar);
 	while (1)

@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 17:29:40 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 15:36:32 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:20:18 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,22 @@ void	ft_handlermodes(char *str)
 
 void	ft_handler(int sig)
 {
-	if (sig == SIGINT)
+	int i;
+
+	i = 0;
+	if (sig == SIGINT && mode.g_sig == 0)
 	{
 		write (1, "\n", 2);
 		rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();
-		rl_catch_signals = 1;
+		// rl_catch_signals = 1;
 	}
+	else if (sig == SIGINT && mode.g_sig == 2)
+	{
+		write(1, "\n", 1);
+		exit(1);
+	}
+	else if (sig == SIGINT && mode.g_sig == 1)
+		i++;
 }

@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 15:35:49 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:19:35 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 
 void    processing_cmd(char *path, char **cmd, char **env)
 {
-    signal(SIGQUIT, SIG_DFL);
-    signal(SIGINT, SIG_DFL);
+    mode.g_sig = 0;
     if (execve(path, cmd, env) == -1)
     {
         ft_putstr_fd("Error!\n", 2);
@@ -34,9 +33,11 @@ void   forking(char *path, char **cmd, char **env)
     pid = fork();
 	if (pid < 0)
 		return (perror("pipe"));
+    mode.g_sig = 1;
 	if (pid == 0)
 		processing_cmd(path, cmd, env);
     waitpid(pid, &status, 0);
+    mode.g_sig = 0;
     if (WIFEXITED(status))
         mode.g_exit = WEXITSTATUS(status);
     else if (WIFSIGNALED(status))
