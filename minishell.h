@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 22:49:41 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 15:38:07 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ char	*expansion(t_env *envar, char *str);
 void	ft_cd(t_exenv exenv);
 void    ft_pwd(void);
 void    ft_env(t_exenv exenv);
-void    ft_echo(t_exenv exenv);
+void	ft_echo(char **data);
 void    ft_export(t_exenv exenv);
 t_exp   *env_to_exp(t_env *env);
 void	sort_exp(t_exp **exp);

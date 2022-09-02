@@ -6,20 +6,20 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 15:31:27 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:02:26 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
+static	void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 {
 	t_tk	*list;
 	t_tk	*tmp;
-	int 	tmp1;
-	int 	tmp2;
-	
+	int		tmp1;
+	int		tmp2;
+
 	tmp1 = dup(1);
 	tmp2 = dup(0);
 	list = ft_lexer(line);
@@ -98,13 +98,13 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		close(tmp2);
 	}
 	// printlist(list); // print the lexer list
-	// ft_printarg(exenv.args);
+	ft_printarg(exenv.args);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	(void)	av;
-	t_exenv exenv;
+	t_exenv	exenv;
 	t_fds	*fds;
 
 	fds = malloc(sizeof(t_fds));
