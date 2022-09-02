@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 19:12:51 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/02 21:18:57 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct s_fds{
 	t_file	*in_f;
 	t_file	*app_f;
 	t_file	*here_f;
-	// int		heredoc_fd;
 	int	new_out;
 	int	new_in;
 }t_fds ;
@@ -95,6 +94,7 @@ typedef struct s_exenv{
 	char		*line;
 	int 		shlvl;
 	t_env		*head;
+	int			io;
 }t_exenv ;
 
 // UTILS LIBFT
