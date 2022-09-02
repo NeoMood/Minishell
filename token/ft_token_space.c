@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 14:20:28 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 22:13:37 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 21:47:52 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_tk    *ft_token_space(t_tk *list)
 			new->next = new->next->next;
 			free(tmp);
 		}
-		else		
+		if (new)		
 			new = new->next;
     }
     return (list);

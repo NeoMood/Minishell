@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 21:39:48 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 23:48:00 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	ft_document(t_env *envar, t_args *here)
 
     if (pipe(fd) == -1)
         perror("pipe");
+    ft_handlermodes("heredoc");
 	while (1)
 	{
 		heredoc = readline("> "); // free here

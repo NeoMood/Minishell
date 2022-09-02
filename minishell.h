@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 21:40:39 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 22:49:41 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_exenv{
 }t_exenv ;
 
 // UTILS LIBFT
+int	event(void);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -150,7 +151,7 @@ t_env	*ft_getenv(char **envp);
 void    printenv(t_env *ev);
 
 // SIGNALS
-// void	ft_signalmodes(t_args *lst);
+void	ft_handlermodes(char *str);
 void	ft_handler(int sig);
 
 // LEXER UTILS

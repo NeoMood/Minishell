@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 21:40:03 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/01 22:05:56 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char    *env_pwd(t_env *env)
     {
         if(!ft_strcmp(clone->key, "PWD"))
             return(clone->value);
-        clone=clone->next;
+        clone = clone->next;
     }
     return(NULL);
 }
