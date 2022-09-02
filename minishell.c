@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 16:19:09 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 17:29:22 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static	void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		close(tmp2);
 	}
 	// printlist(list); // print the lexer list
-	ft_printarg(exenv.args);
+	// ft_printarg(exenv.args);
 }
 
 int	main(int ac, char **av, char **env)

@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:51:49 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 17:59:28 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_exit(t_exenv exenv)
     int	j;
 
     i = 0;
-    if (exenv.args->arg[1])
+    if (exenv.args->arg[1] && !exenv.args->arg[2])
     {
         while (exenv.args->arg[1][i])
         {
@@ -105,6 +105,12 @@ int	ft_exit(t_exenv exenv)
                 ft_postifnum(j, exenv);
             i++;
         }
+    }
+    else if (exenv.args->arg[1] && exenv.args->arg[1])
+    {
+        printf("exit\n");
+        printf ("Minishell: exit: too many arguments\n");
+        mode.g_exit = 127;
     }
     else 
     {
