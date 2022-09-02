@@ -9,9 +9,9 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "/Users/yamzil/Desktop/Minishell_v2/minishell",
+            "program": "/Users/sgmira/Desktop/Minishell_v2/minishell",
             "args": [],
-            "cwd": "/Users/yamzil/Desktop/Minishell_v2"
+            "cwd": "/Users/sgmira/Desktop/Minishell_v2"
         }
     ]
 }

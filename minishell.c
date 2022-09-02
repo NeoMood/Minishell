@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 22:13:22 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 22:16:59 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	int		tmp1;
 	int		tmp2;
 
+	fds->new_out = 1;
+	fds->new_in = 0;
+	exenv.io = 0;
 	tmp1 = dup(1);
 	tmp2 = dup(0);
 	list = ft_lexer(line);
@@ -37,56 +40,49 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	{
 		while (exenv.args)
 		{
-			if((exenv.args->next && exenv.args->type == OUT && exenv.args->next->type == OUT))
+			if (exenv.args->type == OUT)
 			{
-				dup2(fds->out_f->next->fd, STDOUT_FILENO);
-				close(fds->out_f->next->fd);
+				fds->new_out = fds->out_f->next->fd;
 				fds->out_f = fds->out_f->next;
-				exenv.args = exenv.args->next;
+				exenv.io = 1;
 			}
-			else if(exenv.args->next && exenv.args->type == OUT && exenv.args->next->type == COMMAND)
+			else if (exenv.args->type == APPEND)
 			{
-				dup2(fds->out_f->next->fd, STDOUT_FILENO);
-				close(fds->out_f->next->fd);
-				exenv.args = exenv.args->next;
+				fds->new_out = fds->app_f->next->fd;
+				if (fds->app_f->next)
+					fds->app_f = fds->app_f->next;
+				exenv.io = 1;
 			}
-			else if(exenv.args->next && exenv.args->type == IN && exenv.args->next->type == IN)
+			else if (exenv.args->type == IN)
 			{
-				dup2(fds->in_f->next->fd, STDIN_FILENO);
-				close(fds->in_f->next->fd);
-				fds->in_f = fds->in_f->next;
-				exenv.args = exenv.args->next;
+				fds->new_in = fds->in_f->next->fd;
+				if (fds->in_f->next)
+					fds->in_f = fds->in_f->next;
+				exenv.io = 2;
 			}
-			else if(exenv.args->next && exenv.args->type == IN && exenv.args->next->type == COMMAND)
+			else if (exenv.args->type == HEREDOC)
 			{
-				dup2(fds->in_f->next->fd, STDIN_FILENO);
-				close(fds->in_f->next->fd);
-				exenv.args = exenv.args->next;
-			}
-			else if(exenv.args->next && exenv.args->type == APPEND && exenv.args->next->type == APPEND)
-			{
-				dup2(fds->app_f->next->fd, STDOUT_FILENO);
-				close(fds->app_f->next->fd);
-				fds->app_f = fds->app_f->next;
-				exenv.args = exenv.args->next;
-			}
-			else if(exenv.args->next && exenv.args->type == HEREDOC && exenv.args->next->type == COMMAND)
-			{
-				dup2(fds->here_f->next->fd, 0);
-				close(fds->here_f->next->fd);
-				exenv.args = exenv.args->next;
-			}
-			else if(exenv.args->next && exenv.args->type == APPEND && exenv.args->next->type == COMMAND)
-			{
-				dup2(fds->app_f->next->fd, STDOUT_FILENO);
-				close(fds->app_f->next->fd);
-				exenv.args = exenv.args->next;
+				fds->new_in = fds->here_f->next->fd;
+				if (fds->here_f->next)
+					fds->here_f = fds->here_f->next;
+				exenv.io = 2;
 			}
 			else
-				break;
+				break ;
+			exenv.args = exenv.args->next;
 		}
 		if (exenv.args != NULL && exenv.args->type == COMMAND)
 		{
+			if (exenv.io == 1)
+			{
+				dup2(fds->new_out, STDOUT_FILENO);
+				close(fds->new_out);
+			}
+			else if (exenv.io == 2)
+			{
+				dup2(fds->new_in, STDIN_FILENO);
+				close(fds->new_in);
+			}
 			if (!ft_check_builtins(exenv))
 				ft_builtins(exenv, fds);
 			else
@@ -105,8 +101,8 @@ int	main(int ac, char **av, char **env)
 {
 	t_exenv	exenv;
 	t_fds	*fds;
-	(void)av;
 
+	(void)av;
 	fds = malloc(sizeof(t_fds));
 	exenv.envar = env;
 	exenv.shlvl = 1;

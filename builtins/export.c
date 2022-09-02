@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 21:40:58 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:37:07 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,6 @@ void    ft_export(t_exenv exenv)
 				{
 					val = ft_strchr(exenv.args->arg[i], '=');
 					key = get_key(exenv.args->arg[i], '=');
-					// printf("###%s\n", &val[1]);
 					if(check_key(key))
 					{
 						printf("export: `%s': not a valid identifier\n", key);

@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 21:37:20 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 22:18:22 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	get_error(char *s)
 			write(1, &s[i], 1);
 			i++;
 		}
-		write(2, ": Command not found\n", 20);
+		write(2, ": No such file or directory\n", 29);
 		mode.g_exit = 127;
 		return (1);
 	}
@@ -73,6 +73,21 @@ char	*get_path(t_env *env, char **cmd)
 
 	if (!env)
 		return (NULL);
+	paths = ft_split(env_path(env), ':');
+	i = 0;
+	if (paths)
+	{
+		while (paths[i])
+		{
+			path = ft_strdup(paths[i]);
+			path = ft_strjoin_v2(path, "/");
+			path = ft_strjoin_v2(path, cmd[0]);
+			if (access(path, X_OK) == 0)
+				return (path);
+			free(path);
+			i++;
+		}
+	}
 	paths = ft_split(env_path(env), ':');
 	i = 0;
 	if (paths)
