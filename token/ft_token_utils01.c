@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 17:30:53 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 21:50:34 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_checkdquotes(int i, char *line, t_tk **list)
 			else if (line[k] != '\"' && line[k] == '\0')
 			{
 				printf("Syntax Error\n");
-				return(j + 1);
+				return (j + 1);
 			}
 			i = k;
 		}
@@ -60,7 +60,7 @@ int	ft_checksquotes(int i, char *line, t_tk **list)
 	else
 	{
 		printf("Syntax Error\n");
-		exit (1);
+		return (j + 1);
 	}
 	return (j + 1);
 }
@@ -83,11 +83,11 @@ int	ft_checkdollar(int i, char *line, t_tk **list)
 
 int	ft_getword(char *line, int i)
 {
-	int count;
+	int	count;
 
 	count = i;
 	while (line[i] && line[i] != ' ' && line[i] != '|'
-        && line[i] != '>' && line[i] != '<' && line[i] != '$')
+		&& line[i] != '>' && line[i] != '<' && line[i] != '$')
 	{
 		count++;
 		i++;

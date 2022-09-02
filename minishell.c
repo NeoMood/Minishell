@@ -6,14 +6,14 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 17:29:22 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 22:13:22 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-static	void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
+static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 {
 	t_tk	*list;
 	t_tk	*tmp;
@@ -103,9 +103,9 @@ static	void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 
 int	main(int ac, char **av, char **env)
 {
-	(void)	av;
 	t_exenv	exenv;
 	t_fds	*fds;
+	(void)av;
 
 	fds = malloc(sizeof(t_fds));
 	exenv.envar = env;
@@ -118,7 +118,6 @@ int	main(int ac, char **av, char **env)
 		printf("\033[0;31m Invalid Number Arguments !\n");
 		return (1);
 	}
-	// ft_handlermodes("Minishell");
 	signal(SIGINT, ft_handler);
 	signal(SIGQUIT, SIG_IGN);
 	exenv.env = ft_getenv(exenv.envar);

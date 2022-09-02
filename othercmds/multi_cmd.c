@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 21:40:07 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 21:41:25 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,70 +14,70 @@
 
 void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-    if(vars->f == 0)
-    {
-	    close(fd[0]);
-	    dup2(fd[1], STDOUT_FILENO);
-    }
-    if(!ft_check_builtins(exenv))
-        ft_builtins(exenv, fds);
-    else
-    {
-        if (execve(vars->path, vars->cmd, exenv.envar) == -1)
-            write(2, "execve Error!", 14);
-    }
+	if (vars->f == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+	}
+	if (!ft_check_builtins(exenv))
+		ft_builtins(exenv, fds);
+	else
+	{
+		if (execve(vars->path, vars->cmd, exenv.envar) == -1)
+			write(2, "execve Error!", 14);
+	}
 	exit(EXIT_FAILURE);
 }
 
 void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-    if(vars->f == 0)
-    {
-	    close(fd[0]);
-	    dup2(fd[1], STDOUT_FILENO);
-    }
-    if(!ft_check_builtins(exenv))
-        ft_builtins(exenv, fds);
-    else
-    {
-        if (execve(vars->path, vars->cmd, exenv.envar) == -1)
-            write(2, "execve Error!", 14);
-    }
+	if (vars->f == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+	}
+	if (!ft_check_builtins(exenv))
+		ft_builtins(exenv, fds);
+	else
+	{
+		if (execve(vars->path, vars->cmd, exenv.envar) == -1)
+			write(2, "execve Error!", 14);
+	}
 	exit(EXIT_FAILURE);
 }
 
 void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 {
-    (void)fd;
-    if(!ft_check_builtins(exenv))
-        ft_builtins(exenv, fds);
-    else
-    {
-        if (execve(vars->path, vars->cmd, exenv.envar) == -1)
-            write(2, "execve Error!", 14);
-    }
+	(void)fd;
+	if (!ft_check_builtins(exenv))
+		ft_builtins(exenv, fds);
+	else
+	{
+		if (execve(vars->path, vars->cmd, exenv.envar) == -1)
+			write(2, "execve Error!", 14);
+	}
 	exit(EXIT_FAILURE);
 }
 
-int cmd_num(t_args *args)
+int	cmd_num(t_args *args)
 {
-    int i;
-    t_args *clone;
+	t_args	*clone;
+	int		i;
 
-    i = 0;
-    clone = args;
-    while(clone)
-    {
-        if (clone->type == COMMAND)
-            i++;
-        clone = clone->next;
-    }
-    return(i);
+	i = 0;
+	clone = args;
+	while (clone)
+	{
+		if (clone->type == COMMAND)
+			i++;
+		clone = clone->next;
+	}
+	return (i);
 }
 
-int    execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
+int	execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 {
-    int	pid1;
+	int	pid1;
 
 	if (pipe(vars->fd) == -1)
 		return (1);
@@ -95,13 +95,13 @@ int    execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 	}
 	close(vars->fd[1]);
 	dup2(vars->fd[0], STDIN_FILENO);
-    close(vars->fd[0]);
+	close(vars->fd[0]);
 	return (0);
 }
 
-void    parse_multicmd(t_exenv exenv, t_fds	*fds)
+void	parse_multicmd(t_exenv exenv, t_fds	*fds)
 {
-    t_vars  vars;
+	t_vars	vars;
 
     vars.num = cmd_num(exenv.args);
     vars.i = 1;

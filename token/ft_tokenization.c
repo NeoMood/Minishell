@@ -6,16 +6,15 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:31:59 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 00:29:12 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 21:52:25 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int get_length_of_next_token(int i, char *line, t_tk **list) 
+static int	get_length_of_next_token(int i, char *line, t_tk **list)
 {
-	
-	int word;
+	int	word;
 
 	if (line[i] == '$')
 		return (ft_checkdollar(i, line, list));
@@ -38,7 +37,7 @@ static int get_length_of_next_token(int i, char *line, t_tk **list)
 	else
 		word = ft_getword(line, i);
 	ft_addtolist(list, ft_input(ft_substr(line, i, word - i), WORD));
-		return (word);
+	return (word);
 }
 
 t_tk	*ft_lexer(char *line)

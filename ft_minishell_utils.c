@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:52:26 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 15:54:33 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 21:53:57 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ int	ft_delimiter(char c)
 
 int	ft_isspace(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\r' || c == '\f')
-		return(1);
+	if (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\r' || c == '\f')
+		return (1);
 	return (0);
 }
 
@@ -37,32 +38,27 @@ void	ft_free(char **str)
 	free(str);
 }
 
-char    **ft_table(char **tmp2, char *tmp1)
+char	**ft_table(char **tmp2, char *tmp1)
 {
-    char	**final_arr;
-    int		i;
+	char	**final_arr;
+	int		i;
 
 	i = 0;
-    if (!tmp1)
-        final_arr = NULL;
-    if (!tmp2)
-        final_arr = malloc(sizeof(char *) * 2);
-    else
-    {
-        while (tmp2[i])
-            i++;
-        final_arr = malloc (sizeof(char *) * (i + 2));
-        i = -1;
-        while (tmp2[++i])
-            final_arr[i] = ft_strdup(tmp2[i]);
+	if (!tmp1)
+		final_arr = NULL;
+	if (!tmp2)
+		final_arr = malloc(sizeof(char *) * 2);
+	else
+	{
+		while (tmp2[i])
+			i++;
+		final_arr = malloc (sizeof(char *) * (i + 2));
+		i = -1;
+		while (tmp2[++i])
+			final_arr[i] = ft_strdup(tmp2[i]);
 		ft_free(tmp2);
-    }
-    final_arr[i++] = ft_strdup(tmp1);
-    final_arr[i] = NULL;
-    return (final_arr);
-}
-
-int	event(void)
-{
-	return (0);
+	}
+	final_arr[i++] = ft_strdup(tmp1);
+	final_arr[i] = NULL;
+	return (final_arr);
 }

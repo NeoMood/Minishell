@@ -6,38 +6,38 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 22:05:56 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/02 21:37:20 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char    *env_path(t_env *env)
+char	*env_path(t_env *env)
 {
-    t_env *clone;
+	t_env	*clone;
 
-    clone = env;
-    while(clone)
-    {
-        if(!ft_strcmp(clone->key, "PATH"))
-            return(clone->value);
-        clone = clone->next;
-    }
-    return(NULL);
+	clone = env;
+	while (clone)
+	{
+		if (!ft_strcmp(clone->key, "PATH"))
+			return (clone->value);
+		clone = clone->next;
+	}
+	return (NULL);
 }
 
-char    *env_pwd(t_env *env)
+char	*env_pwd(t_env *env)
 {
-    t_env *clone;
+	t_env	*clone;
 
-    clone = env;
-    while(clone)
-    {
-        if(!ft_strcmp(clone->key, "PWD"))
-            return(clone->value);
-        clone = clone->next;
-    }
-    return(NULL);
+	clone = env;
+	while (clone)
+	{
+		if (!ft_strcmp(clone->key, "PWD"))
+			return (clone->value);
+		clone = clone->next;
+	}
+	return (NULL);
 }
 
 int	get_error(char *s)
@@ -65,45 +65,45 @@ int	get_error(char *s)
 	return (1);
 }
 
-char    *get_path(t_env *env,  char **cmd)
+char	*get_path(t_env *env, char **cmd)
 {
-    char **paths;
-    char *path;
-    int i;
+	char	**paths;
+	char	*path;
+	int		i;
 
-	if(!env)
+	if (!env)
+		return (NULL);
+	paths = ft_split(env_path(env), ':');
+	i = 0;
+	if (paths)
 	{
-		return(NULL);
+		while (paths[i])
+		{
+			path = ft_strdup(paths[i]);
+			path = ft_strjoin_v2(path, "/");
+			path = ft_strjoin_v2(path, cmd[0]);
+			if (access(path, X_OK) == 0)
+				return (path);
+			free(path);
+			i++;
+		}
 	}
-    paths = ft_split(env_path(env), ':');
-    i = 0;
-    while(paths[i])
-    {
-        path = ft_strdup(paths[i]);
-		path = ft_strjoin_v2(path, "/");
-		path = ft_strjoin_v2(path, cmd[0]);
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-    }
-    get_error(cmd[0]);
-    return(NULL);
+	get_error (cmd[0]);
+	return (NULL);
 }
 
-
-void    get_filerror(char **cmd)
+void	get_filerror(char **cmd)
 {
-    ft_putstr_fd(cmd[0], 2);
-    ft_putstr_fd(": No such file or directory\n", 2);
+	ft_putstr_fd(cmd[0], 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
-char    *get_path2(t_env *env,  char **cmd)
+char	*get_path2 (t_env *env, char **cmd)
 {
-    char *path;
-	char cwd[1024];
-	(void)env;
+	char	*path;
+	char	cwd[1024];
 
+	(void) env;
 	getcwd(cwd, sizeof(cwd));
 	path = ft_strdup(cwd);
 	path = ft_strjoin_v2(path, "/");
@@ -113,6 +113,6 @@ char    *get_path2(t_env *env,  char **cmd)
 	else
 	{
 		get_filerror(cmd);
-		return(NULL);
+		return (NULL);
 	}
 }
