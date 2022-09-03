@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 22:19:02 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 15:59:13 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,28 +155,31 @@ void	parse_multicmd(t_exenv exenv, t_fds	*fds)
         if(exenv.args->type == OUT)
         {
             fds->new_out = fds->out_f->next->fd;
-            fds->out_f = fds->out_f->next;
+            if(fds->out_f->next)
+                fds->out_f = fds->out_f->next;
             vars.f = 1;
         }
         else if(exenv.args->type == APPEND)
         {
             fds->new_out = fds->app_f->next->fd;
-            fds->app_f = fds->app_f->next;
+            if (fds->app_f->next)
+                fds->app_f = fds->app_f->next;
             vars.f = 1;
         }
         else if(exenv.args->type == IN)
         {
             fds->new_in = fds->in_f->next->fd;
-            fds->in_f = fds->in_f->next;
+            if (fds->in_f->next)
+                fds->in_f = fds->in_f->next;
             vars.f = 2;
         }
         else if(exenv.args->type == HEREDOC)
         {
             fds->new_in = fds->here_f->next->fd;
-            fds->here_f = fds->here_f->next;
+            if (fds->here_f->next)
+                fds->here_f = fds->here_f->next;
             vars.f = 2;
         }
- 
         if (exenv.args->type == COMMAND)
 		{
             if(access(exenv.args->arg[0], X_OK) == 0)

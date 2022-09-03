@@ -6,10 +6,11 @@
 #    By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/09/03 17:49:56 by yamzil           ###   ########.fr        #
+#    Updated: 2022/09/03 18:12:59 by yamzil           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+#  -fsanitize=address
 NAME = minishell
 
 CFLAGS = -g -Wall -Werror -Wextra

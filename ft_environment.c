@@ -6,12 +6,33 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 17:41:10 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:12:27 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
+
+char	**our_env(char **env)
+{
+	char	**our_env;
+	int	i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	our_env = malloc(sizeof(char *) * (i + 1));
+	if (!our_env)
+		return (NULL);
+	i = 0;
+	while (env[i])
+	{
+		our_env[i] = env[i];
+		i++;
+	}
+	our_env[i] = NULL;
+	return (our_env);
+}
 
 t_env	*ft_getenv(char **envp)
 {

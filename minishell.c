@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 17:41:20 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:12:33 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	int		tmp1;
 	int		tmp2;
 
+	tmp1 = dup(1);
+	tmp2 = dup(0);
 	fds->new_out = 1;
 	fds->new_in = 0;
 	exenv.io = 0;
-	tmp1 = dup(1);
-	tmp2 = dup(0);
 	list = ft_lexer(line);
 	list = ft_token_space(list);
 	tmp = list;
@@ -43,7 +43,8 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 			if (exenv.args->type == OUT)
 			{
 				fds->new_out = fds->out_f->next->fd;
-				fds->out_f = fds->out_f->next;
+				if(fds->out_f->next)
+					fds->out_f = fds->out_f->next;
 				exenv.io = 1;
 			}
 			else if (exenv.args->type == APPEND)
@@ -78,7 +79,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 				dup2(fds->new_out, STDOUT_FILENO);
 				close(fds->new_out);
 			}
-			else if (exenv.io == 2)
+			if (exenv.io == 2)
 			{
 				dup2(fds->new_in, STDIN_FILENO);
 				close(fds->new_in);
@@ -118,11 +119,14 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	exenv.env = ft_getenv(exenv.envar);
 	exenv.exp = ft_getexp(exenv.envar);
+	// char **en = our_env(env);
 	while (1)
 	{
 		exenv.line = readline("➜ minishell 💩💩$> ");
 		if (!exenv.line)
 			my_exit();
+		// for (int i = 0; en[i]; i++)
+		// 	printf("%s\n", en[i]);
 		lastparse(exenv.line, exenv, fds);
 		add_history (exenv.line);
 	}
