@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 17:10:31 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 22:34:15 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,43 @@ void    processing_cmd(char *path, char **cmd, char **env)
 	exit(EXIT_FAILURE);
 }
 
-void   forking(char *path, char **cmd, char **env)
+int     list_size(t_env  *env)
+{
+    t_env   *clone;
+
+    clone = env;
+    int i;
+    
+    i = 0;
+    while(clone)
+    {
+        i++;
+        clone = clone->next;
+    }
+    return(i);
+}
+
+char    **get_newenv(t_env  *env)
+{
+    char **new_env;
+    int i;
+    new_env = malloc((sizeof(char *) * (list_size(env) + 1)));
+    if(!new_env)
+        return(NULL);
+    i = 0;
+    while(env)
+    {
+        new_env[i] = ft_strdup(env->key);
+        new_env[i] = ft_strjoin(new_env[i], "=");
+        new_env[i] = ft_strjoin(new_env[i], env->value);
+        i++;
+        env = env->next;
+    }
+    new_env[i] = NULL;
+    return(new_env);
+}
+
+void   forking(char *path, char **cmd, char **new_env)
 {
     int status;
     int pid;
@@ -37,7 +73,7 @@ void   forking(char *path, char **cmd, char **env)
 		return (perror("pipe"));
     mode.g_sig = 1;
 	if (pid == 0)
-		processing_cmd(path, cmd, env);
+		processing_cmd(path, cmd, new_env);
     waitpid(pid, &status, 0);
     mode.g_sig = 0;
     if (WIFEXITED(status))
@@ -87,7 +123,14 @@ void    parse_cmd(t_exenv exenv)
 {
     char *path;
     char **cmd;
+    // int i = 0;
 
+    exenv.new_env = get_newenv(exenv.env);
+    // while(exenv.new_env[i])
+    // {
+    //     printf("here: %s\n", exenv.new_env[i]);
+    //     i++;
+    // }
     if(access(exenv.args->arg[0], X_OK) == 0)
     {
         path = exenv.args->arg[0];
@@ -105,5 +148,5 @@ void    parse_cmd(t_exenv exenv)
             path = get_path(exenv.env, exenv.args->arg);
         cmd = exenv.args->arg;
     }
-    forking(path, cmd, exenv.envar);
+    forking(path, cmd, exenv.new_env);
 }

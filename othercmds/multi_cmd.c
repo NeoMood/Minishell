@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 18:32:56 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 22:32:20 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
         ft_builtins(exenv, fds);
     else
     {
-        if (execve(vars->path, vars->cmd, exenv.envar) == -1)
+        if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
             write(2, "execve Error!", 14);
     }
 	exit(EXIT_FAILURE);
@@ -66,7 +66,7 @@ void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
         ft_builtins(exenv, fds);
     else
     {
-        if (execve(vars->path, vars->cmd, exenv.envar) == -1)
+        if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
             write(2, "execve Error!", 14);
     }
 	exit(EXIT_FAILURE);
@@ -89,7 +89,7 @@ void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
         ft_builtins(exenv, fds);
     else
     {
-        if (execve(vars->path, vars->cmd, exenv.envar) == -1)
+        if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
             write(2, "execve Error!", 14);
     }
 	exit(EXIT_FAILURE);
@@ -143,8 +143,9 @@ void	parse_multicmd(t_exenv exenv, t_fds	*fds)
     t_vars  vars;
 	int		tmp1;
 	int		tmp2;
-    int status;
+    int     status;
 
+    exenv.new_env = get_newenv(exenv.env);
     vars.num = cmd_num(exenv.args);
     vars.i = 1;
     vars.f = 0;
