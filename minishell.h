@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 00:26:40 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:58:52 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,8 @@ void    increase_shlvl(t_exenv exenv);
 int 	cmd_num(t_args *args);
 void	ft_lstadd_back(t_exp **lst, t_exp *nv);
 int    ft_exit(t_exenv exenv);
+char    **get_newenv(t_env  *env);
+int     list_size(t_env  *env);
 
 // MAIN UTILS
 void    ft_execution(t_exenv exenv, t_fds *fds);

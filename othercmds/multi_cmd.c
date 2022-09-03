@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 15:59:13 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 19:00:10 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,9 @@ void	parse_multicmd(t_exenv exenv, t_fds	*fds)
 	int		tmp1;
 	int		tmp2;
     int status;
+    // char **new_env;
 
+    // new_env = get_newenv(exenv.env);
     vars.num = cmd_num(exenv.args);
     vars.i = 1;
     vars.f = 0;

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 17:10:31 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:56:49 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,63 @@ void    processing_cmd(char *path, char **cmd, char **env)
 	exit(EXIT_FAILURE);
 }
 
-void   forking(char *path, char **cmd, char **env)
+int     list_size(t_env  *env)
+{
+    t_env   *clone;
+
+    clone = env;
+    int i;
+    
+    i = 0;
+    while(clone)
+    {
+        i++;
+        clone = clone->next;
+    }
+    return(i);
+}
+
+char    **get_newenv(t_env  *env)
+{
+    char **new_env;
+    int i;
+    new_env = malloc((sizeof(char *) * (list_size(env) + 1)));
+    if(!new_env)
+        return(NULL);
+    i = 0;
+    // if(new_env)
+    //     ft_free(new_env);
+    while(env)
+    {
+        puts("Hiiiiii");
+        new_env[i] = ft_strdup(env->key);
+        new_env[i] = ft_strjoin(new_env[i], "=");
+        new_env[i] = ft_strjoin(new_env[i], env->value);
+        i++;
+        env = env->next;
+    }
+    new_env[i] = NULL;
+    return(new_env);
+}
+
+void   forking(char *path, char **cmd, char **new_env)
 {
     int status;
     int pid;
 
+    // char **new_env;
+    // new_env = get_newenv(my_env);
+    // while(new_env[i])
+    // {
+    //     printf("here: %s\n", new_env[i]);
+    //     i++;
+    // }
     pid = fork();
 	if (pid < 0)
 		return (perror("pipe"));
     mode.g_sig = 1;
 	if (pid == 0)
-		processing_cmd(path, cmd, env);
+		processing_cmd(path, cmd, new_env);
     waitpid(pid, &status, 0);
     mode.g_sig = 0;
     if (WIFEXITED(status))
@@ -87,7 +133,15 @@ void    parse_cmd(t_exenv exenv)
 {
     char *path;
     char **cmd;
+    char **new_env;
+    int i = 0;
 
+    new_env = get_newenv(exenv.env);
+    while(new_env[i])
+    {
+        printf("here: %s\n", new_env[i]);
+        i++;
+    }
     if(access(exenv.args->arg[0], X_OK) == 0)
     {
         path = exenv.args->arg[0];
@@ -105,5 +159,5 @@ void    parse_cmd(t_exenv exenv)
             path = get_path(exenv.env, exenv.args->arg);
         cmd = exenv.args->arg;
     }
-    forking(path, cmd, exenv.envar);
+    forking(path, cmd, new_env);
 }
