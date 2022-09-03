@@ -6,11 +6,12 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 15:52:41 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 17:41:10 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
 
 t_env	*ft_getenv(char **envp)
 {

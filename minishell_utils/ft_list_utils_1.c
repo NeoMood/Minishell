@@ -6,20 +6,12 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 21:05:20 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 22:10:59 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 17:45:16 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_file	*ft_lstlastfd(t_file *lst)
-{
-	if (!lst)
-		return (NULL);
-	if (lst -> next == NULL)
-		return (lst);
-	return (ft_lstlastfd(lst -> next));
-}
 
 t_file	*ft_lstnewfd(int fd)
 {
@@ -31,6 +23,15 @@ t_file	*ft_lstnewfd(int fd)
 	new_fd->fd = fd;
 	new_fd->next = NULL;
 	return (new_fd);
+}
+
+t_file	*ft_lstlastfd(t_file *lst)
+{
+	if (!lst)
+		return (NULL);
+	if (lst -> next == NULL)
+		return (lst);
+	return (ft_lstlastfd(lst -> next));
 }
 
 void	ft_fdadd_back(t_file **lst, t_file *nv)

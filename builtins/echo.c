@@ -3,62 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:13:17 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 22:59:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:11:01 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// int n_check(char *arg)
-// {
-//     int i;
-
-//     if (!ft_strncmp(arg, "-n", 2))
-// 	{
-// 		i = 2;
-// 		while (arg[i] && arg[i] == 'n')
-// 			i++;
-// 		if (!arg[i])
-// 			return (1);
-// 	}
-// 	return (0);
-// }
-
-// void    ft_echo(t_exenv exenv)
-// {
-//     int i;
-
-//     i = 0;
-//     puts("HERE");
-//     if(!ft_strcmp(exenv.args->arg[1], "-n"))
-//     {
-//         i = 2;
-//         // while (exenv.args->arg[i] && exenv.args->arg[i] == 'n')
-// 		// 	i++;
-//         // if (!arg[i])
-// 		// 	return ;
-//         printf("~~~~%s\n", exenv.args->arg[i]);
-//         while(exenv.args->arg[i])
-//         {
-//             printf("%s", exenv.args->arg[i]);
-//             i++;
-//         }
-//     }
-//     else
-//     {
-//         i = 1;
-//         while(exenv.args->arg[i])
-//         {
-//             printf("%s", exenv.args->arg[i]);
-//             // printf(" ");
-//             i++;
-//         }
-//         printf("\n");
-//     }
-// }
 
 int	arr_len(char **arr)
 {
