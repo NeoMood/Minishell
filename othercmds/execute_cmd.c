@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 21:02:05 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 21:46:45 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char    **get_newenv(t_env  *env)
     //     ft_free(new_env);
     while(env)
     {
-        puts("Hiiiiii");
         new_env[i] = ft_strdup(env->key);
         new_env[i] = ft_strjoin(new_env[i], "=");
         new_env[i] = ft_strjoin(new_env[i], env->value);
@@ -133,14 +132,14 @@ void    parse_cmd(t_exenv exenv)
 {
     char *path;
     char **cmd;
-    int i = 0;
+    // int i = 0;
 
     exenv.new_env = get_newenv(exenv.env);
-    while(exenv.new_env[i])
-    {
-        printf("here: %s\n", exenv.new_env[i]);
-        i++;
-    }
+    // while(exenv.new_env[i])
+    // {
+    //     printf("here: %s\n", exenv.new_env[i]);
+    //     i++;
+    // }
     if(access(exenv.args->arg[0], X_OK) == 0)
     {
         path = exenv.args->arg[0];
