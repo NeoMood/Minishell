@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 22:18:22 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:32:49 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*get_path(t_env *env, char **cmd)
 			path = ft_strjoin_v2(path, cmd[0]);
 			if (access(path, X_OK) == 0)
 				return (path);
-			free(path);
+			// free(path);
 			i++;
 		}
 	}
@@ -99,7 +99,7 @@ char	*get_path(t_env *env, char **cmd)
 			path = ft_strjoin_v2(path, cmd[0]);
 			if (access(path, X_OK) == 0)
 				return (path);
-			free(path);
+			// free(path);
 			i++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:18:10 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 15:59:17 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 22:29:39 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ t_args	*ft_merge(t_args *parse)
 		while (parse && parse->type != PIPE)
 		{
 			if (parse && parse->type == COMMAND)
-			{
-				if (parse && parse->type == COMMAND)
 					ft_addbackarg(&new, ft_args_node(parse->arg, COMMAND));
-			}
 			parse = parse->next;
 		}
 		if (parse && parse->type == PIPE)
@@ -68,7 +65,6 @@ t_args	*ft_joiner(t_args *parse)
 			new->arg = ft_join2darray(new->arg, new->next->arg);
 			tmp = new->next;
 			new->next = new->next->next;
-			free(tmp);
 		}
 		else		
 			new = new->next;

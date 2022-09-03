@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 15:59:13 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:32:56 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void	parse_multicmd(t_exenv exenv, t_fds	*fds)
                 vars.cmd = exenv.args->arg;
             }
             execute_multicmd(&vars, exenv, fds);
-            free(vars.path);
+            // free(vars.path);
             fds->new_out = 1;
             fds->new_in = 0;
             vars.i++;

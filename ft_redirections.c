@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 17:26:32 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 20:52:40 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,10 @@
 static int	ft_document(t_env *envar, t_args *here)
 {
 	char	*heredoc;
-	// int		status;
 	int		fd[2];
-	// int		pid;
 
 	if (pipe(fd) == -1)
 		perror("pipe");
-	// pid = fork ();
-	// if (pid == 0)
-	// {
 		mode.g_sig = 2;
 		while (1)
 		{
@@ -35,18 +30,12 @@ static int	ft_document(t_env *envar, t_args *here)
 			if (!heredoc)
 				return (close(fd[1]), fd[0]); 
 			if (!ft_strcmp(heredoc, *here->arg) || ft_strlen(heredoc) == 0)
-			{
-				free (heredoc);
 				break ;
-			}
 			if (heredoc[0] == '$')
 				heredoc = ft_getvalue(envar, &heredoc[1]);
 			ft_putendl_fd(heredoc, fd[1]);
 		}
 		close (fd[1]);
-		// exit(0);
-	// }
-	// waitpid (pid, &status, 0);
 	return (fd[0]);
 }
 

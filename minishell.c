@@ -6,12 +6,13 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 18:12:33 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 22:28:08 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
+#include <stdlib.h>
 
 static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 {
@@ -95,16 +96,19 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		close(tmp2);
 	}
 	// printlist(list); // print the lexer list
-	// ft_printarg(exenv.args);
+	ft_printarg(exenv.args);
 }
-
+void ft()
+{
+	system("leaks minishell");
+}
 int	main(int ac, char **av, char **env)
 {
 	t_exenv	exenv;
 	t_fds	*fds;
 
 	(void)av;
-	fds = malloc(sizeof(t_fds));
+	fds = ft_malloc(sizeof(t_fds));
 	exenv.envar = env;
 	exenv.shlvl = 1;
 	rl_catch_signals = 0;
@@ -119,15 +123,15 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	exenv.env = ft_getenv(exenv.envar);
 	exenv.exp = ft_getexp(exenv.envar);
-	// char **en = our_env(env);
 	while (1)
 	{
 		exenv.line = readline("➜ minishell 💩💩$> ");
 		if (!exenv.line)
-			my_exit();
-		// for (int i = 0; en[i]; i++)
-		// 	printf("%s\n", en[i]);
+			my_exit (exenv);
 		lastparse(exenv.line, exenv, fds);
 		add_history (exenv.line);
 	}
+	free (exenv.env);
+	ft_freegarbe(mode.trash);
+	return (0);
 }

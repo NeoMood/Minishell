@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 14:20:28 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 21:44:53 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:24:43 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_tk	*ft_token_space(t_tk *list)
 			new->input = ft_strjoin_v2(new->input, new->next->input);
 			tmp = new->next;
 			new->next = new->next->next;
-			free(tmp);
 		}
 		if (new)
 			new = new->next;

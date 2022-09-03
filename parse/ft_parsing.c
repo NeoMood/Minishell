@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:40:32 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 22:25:52 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:50:16 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_collectword(t_tk **list, t_args **word)
 		if ((*list) && (*list)->next && (*list)->next->token == SP)
 			(*list) = (*list)->next;
 		tmp1 = ft_table(tmp1, tmp);
-		free (tmp);
+		// free (tmp);
 		tmp = NULL;
 		(*list) = (*list)->next;
 	}

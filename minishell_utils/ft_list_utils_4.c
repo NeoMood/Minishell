@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:22:13 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 21:14:02 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:25:55 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_args  *ft_args_node(char **ar, e_type type)
 {
     t_args	*new;
 	
-	new = malloc(sizeof(t_args));
+	new = ft_malloc(sizeof(t_args));
 	if (!new)
 		return (NULL);
 	new->arg = ar;

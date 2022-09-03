@@ -6,23 +6,24 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 17:41:52 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 18:02:52 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 21:36:55 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*ft_malloc(void *allocation)
+void	*ft_malloc(size_t allocation)
 {
-	t_free	*list;
 	void	*str;
 
-	list = NULL;
-	str = malloc (sizeof(allocation));
+	str = malloc (allocation);
 	if (!str)
-		return (NULL);
+		exit (1);
+	if (!mode.trash)
+		mode.trash = ft_newgarbage(str);
+	else
+		ft_addbackthegarbe(&mode.trash, ft_newgarbage(str));
 	return (str);
-	ft_addbackthegarbe(&list, ft_newgarbage(str));
 }
 
 t_free	*ft_newgarbage(void *ptr)
@@ -58,4 +59,16 @@ t_free	*ft_lstgarbage(t_free *lst)
 	if (lst -> next == NULL)
 		return (lst);
 	return (ft_lstgarbage(lst->next));
+}
+
+void	ft_freegarbe(t_free *list)
+{
+	t_free	*tmp;
+	while (list)
+	{
+		tmp = list;
+		free (tmp->ptr);
+       	free (tmp->next->ptr);
+		tmp = tmp->next;
+	}
 }

@@ -6,16 +6,17 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 19:13:36 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 21:03:29 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 20:43:02 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	my_exit(void)
+void	my_exit(t_exenv exenv)
 {
 	rl_on_new_line();
 	rl_redisplay();
+    free(exenv.line);
 	printf("exit\n");
 	exit (1);
 }

@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:32:51 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 21:09:47 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 18:55:32 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_tk *ft_input(char *data, int token)
 	t_tk	*list;
 
 	list = NULL;
-	list = malloc(sizeof(t_tk));
+	list = ft_malloc(sizeof(t_tk));
 	if(!list)
 		return (NULL);
 	list->input = data;
@@ -43,19 +43,6 @@ void	ft_addtolist(t_tk **list, t_tk *lst)
 		ft_findlast(*list)->next = lst;
 	else
 		*list = lst;
-}
-
-void	ft_freelist(t_tk *list)
-{
-	t_tk	*tmp;
-
-	while (list)
-	{
-		tmp = list;
-		free (tmp->input);
-       	free (tmp->next->input);
-		tmp = tmp->next;
-	}
 }
 
 void	printlist(t_tk *list)

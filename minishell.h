@@ -6,7 +6,7 @@
 /*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 18:13:11 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 20:44:24 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int		ft_isdigit(int c);
 
 // LINKED LIST OF PARSING
 t_tk	*ft_input(char *data, int token);
-void	ft_freelist(t_tk *list);
 t_tk	*ft_findlast(t_tk *lst);
 void	ft_addtolist(t_tk **list, t_tk *lst);
 void	printlist(t_tk *list);
@@ -247,11 +246,12 @@ void    ft_execution(t_exenv exenv, t_fds *fds);
 int		ft_check_builtins(t_exenv exenv);
 t_args	*ft_corrector(t_args *parse);
 int		check_pipe(t_args *args);
-void	my_exit(void);
+void	my_exit(t_exenv exenv);
 
 // Garbage Collector
+void	ft_freegarbe(t_free *list);
 void	ft_addbackthegarbe(t_free **lst, t_free *nv);
-void	*ft_malloc(void *allocation);
+void	*ft_malloc(size_t allocation);
 t_free	*ft_lstgarbage(t_free *lst);
 t_free	*ft_newgarbage(void *ptr);
 #endif

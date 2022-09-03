@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 00:23:59 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 21:36:25 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_key(const char *s, int c)
 
 	j = get_index(s, c);
 	i = 0;
-	tmp = (char*)malloc(sizeof(char) * j + 1);
+	tmp = (char *)ft_malloc(sizeof(char) * j + 1);
 	while(i < j)
 	{
 		tmp[i] = s[i];
@@ -46,7 +46,7 @@ char	*get_key(const char *s, int c)
 	}
 	tmp[i] = '\0';
 	key = ft_strdup(tmp);
-	free(tmp);
+	// free(tmp);
 	return(key);
 }
 
@@ -76,29 +76,6 @@ int		if_exists2(t_env	*env, char *key)
 		tmp = tmp->next;
 	}
 	return(0);
-}
-
-t_exp	*ft_lstlast(t_exp *lst)
-{
-	if (!lst)
-		return (NULL);
-	if (lst -> next == NULL)
-		return (lst);
-	return (ft_lstlast(lst -> next));
-}
-
-void	ft_lstadd_back(t_exp **lst, t_exp *nv)
-{
-	t_exp	*head;
-
-	if (*lst)
-	{
-		head = *lst;
-		head = ft_lstlast(head);
-		head -> next = nv;
-	}
-	else
-		(*lst) = nv;
 }
 
 void	exp_print(t_exp **exp)
@@ -217,61 +194,22 @@ void	update_envalue(t_env	*env, char *key, char *val)
 	}
 }
 
-char	*ft_strcat(char *dest, char *src)
-{
-	unsigned int	i;
-	unsigned int	j;
-
-	i = 0;
-	while (dest[i] != '\0')
-		++i;
-	j = 0;
-	while (src[j] != '\0')
-	{
-		dest[i] = src[j];
-		i++;
-		++j;
-	}
-	// dest[i] = '\0';
-	return (dest);
-}
-
-// char	*ft_strcat(char *dst, const char *src)
-// {
-// 	size_t	i;
-// 	size_t dstsize;
-// 	size_t	lendst;
-// 	size_t	lensrc;
-
-// 	i = 0;
-// 	lendst = ft_strlen(dst);
-// 	lensrc = ft_strlen (src);
-// 	dstsize = 100000;
-// 	if (lendst < dstsize)
-// 	{
-// 		while (src[i] && lendst < (dstsize - 1))
-// 			dst[lendst++] = src[i++];
-// 			dst[lendst] = '\0';
-// 	}
-// 	return (dst);
-// }
-
 void	add_value(t_exp	*exp, char *key, char *val)
 {
-	while(exp)
+	while (exp)
 	{
 		if(!ft_strcmp(exp->key, key))
-			ft_strcat(exp->value, val);
+			exp->value = ft_strjoin_v2(exp->value, val);
 		exp = exp->next;
 	}
 }
 
 void	add_envalue(t_env	*env, char *key, char *val)
 {
-	while(env)
+	while (env)
 	{
-		if(!ft_strcmp(env->key, key))
-			ft_strcat(env->value, val);
+		if (!ft_strcmp(env->key, key))
+			env->value = ft_strjoin_v2(env->value, val);
 		env = env->next;
 	}
 }
@@ -319,7 +257,7 @@ void    ft_export(t_exenv exenv)
 						add_value(exenv.exp, key, &val[1]);
 					if(if_exists2(exenv.env, key))
 						add_envalue(exenv.env, key, &val[1]);
-					else
+					else if(!if_exists(exenv.exp, key) && !if_exists2(exenv.env, key))
 					{
 						ft_lstadd_back(&exenv.exp, ft_createcell2(key, &val[1]));
 						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
@@ -344,7 +282,6 @@ void    ft_export(t_exenv exenv)
 					{
 						ft_lstadd_back(&exenv.exp, ft_createcell2(key, &val[1]));
 						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
-						// printf("%s\n", ft_last_node(env)->key);
 					}
 				}
 			}
