@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 18:58:52 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 21:01:02 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_vars{
 	char *path;
 	int		fd[2];
 	int num;
-    int i;
+	int i;
 	int f;
 	char **cmd;
 }t_vars ;
@@ -92,10 +92,12 @@ typedef struct s_exenv{
 	t_args		*args;
 	char		**envar;
 	char		*line;
-	int 		shlvl;
+	int			shlvl;
 	t_env		*head;
 	int			io;
-}t_exenv ;
+	char		**new_env;
+}t_exenv;
+
 
 // UTILS LIBFT
 int	event(void);

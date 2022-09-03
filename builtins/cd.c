@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:31:11 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 18:39:31 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 19:11:19 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	change_pwd(t_exenv exenv, char *dest)
 {
-	char cwd[1024];
+	char cwd[4096];
 
     getcwd(cwd, sizeof(cwd));
 	

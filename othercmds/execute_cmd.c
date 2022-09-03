@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 18:56:49 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 21:02:05 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,12 @@ void    parse_cmd(t_exenv exenv)
 {
     char *path;
     char **cmd;
-    char **new_env;
     int i = 0;
 
-    new_env = get_newenv(exenv.env);
-    while(new_env[i])
+    exenv.new_env = get_newenv(exenv.env);
+    while(exenv.new_env[i])
     {
-        printf("here: %s\n", new_env[i]);
+        printf("here: %s\n", exenv.new_env[i]);
         i++;
     }
     if(access(exenv.args->arg[0], X_OK) == 0)
@@ -159,5 +158,5 @@ void    parse_cmd(t_exenv exenv)
             path = get_path(exenv.env, exenv.args->arg);
         cmd = exenv.args->arg;
     }
-    forking(path, cmd, new_env);
+    forking(path, cmd, exenv.new_env);
 }
