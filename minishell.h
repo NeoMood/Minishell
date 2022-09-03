@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 21:42:39 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:31:42 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,15 @@ typedef struct s_env{
 	struct s_env	*next;
 }t_env ;
 
+typedef struct s_free{
+	void	*ptr;
+	struct s_free *next;
+}t_free ;
+
 typedef struct s_global{
-	int g_sig;
-	int g_exit;	
+	t_free	*trash;
+	int		g_sig;
+	int		g_exit;
 }t_global ;
 
 t_global mode;
@@ -247,4 +253,12 @@ int		ft_check_builtins(t_exenv exenv);
 t_args	*ft_corrector(t_args *parse);
 int		check_pipe(t_args *args);
 void	my_exit(void);
+
+// free
+void	ft_freegarbe(t_free *list);
+void	ft_addbackthegarbe(t_free **lst, t_free *nv);
+void	*ft_malloc(size_t allocation);
+t_free	*ft_lstgarbage(t_free *lst);
+t_free	*ft_newgarbage(void *ptr);
+
 #endif

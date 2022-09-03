@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_utils_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:33:14 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 21:11:49 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:40:58 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*ft_createcell(char *key, char	*value)
 {
 	t_env	*env;
 
-	env = malloc(sizeof(t_env));
+	env = ft_malloc(sizeof(t_env));
 	if (!env)
 		return (NULL);
 	env->key = key;
@@ -29,7 +29,7 @@ t_exp	*ft_createcell2(char *key, char	*value)
 {
 	t_exp	*exp;
 
-	exp = malloc(sizeof(t_exp));
+	exp = ft_malloc(sizeof(t_exp));
 	if (!exp)
 		return (NULL);
 	exp->key = key;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:06:53 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/13 00:01:28 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:36:28 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	n = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	temp = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	temp = ft_malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
 	while (s1[i])
@@ -45,10 +45,10 @@ char    *ft_strjoin_v2(char *s1, char *s2)
         return (NULL);
     if (!s1)
     {
-        s1 = (char *)malloc(1);
+        s1 = (char *)ft_malloc(1);
         s1[0] = '\0';
     }
-    temp = malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
+    temp = ft_malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
     if (!temp)
         return (NULL);
     i = 0;
@@ -59,7 +59,6 @@ char    *ft_strjoin_v2(char *s1, char *s2)
     while (s2[l])
         temp[j++] = s2[l++];
     temp[j] = '\0';
-    free(s1);
     return (temp);
 }
 
@@ -76,7 +75,7 @@ char	**ft_join2darray(char **tmp, char **temp)
 	j = 0;
     while (temp[j])
 		j++;
-	new = malloc ((i + j + 1) * sizeof(char *));
+	new = ft_malloc ((i + j + 1) * sizeof(char *));
     if (!new)
         return (NULL);
 	i = 0;
@@ -87,7 +86,7 @@ char	**ft_join2darray(char **tmp, char **temp)
     while (temp[j])
 		new[k++] = ft_strdup (temp[j++]);
 	new [k] = NULL;
-	ft_free(tmp);
-    ft_free(temp);
+	// ft_free(tmp);
+    // ft_free(temp);
 	return (new);
 }

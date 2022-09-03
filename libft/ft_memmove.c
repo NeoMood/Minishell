@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 19:57:08 by yamzil            #+#    #+#             */
-/*   Updated: 2021/11/26 23:00:58 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:35:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	if (!des1 && !src1)
 		return (NULL);
 	else if (src > dst)
-	{
 		ft_memcpy(dst, src, len);
-	}
 	else
 	{
 		while (len--)

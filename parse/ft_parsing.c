@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:40:32 by yamzil            #+#    #+#             */
-/*   Updated: 2022/08/31 22:25:52 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:42:07 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_collectword(t_tk **list, t_args **word)
 		if ((*list) && (*list)->next && (*list)->next->token == SP)
 			(*list) = (*list)->next;
 		tmp1 = ft_table(tmp1, tmp);
-		free (tmp);
+		// free (tmp);
 		tmp = NULL;
 		(*list) = (*list)->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 17:25:23 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:46:50 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(int ac, char **av, char **env)
 	t_fds	*fds;
 
 	(void)av;
-	fds = malloc(sizeof(t_fds));
+	fds = ft_malloc(sizeof(t_fds));
 	exenv.envar = env;
 	exenv.shlvl = 1;
 	rl_catch_signals = 0;
@@ -119,15 +119,14 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	exenv.env = ft_getenv(exenv.envar);
 	exenv.exp = ft_getexp(exenv.envar);
-	// char **en = our_env(env);
 	while (1)
 	{
 		exenv.line = readline("➜ minishell 💩💩$> ");
 		if (!exenv.line)
 			my_exit();
-		// for (int i = 0; en[i]; i++)
-		// 	printf("%s\n", en[i]);
 		lastparse(exenv.line, exenv, fds);
 		add_history (exenv.line);
+		free (exenv.line);
 	}
+	ft_freegarbe(mode.trash);
 }

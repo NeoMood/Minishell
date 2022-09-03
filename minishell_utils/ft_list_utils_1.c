@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_utils_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 21:05:20 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 22:10:59 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:40:06 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_file	*ft_lstnewfd(int fd)
 {
 	t_file	*new_fd;
 
-	new_fd = (t_file *) malloc (sizeof (t_file));
+	new_fd = (t_file *) ft_malloc (sizeof (t_file));
 	if (!new_fd)
 		return (NULL);
 	new_fd->fd = fd;

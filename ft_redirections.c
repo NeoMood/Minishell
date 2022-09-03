@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 17:26:32 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 23:49:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	ft_document(t_env *envar, t_args *here)
 			if (heredoc[0] == '$')
 				heredoc = ft_getvalue(envar, &heredoc[1]);
 			ft_putendl_fd(heredoc, fd[1]);
+			free (heredoc);
 		}
 		close (fd[1]);
 		// exit(0);

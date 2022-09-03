@@ -6,7 +6,7 @@
 #    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/09/03 00:28:50 by sgmira           ###   ########.fr        #
+#    Updated: 2022/09/03 23:31:51 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ READLINE = $(shell brew --prefix readline)
 
 SRC =	minishell.c\
 		utils_main.c\
+		ft_collector.c\
 		./minishell_utils/ft_list_utils_1.c\
 		./minishell_utils/ft_list_utils_2.c\
 		./minishell_utils/ft_list_utils_3.c\
