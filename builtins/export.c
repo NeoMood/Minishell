@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 16:37:07 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 00:23:59 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,19 @@ char	*get_key(const char *s, int c)
 	int i;
 	int j;
 	char *key;
-	
-	key = ft_strdup("");
+	char *tmp;
+
 	j = get_index(s, c);
 	i = 0;
+	tmp = (char*)malloc(sizeof(char) * j + 1);
 	while(i < j)
 	{
-		key[i] = s[i];
+		tmp[i] = s[i];
 		i++;
 	}
+	tmp[i] = '\0';
+	key = ft_strdup(tmp);
+	free(tmp);
 	return(key);
 }
 
@@ -228,9 +232,29 @@ char	*ft_strcat(char *dest, char *src)
 		i++;
 		++j;
 	}
-	dest[i] = '\0';
+	// dest[i] = '\0';
 	return (dest);
 }
+
+// char	*ft_strcat(char *dst, const char *src)
+// {
+// 	size_t	i;
+// 	size_t dstsize;
+// 	size_t	lendst;
+// 	size_t	lensrc;
+
+// 	i = 0;
+// 	lendst = ft_strlen(dst);
+// 	lensrc = ft_strlen (src);
+// 	dstsize = 100000;
+// 	if (lendst < dstsize)
+// 	{
+// 		while (src[i] && lendst < (dstsize - 1))
+// 			dst[lendst++] = src[i++];
+// 			dst[lendst] = '\0';
+// 	}
+// 	return (dst);
+// }
 
 void	add_value(t_exp	*exp, char *key, char *val)
 {

@@ -3,13 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+         #
+#    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/09/01 20:03:22 by yamzil           ###   ########.fr        #
+#    Updated: 2022/09/03 00:28:50 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+#  -fsanitize=address
 NAME = minishell
 
 CFLAGS = -g -Wall -Werror -Wextra

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 21:18:57 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/03 00:26:40 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ t_exp	*ft_last_node2(t_exp *nv);
 t_env	*ft_last_node(t_env	*nv);
 t_env	*ft_getenv(char **envp);
 void    printenv(t_env *ev);
+char	**our_env(char **env);
 
 // SIGNALS
 void	ft_handlermodes(char *str);
