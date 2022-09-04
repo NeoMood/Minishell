@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:51:49 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 21:32:22 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,13 @@ static void	ft_postifnum(int j, t_exenv exenv)
 		ft_handlelong(exenv);
 }
 
+static void	ft_norm(void)
+{
+	write (1, "exit\n", 5);
+	g_mode.g_exit = 0;
+	exit (0);
+}
+
 int	ft_exit(t_exenv exenv)
 {
 	int	i;
@@ -113,10 +120,6 @@ int	ft_exit(t_exenv exenv)
 		g_mode.g_exit = 127;
 	}
 	else
-	{
-		write (1, "exit\n", 5);
-		g_mode.g_exit = 0;
-		exit (0);
-	}
+		ft_norm();
 	return (0);
 }

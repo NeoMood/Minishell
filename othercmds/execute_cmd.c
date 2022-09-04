@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 22:36:06 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,47 +20,8 @@ void	processing_cmd(char *path, char **cmd, char **env)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (execve(path, cmd, env) == -1)
-	{
-		ft_putstr_fd("Error!\n", 2);
 		return ;
-	}
 	exit(EXIT_FAILURE);
-}
-
-int	list_size(t_env	*env)
-{
-	t_env	*clone;
-	int		i;
-
-	clone = env;
-	i = 0;
-	while (clone)
-	{
-		i++;
-		clone = clone->next;
-	}
-	return (i);
-}
-
-char	**get_newenv(t_env	*env)
-{
-	char	**new_env;
-	int		i;
-
-	new_env = malloc((sizeof(char *) * (list_size(env) + 1)));
-	if (!new_env)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		new_env[i] = ft_strdup(env->key);
-		new_env[i] = ft_strjoin(new_env[i], "=");
-		new_env[i] = ft_strjoin(new_env[i], env->value);
-		i++;
-		env = env->next;
-	}
-	new_env[i] = NULL;
-	return (new_env);
 }
 
 void	forking(char *path, char **cmd, char **new_env)
@@ -81,9 +42,12 @@ void	forking(char *path, char **cmd, char **new_env)
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGQUIT)
+		{
 			printf("Quit: %d\n", WTERMSIG(status));
+			g_mode.g_exit = 131;
+		}
 		else if (WTERMSIG(status) != SIGINT)
-			printf("SIGNALED: %d\n", WTERMSIG(status));
+			g_mode.g_exit = WTERMSIG(status);
 	}
 }
 
@@ -109,6 +73,7 @@ void	increase_shlvl(t_exenv exenv)
 			exenv.env->value = ft_strdup(ft_itoa(exenv.shlvl));
 		exenv.env = exenv.env->next;
 	}
+	exenv.shlvl++;
 	while (exenv.exp)
 	{
 		if (!ft_strcmp(exenv.exp->key, "SHLVL"))

@@ -6,77 +6,11 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 17:51:54 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 22:40:37 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	get_index(const char *s, int c)
-{
-	int		i;
-	char	cc;
-	char	*ss;
-
-	i = 0;
-	ss = (char *) s;
-	cc = (char) c;
-	while (ss[i] != cc && ss[i])
-		i++;
-	if (ss[i] == cc)
-		return (i);
-	else
-		return (0);
-}
-
-char	*get_key(const char *s, int c)
-{
-	int		i;
-	int		j;
-	char	*key;
-	char	*tmp;
-
-	j = get_index(s, c);
-	i = 0;
-	tmp = (char *)malloc(sizeof(char) * j + 1);
-	while (i < j)
-	{
-		tmp[i] = s[i];
-		i++;
-	}
-	tmp[i] = '\0';
-	key = ft_strdup(tmp);
-	free(tmp);
-	return (key);
-}
-
-int	if_exists(t_exp	*exp, char *key)
-{
-	t_exp	*tmp;
-
-	tmp = exp;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, key))
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int	if_exists2(t_env	*env, char *key)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, key))
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
 
 t_exp	*ft_lstlast(t_exp *lst)
 {
@@ -128,6 +62,16 @@ void	exp_print(t_exp **exp)
 	}
 }
 
+void	sort_util(char	*tmp, char	*tmpv, t_exp	**i, t_exp	**j)
+{
+	tmp = (*i)->key;
+	(*i)->key = (*j)->key;
+	(*j)->key = tmp;
+	tmpv = (*i)->value;
+	(*i)->value = (*j)->value;
+	(*j)->value = tmpv;
+}
+
 void	sort_exp(t_exp **exp)
 {
 	char	*tmp;
@@ -135,6 +79,8 @@ void	sort_exp(t_exp **exp)
 	t_exp	*j;
 	t_exp	*i;
 
+	tmp = NULL;
+	tmpv = NULL;
 	i = *exp;
 	while (i)
 	{
@@ -144,14 +90,7 @@ void	sort_exp(t_exp **exp)
 			while (j)
 			{
 				if (ft_strcmp(i->key, j->key) > 0)
-				{
-					tmp = i -> key;
-					i -> key = j -> key;
-					j -> key = tmp;
-					tmpv = i -> value;
-					i -> value = j -> value;
-					j -> value = tmpv;
-				}
+					sort_util(tmp, tmpv, &i, &j);
 				j = j->next;
 			}
 		}
@@ -179,20 +118,6 @@ t_exp	*ft_getexp(char **env)
 	return (save);
 }
 
-int	check_plequal(char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == '+' && arg[i + 1] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 void	update_value(t_exp	*exp, char *key, char *val)
 {
 	while (exp)
@@ -212,44 +137,6 @@ void	update_envalue(t_env	*env, char *key, char *val)
 		env = env->next;
 	}
 }
-
-// char	*ft_strcat(char *dest, char *src)
-// {
-// 	unsigned int	i;
-// 	unsigned int	j;
-
-// 	i = 0;
-// 	while (dest[i] != '\0')
-// 		++i;
-// 	j = 0;
-// 	while (src[j] != '\0')
-// 	{
-// 		dest[i] = src[j];
-// 		i++;
-// 		++j;
-// 	}
-// 	return (dest);
-// }
-
-// char	*ft_strcat(char *dst, const char *src)
-// {
-// 	size_t	i;
-// 	size_t dstsize;
-// 	size_t	lendst;
-// 	size_t	lensrc;
-
-// 	i = 0;
-// 	lendst = ft_strlen(dst);
-// 	lensrc = ft_strlen (src);
-// 	dstsize = 100000;
-// 	if (lendst < dstsize)
-// 	{
-// 		while (src[i] && lendst < (dstsize - 1))
-// 			dst[lendst++] = src[i++];
-// 			dst[lendst] = '\0';
-// 	}
-// 	return (dst);
-// }
 
 void	add_value(t_exp	*exp, char *key, char *val)
 {
@@ -288,6 +175,75 @@ int	check_key(char *key)
 	return (0);
 }
 
+void	plequal_case(char	*key, char	*val, t_exenv *exenv, int i)
+{
+	key = get_key(exenv->args->arg[i], '+');
+	val = ft_strchr(exenv->args->arg[i], '=');
+	if (check_key(key))
+	{
+		printf("export: `%s': not a valid identifier\n", key);
+		g_mode.g_exit = 1;
+		return ;
+	}
+	if (if_exists(exenv->exp, key))
+		add_value(exenv->exp, key, &val[1]);
+	if (if_exists2(exenv->env, key))
+		add_envalue(exenv->env, key, &val[1]);
+	else if (!if_exists(exenv->exp, key)
+		&& !if_exists2(exenv->env, key))
+	{
+		ft_lstadd_back(&exenv->exp,
+			ft_createcell2(key, &val[1]));
+		ft_addbacknode(&exenv->env, ft_createcell(key, &val[1]));
+	}
+}
+
+void	equal_case(char	*key, char	*val, t_exenv *exenv, int i)
+{
+	val = ft_strchr(exenv->args->arg[i], '=');
+	key = get_key(exenv->args->arg[i], '=');
+	if (check_key(key))
+	{
+		printf("export: `%s': not a valid identifier\n", key);
+		g_mode.g_exit = 1;
+		return ;
+	}
+	if (if_exists(exenv->exp, key))
+	{
+		update_value(exenv->exp, key, &val[1]);
+		update_envalue(exenv->env, key, &val[1]);
+	}
+	else if (!if_exists(exenv->exp, key))
+	{
+		ft_lstadd_back(&exenv->exp,
+			ft_createcell2(key, &val[1]));
+		ft_addbacknode(&exenv->env, ft_createcell(key, &val[1]));
+	}
+}
+
+void	noequal_case(t_exenv *exenv, int i)
+{
+	if (check_key(exenv->args->arg[i]))
+	{
+		printf("export: `%s': not a valid identifier\n",
+			exenv->args->arg[i]);
+		g_mode.g_exit = 1;
+		return ;
+	}
+	if (!if_exists(exenv->exp, exenv->args->arg[i]))
+	{
+		ft_lstadd_back(&exenv->exp,
+			ft_createcell2(exenv->args->arg[i], ""));
+		sort_exp(&exenv->exp);
+	}
+}
+
+void sort_n_print(t_exenv *exenv)
+{
+	sort_exp(&exenv->exp);
+	exp_print(&exenv->exp);
+}
+
 void	ft_export(t_exenv exenv)
 {
 	char	*val;
@@ -295,6 +251,8 @@ void	ft_export(t_exenv exenv)
 	int		i;
 
 	i = 1;
+	val = NULL;
+	key = NULL;
 	if (exenv.args->arg[1])
 	{
 		while (exenv.args->arg[i])
@@ -302,72 +260,15 @@ void	ft_export(t_exenv exenv)
 			if (ft_strchr(exenv.args->arg[i], '='))
 			{
 				if (check_plequal(exenv.args->arg[i]))
-				{
-					key = get_key(exenv.args->arg[i], '+');
-					val = ft_strchr(exenv.args->arg[i], '=');
-					if (check_key(key))
-					{
-						printf("export: `%s': not a valid identifier\n", key);
-						g_mode.g_exit = 1;
-						return ;
-					}
-					if (if_exists(exenv.exp, key))
-						add_value(exenv.exp, key, &val[1]);
-					if (if_exists2(exenv.env, key))
-						add_envalue(exenv.env, key, &val[1]);
-					else if (!if_exists(exenv.exp, key)
-						&& !if_exists2(exenv.env, key))
-					{
-						ft_lstadd_back(&exenv.exp,
-							ft_createcell2(key, &val[1]));
-						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
-					}
-				}
+					plequal_case(key, val, &exenv, i);
 				else
-				{
-					val = ft_strchr(exenv.args->arg[i], '=');
-					key = get_key(exenv.args->arg[i], '=');
-					if (check_key(key))
-					{
-						printf("export: `%s': not a valid identifier\n", key);
-						g_mode.g_exit = 1;
-						return ;
-					}
-					if (if_exists(exenv.exp, key))
-					{
-						update_value(exenv.exp, key, &val[1]);
-						update_envalue(exenv.env, key, &val[1]);
-					}
-					else if (!if_exists(exenv.exp, key))
-					{
-						ft_lstadd_back(&exenv.exp,
-							ft_createcell2(key, &val[1]));
-						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
-					}
-				}
+					equal_case(key, val, &exenv, i);
 			}
 			else if (!ft_strchr(exenv.args->arg[i], '='))
-			{
-				if (check_key(exenv.args->arg[i]))
-				{
-					printf("export: `%s': not a valid identifier\n",
-						exenv.args->arg[i]);
-					g_mode.g_exit = 1;
-					return ;
-				}
-				if (!if_exists(exenv.exp, exenv.args->arg[i]))
-				{
-					ft_lstadd_back(&exenv.exp,
-						ft_createcell2(exenv.args->arg[i], ""));
-					sort_exp(&exenv.exp);
-				}
-			}
+				noequal_case(&exenv, i);
 			i++;
 		}
 	}
 	else
-	{
-		sort_exp(&exenv.exp);
-		exp_print(&exenv.exp);
-	}
+		sort_n_print(&exenv);
 }

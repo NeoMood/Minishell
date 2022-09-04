@@ -6,11 +6,29 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 17:14:02 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 21:24:20 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_norm(int j, int i, char *line, t_tk **list)
+{
+	if (line[j] == '\"' && j != i + 1)
+		ft_addtolist(list, ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
+	else if (j != i + 1)
+	{
+		printf("Syntax Error\n");
+		return (j + 1);
+	}
+	return (j + 1);
+}
+
+int	ft_norm2(int j)
+{
+	printf("Syntax Error\n");
+	return (j + 1);
+}
 
 int	ft_checkdquotes(int i, char *line, t_tk **list)
 {
@@ -29,24 +47,14 @@ int	ft_checkdquotes(int i, char *line, t_tk **list)
 			if (line[k] == '\"')
 				return (k + 1);
 			else if (line[k] != '\"' && line[k] == '\0')
-			{
-				printf("Syntax Error\n");
-				return (j + 1);
-			}
+				j = ft_norm2(j);
 			i = k;
 		}
 		j++;
 		if (line[j] == '\"')
 			break ;
 	}
-	if (line[j] == '\"' && j != i + 1)
-		ft_addtolist(list, ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
-	else if (j != i + 1)
-	{
-		printf("Syntax Error\n");
-		return (j + 1);
-	}
-	return (j + 1);
+	return (ft_norm(j, i, line, list));
 }
 
 int	ft_checksquotes(int i, char *line, t_tk **list)

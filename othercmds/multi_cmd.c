@@ -6,104 +6,11 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 22:32:51 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
-{
-	if (fds->new_out != 1)
-	{
-		dup2(fds->new_out, STDOUT_FILENO);
-		close(fds->new_out);
-	}
-	else
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-	}
-	if (fds->new_in != 0)
-	{
-		dup2(fds->new_in, STDIN_FILENO);
-		close(fds->new_in);
-	}
-	if (!ft_check_builtins(exenv))
-		ft_builtins(exenv, fds);
-	else
-	{
-		if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
-			write(2, "execve Error!", 14);
-	}
-	exit(EXIT_FAILURE);
-}
-
-void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
-{
-	if (fds->new_out != 1)
-	{
-		dup2(fds->new_out, STDOUT_FILENO);
-		close(fds->new_out);
-	}
-	else
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-	}
-	if (fds->new_in != 0)
-	{
-		dup2(fds->new_in, STDIN_FILENO);
-		close(fds->new_in);
-	}
-	if (!ft_check_builtins(exenv))
-		ft_builtins(exenv, fds);
-	else
-	{
-		if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
-			write(2, "execve Error!", 14);
-	}
-	exit(EXIT_FAILURE);
-}
-
-void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
-{
-	(void)fd;
-	if (fds->new_out != 1)
-	{
-		dup2(fds->new_out, STDOUT_FILENO);
-		close(fds->new_out);
-	}
-	if (fds->new_in != 0)
-	{
-		dup2(fds->new_in, STDIN_FILENO);
-		close(fds->new_in);
-	}
-	if (!ft_check_builtins(exenv))
-		ft_builtins(exenv, fds);
-	else
-	{
-		if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
-			write(2, "execve Error!", 14);
-	}
-	exit(EXIT_FAILURE);
-}
-
-int	cmd_num(t_args *args)
-{
-	t_args	*clone;
-	int		i;
-
-	i = 0;
-	clone = args;
-	while (clone)
-	{
-		if (clone->type == COMMAND)
-			i++;
-		clone = clone->next;
-	}
-	return (i);
-}
 
 int	execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 {
@@ -132,6 +39,67 @@ int	execute_multicmd(t_vars *vars, t_exenv exenv, t_fds	*fds)
 	return (0);
 }
 
+void	check_multired(t_exenv *exenv, t_fds	**fds)
+{
+	if (exenv->args->type == OUT)
+	{
+		(*fds)->new_out = (*fds)->out_f->next->fd;
+		if ((*fds)->out_f->next)
+			(*fds)->out_f = (*fds)->out_f->next;
+	}
+	else if (exenv->args->type == APPEND)
+	{
+		(*fds)->new_out = (*fds)->app_f->next->fd;
+		if ((*fds)->app_f->next)
+			(*fds)->app_f = (*fds)->app_f->next;
+	}
+	else if (exenv->args->type == IN)
+	{
+		(*fds)->new_in = (*fds)->in_f->next->fd;
+		if ((*fds)->in_f->next)
+			(*fds)->in_f = (*fds)->in_f->next;
+	}
+	else if (exenv->args->type == HEREDOC)
+	{
+		(*fds)->new_in = (*fds)->here_f->next->fd;
+		if ((*fds)->here_f->next)
+			(*fds)->here_f = (*fds)->here_f->next;
+	}
+}
+
+void	abs_path(t_vars	*vars, t_exenv *exenv)
+{
+	vars->path = exenv->args->arg[0];
+	vars->cmd = get_cmd(exenv->args->arg);
+}
+
+void	check_multicmd(t_exenv *exenv, t_fds	**fds, t_vars	*vars)
+{
+	if (exenv->args->type == COMMAND)
+	{
+		if (access(exenv->args->arg[0], X_OK) == 0)
+			abs_path(vars, exenv);
+		else
+		{
+			if (exenv->args->arg[0][0] == '.'
+				&& exenv->args->arg[0][1] == '/')
+			{
+				vars->path = get_path2(exenv->env, exenv->args->arg);
+				if (!ft_strcmp(exenv->args->arg[0], "./minishell"))
+					increase_shlvl((*exenv));
+			}
+			else
+				vars->path = get_path(exenv->env, exenv->args->arg);
+			vars->cmd = exenv->args->arg;
+		}
+		execute_multicmd(vars, (*exenv), (*fds));
+		free(vars->path);
+		(*fds)->new_out = 1;
+		(*fds)->new_in = 0;
+		vars->i++;
+	}
+}
+
 void	parse_multicmd(t_exenv exenv, t_fds	*fds)
 {
 	t_vars	vars;
@@ -146,56 +114,8 @@ void	parse_multicmd(t_exenv exenv, t_fds	*fds)
 	tmp2 = dup(0);
 	while (exenv.args)
 	{
-		if (exenv.args->type == OUT)
-		{
-			fds->new_out = fds->out_f->next->fd;
-			if (fds->out_f->next)
-				fds->out_f = fds->out_f->next;
-		}
-		else if (exenv.args->type == APPEND)
-		{
-			fds->new_out = fds->app_f->next->fd;
-			if (fds->app_f->next)
-				fds->app_f = fds->app_f->next;
-		}
-		else if (exenv.args->type == IN)
-		{
-			fds->new_in = fds->in_f->next->fd;
-			if (fds->in_f->next)
-				fds->in_f = fds->in_f->next;
-		}
-		else if (exenv.args->type == HEREDOC)
-		{
-			fds->new_in = fds->here_f->next->fd;
-			if (fds->here_f->next)
-				fds->here_f = fds->here_f->next;
-		}
-		if (exenv.args->type == COMMAND)
-		{
-			if (access(exenv.args->arg[0], X_OK) == 0)
-			{
-				vars.path = exenv.args->arg[0];
-				vars.cmd = get_cmd(exenv.args->arg);
-			}
-			else
-			{
-				if (exenv.args->arg[0][0] == '.'
-					&& exenv.args->arg[0][1] == '/')
-				{
-					vars.path = get_path2(exenv.env, exenv.args->arg);
-					if (!ft_strcmp(exenv.args->arg[0], "./minishell"))
-						increase_shlvl(exenv);
-				}
-				else
-					vars.path = get_path(exenv.env, exenv.args->arg);
-				vars.cmd = exenv.args->arg;
-			}
-			execute_multicmd(&vars, exenv, fds);
-			free(vars.path);
-			fds->new_out = 1;
-			fds->new_in = 0;
-			vars.i++;
-		}
+		check_multired(&exenv, &fds);
+		check_multicmd(&exenv, &fds, &vars);
 		exenv.args = exenv.args->next;
 	}
 	while (vars.num--)

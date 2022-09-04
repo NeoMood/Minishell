@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 16:53:46 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 22:42:51 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ t_tk	*ft_token_space(t_tk *list);
 t_tk	*ft_lexer(char *line);
 
 // ENV AND ITS UTILS
-char	*var_value(t_env *env, char *varname);
 t_env	*ft_createcell(char *key, char	*value);
 t_exp	*ft_createcell2(char *key, char	*value);
 void	ft_addbacknode(t_env **env, t_env *nv);
@@ -256,6 +255,14 @@ int		ft_exit(t_exenv exenv);
 char	**get_newenv(t_env	*env);
 int		list_size(t_env	*env);
 int		check_key(char *key);
+void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds);
+void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds);
+void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds);
+int		get_index(const char *s, int c);
+char	*get_key(const char *s, int c);
+int		if_exists(t_exp	*exp, char *key);
+int		if_exists2(t_env	*env, char *key);
+int		check_plequal(char *arg);
 
 // MAIN UTILS
 void	ft_execution(t_exenv exenv, t_fds *fds);

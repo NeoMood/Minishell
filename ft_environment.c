@@ -6,32 +6,11 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:37:01 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 21:49:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**our_env(char **env)
-{
-	char	**our_env;
-	int		i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	our_env = malloc(sizeof(char *) * (i + 1));
-	if (!our_env)
-		return (NULL);
-	i = 0;
-	while (env[i])
-	{
-		our_env[i] = env[i];
-		i++;
-	}
-	our_env[i] = NULL;
-	return (our_env);
-}
 
 t_env	*ft_getenv(char **envp)
 {
@@ -64,20 +43,6 @@ char	*ft_getvalue(t_env *env, char *key)
 	return (NULL);
 }
 
-char	*var_value(t_env *env, char *varname)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp->next)
-	{
-		if (ft_strcmp(tmp->key, varname) == 0)
-			break ;
-		tmp = tmp->next;
-	}
-	return (tmp->value);
-}
-
 t_tk	*ft_expand(t_tk *list, t_env *ev)
 {
 	t_tk	*tmp;
@@ -95,4 +60,25 @@ t_tk	*ft_expand(t_tk *list, t_env *ev)
 		list = list->next;
 	}
 	return (tmp);
+}
+
+char	**get_newenv(t_env	*env)
+{
+	char	**new_env;
+	int		i;
+
+	new_env = malloc((sizeof(char *) * (list_size(env) + 1)));
+	if (!new_env)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		new_env[i] = ft_strdup(env->key);
+		new_env[i] = ft_strjoin(new_env[i], "=");
+		new_env[i] = ft_strjoin(new_env[i], env->value);
+		i++;
+		env = env->next;
+	}
+	new_env[i] = NULL;
+	return (new_env);
 }

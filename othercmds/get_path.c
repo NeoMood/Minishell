@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 22:38:05 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,6 @@ char	*env_pwd(t_env *env)
 	return (NULL);
 }
 
-int	get_error(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-	{
-		write(2, "invalid command!\n", 18);
-		g_mode.g_exit = 127;
-		return (1);
-	}
-	else
-	{
-		while (s[i])
-		{
-			write(1, &s[i], 1);
-			i++;
-		}
-		write(2, ": No such file or directory\n", 29);
-		g_mode.g_exit = 127;
-		return (1);
-	}
-	return (1);
-}
-
 char	*get_path(t_env *env, char **cmd)
 {
 	char	**paths;
@@ -90,12 +65,6 @@ char	*get_path(t_env *env, char **cmd)
 	}
 	get_error (cmd[0]);
 	return (NULL);
-}
-
-void	get_filerror(char **cmd)
-{
-	ft_putstr_fd(cmd[0], 2);
-	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
 char	*get_path2(t_env *env, char **cmd)

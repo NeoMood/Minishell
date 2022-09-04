@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:31:11 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 21:47:21 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_cd(t_exenv exenv)
 	change_pwd(exenv, "OLDPWD");
 	if (!exenv.args->arg[1])
 	{
-		if (chdir(var_value(exenv.env, "HOME")) == -1)
+		if (chdir(ft_getvalue(exenv.env, "HOME")) == -1)
 		{
 			printf("Minishell: cd: HOME not set\n");
 			g_mode.g_exit = 1;
