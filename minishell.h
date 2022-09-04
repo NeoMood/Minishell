@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:31:42 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 14:32:48 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_vars{
 	int		fd[2];
 	int num;
 	int i;
-	int f;
+	// int f;
 	char **cmd;
 }t_vars ;
 
@@ -100,7 +100,8 @@ typedef struct s_exenv{
 	char		*line;
 	int			shlvl;
 	t_env		*head;
-	int			io;
+	// int			i;
+	// int			o;
 	char		**new_env;
 }t_exenv;
 

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:46:50 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 14:20:27 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	tmp2 = dup(0);
 	fds->new_out = 1;
 	fds->new_in = 0;
-	exenv.io = 0;
 	list = ft_lexer(line);
 	list = ft_token_space(list);
 	tmp = list;
@@ -34,6 +33,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	exenv.args = ft_initialparsing(list);
 	exenv.args = ft_corrector(exenv.args);
 	ft_redirection(fds, exenv);
+	ft_printarg(exenv.args);
 	if (!check_pipe(exenv.args))
 		parse_multicmd(exenv, fds);
 	else
@@ -43,30 +43,26 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 			if (exenv.args->type == OUT)
 			{
 				fds->new_out = fds->out_f->next->fd;
-				if(fds->out_f->next)
+				if (fds->out_f->next)
 					fds->out_f = fds->out_f->next;
-				exenv.io = 1;
 			}
 			else if (exenv.args->type == APPEND)
 			{
 				fds->new_out = fds->app_f->next->fd;
 				if (fds->app_f->next)
 					fds->app_f = fds->app_f->next;
-				exenv.io = 1;
 			}
 			else if (exenv.args->type == IN)
 			{
 				fds->new_in = fds->in_f->next->fd;
 				if (fds->in_f->next)
 					fds->in_f = fds->in_f->next;
-				exenv.io = 2;
 			}
 			else if (exenv.args->type == HEREDOC)
 			{
 				fds->new_in = fds->here_f->next->fd;
 				if (fds->here_f->next)
 					fds->here_f = fds->here_f->next;
-				exenv.io = 2;
 			}
 			else
 				break ;
@@ -74,12 +70,12 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		}
 		if (exenv.args != NULL && exenv.args->type == COMMAND)
 		{
-			if (exenv.io == 1)
+			if (fds->new_out != 1)
 			{
 				dup2(fds->new_out, STDOUT_FILENO);
 				close(fds->new_out);
 			}
-			if (exenv.io == 2)
+			if (fds->new_in != 0)
 			{
 				dup2(fds->new_in, STDIN_FILENO);
 				close(fds->new_in);
@@ -95,7 +91,6 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		close(tmp2);
 	}
 	// printlist(list); // print the lexer list
-	// ft_printarg(exenv.args);
 }
 
 int	main(int ac, char **av, char **env)
