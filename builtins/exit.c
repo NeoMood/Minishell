@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:51:49 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 15:48:20 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static void	ft_handlelong(t_exenv exenv)
 		if (!ft_strcmp(exenv.args->arg[1], "9223372036854775807"))
 		{
 			write (1, "exit\n", 5);
-			mode.g_exit = 255;
+			g_mode.g_exit = 255;
 			exit (255);
 		}
 		else
 		{
-			mode.g_exit = 255;
+			g_mode.g_exit = 255;
 			ft_error(exenv);
 		}
 		j++;
@@ -56,7 +56,7 @@ static void	ft_negativenum(int j, t_exenv exenv)
 			if (ft_isdigit(exenv.args->arg[1][l]))
 			{
 				write (1, "exit\n", 5);
-				mode.g_exit = 256 + ft_atoi(exenv.args->arg[1]) % 256;
+				g_mode.g_exit = 256 + ft_atoi(exenv.args->arg[1]) % 256;
 				exit (213);
 			}
 			else
@@ -78,7 +78,7 @@ static void	ft_postifnum(int j, t_exenv exenv)
 		if (ft_isdigit(exenv.args->arg[1][l]))
 		{
 			write (1, "exit\n", 5);
-			mode.g_exit = ft_atoi(&exenv.args->arg[1][l]) % 256;
+			g_mode.g_exit = ft_atoi(&exenv.args->arg[1][l]) % 256;
 			exit (ft_atoi(&exenv.args->arg[1][l]) % 256);
 		}
 		else
@@ -110,12 +110,12 @@ int	ft_exit(t_exenv exenv)
 	{
 		printf("exit\n");
 		printf ("Minishell: exit: too many arguments\n");
-		mode.g_exit = 127;
+		g_mode.g_exit = 127;
 	}
 	else
 	{
 		write (1, "exit\n", 5);
-		mode.g_exit = 0;
+		g_mode.g_exit = 0;
 		exit (0);
 	}
 	return (0);

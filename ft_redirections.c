@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:38:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:49:28 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 17:48:50 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	ft_document(t_env *envar, t_args *here)
 
 	if (pipe(fd) == -1)
 		perror("pipe");
-	mode.g_sig = 2;
+	g_mode.g_sig = 2;
 	while (1)
 	{
 		heredoc = readline("> ");
@@ -37,7 +37,7 @@ static int	ft_document(t_env *envar, t_args *here)
 		if (heredoc[0] == '$')
 			heredoc = ft_getvalue(envar, &heredoc[1]);
 		ft_putendl_fd(heredoc, fd[1]);
-		free (heredoc);
+		// free (heredoc);
 	}
 	close (fd[1]);
 	return (fd[0]);

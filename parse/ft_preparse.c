@@ -6,11 +6,31 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:18:10 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:35:11 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:54:05 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	ft_norm_merge(t_args **parse, t_args **new)
+{
+	while ((*parse) && (*parse)->type != PIPE)
+	{
+		if ((*parse) && ((*parse)->type == IN || (*parse)->type == OUT
+				|| (*parse)->type == APPEND || (*parse)->type == HEREDOC))
+		{
+			if ((*parse) && (*parse)->type == APPEND)
+				ft_addbackarg(new, ft_args_node((*parse)->arg, APPEND));
+			else if ((*parse) && ((*parse)->type == OUT))
+				ft_addbackarg(new, ft_args_node((*parse)->arg, OUT));
+			else if ((*parse) && (*parse)->type == IN)
+				ft_addbackarg(new, ft_args_node((*parse)->arg, IN));
+			else if ((*parse) && (*parse)->type == HEREDOC)
+				ft_addbackarg(new, ft_args_node((*parse)->arg, HEREDOC));
+		}
+		(*parse) = (*parse)->next;
+	}
+}
 
 t_args	*ft_merge(t_args *parse)
 {
@@ -21,22 +41,7 @@ t_args	*ft_merge(t_args *parse)
 	while (parse)
 	{
 		tmp = parse;
-		while (parse && parse->type != PIPE)
-		{
-			if (parse && (parse->type == IN || parse->type == OUT
-					|| parse->type == APPEND || parse->type == HEREDOC))
-			{
-				if (parse && parse->type == APPEND)
-					ft_addbackarg(&new, ft_args_node(parse->arg, APPEND));
-				else if (parse && (parse->type == OUT))
-					ft_addbackarg(&new, ft_args_node(parse->arg, OUT));
-				else if (parse && parse->type == IN)
-					ft_addbackarg(&new, ft_args_node(parse->arg, IN));
-				else if (parse && parse->type == HEREDOC)
-					ft_addbackarg(&new, ft_args_node(parse->arg, HEREDOC));
-			}
-			parse = parse->next;
-		}
+		ft_norm_merge(&parse, &new);
 		parse = tmp;
 		while (parse && parse->type != PIPE)
 		{

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:43:30 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:53:46 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,27 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE 1
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
 
-typedef enum {PIP,VAR,SQUOTE,DQUOTE,RINPUT,ROUTPUT,DINPUT,DOUTPUT,WORD,SP, WILDCARD} e_def;
-
-typedef enum {COMMAND, PIPE, IN, OUT,APPEND, HEREDOC, REDIRECTION} e_type;
-
+typedef enum s_def{
+	PIP,
+	VAR,
+	SQUOTE,
+	DQUOTE,
+	RINPUT,
+	ROUTPUT,
+	DINPUT,
+	DOUTPUT,
+	WORD,
+	SP}	e_def;
+typedef enum		s_type{
+	COMMAND,
+	PIPE,
+	IN,
+	OUT,
+	APPEND,
+	HEREDOC} e_type;
 typedef struct s_env{
 	char			*key;
 	char			*value;
@@ -48,7 +62,7 @@ typedef struct s_global{
 	int		g_exit;
 }t_global;
 
-t_global mode;
+t_global	g_mode;
 
 typedef struct s_exp{
 	char			*key;
@@ -159,7 +173,7 @@ void	printenv(t_env *ev);
 char	**our_env(char **env);
 
 // SIGNALS
-void	ft_handlermodes(char *str);
+void	ft_handlerg_modes(char *str);
 void	ft_handler(int sig);
 
 // LEXER UTILS

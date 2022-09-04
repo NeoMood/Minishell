@@ -6,12 +6,46 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:51:20 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 17:01:52 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
+
+void	check_redirections(t_exenv *exenv, t_fds	**fds)
+{
+	while (exenv->args)
+	{
+		if (exenv->args->type == OUT)
+		{
+			(*fds)->new_out = (*fds)->out_f->next->fd;
+			if ((*fds)->out_f->next)
+				(*fds)->out_f = (*fds)->out_f->next;
+		}
+		else if (exenv->args->type == APPEND)
+		{
+			(*fds)->new_out = (*fds)->app_f->next->fd;
+			if ((*fds)->app_f->next)
+				(*fds)->app_f = (*fds)->app_f->next;
+		}
+		else if (exenv->args->type == IN)
+		{
+			(*fds)->new_in = (*fds)->in_f->next->fd;
+			if ((*fds)->in_f->next)
+				(*fds)->in_f = (*fds)->in_f->next;
+		}
+		else if (exenv->args->type == HEREDOC)
+		{
+			(*fds)->new_in = (*fds)->here_f->next->fd;
+			if ((*fds)->here_f->next)
+				(*fds)->here_f = (*fds)->here_f->next;
+		}
+		else
+			break ;
+		exenv->args = exenv->args->next;
+	}
+}
 
 static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 {
@@ -38,36 +72,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 		parse_multicmd(exenv, fds);
 	else
 	{
-		while (exenv.args)
-		{
-			if (exenv.args->type == OUT)
-			{
-				fds->new_out = fds->out_f->next->fd;
-				if (fds->out_f->next)
-					fds->out_f = fds->out_f->next;
-			}
-			else if (exenv.args->type == APPEND)
-			{
-				fds->new_out = fds->app_f->next->fd;
-				if (fds->app_f->next)
-					fds->app_f = fds->app_f->next;
-			}
-			else if (exenv.args->type == IN)
-			{
-				fds->new_in = fds->in_f->next->fd;
-				if (fds->in_f->next)
-					fds->in_f = fds->in_f->next;
-			}
-			else if (exenv.args->type == HEREDOC)
-			{
-				fds->new_in = fds->here_f->next->fd;
-				if (fds->here_f->next)
-					fds->here_f = fds->here_f->next;
-			}
-			else
-				break ;
-			exenv.args = exenv.args->next;
-		}
+		check_redirections(&exenv, &fds);
 		if (exenv.args != NULL && exenv.args->type == COMMAND)
 		{
 			if (fds->new_out != 1)
@@ -103,8 +108,8 @@ int	main(int ac, char **av, char **env)
 	exenv.envar = env;
 	exenv.shlvl = 1;
 	rl_catch_signals = 0;
-	mode.g_exit = 0;
-	mode.g_sig = 0;
+	g_mode.g_exit = 0;
+	g_mode.g_sig = 0;
 	if (ac != 1)
 	{
 		printf("\033[0;31m Invalid Number Arguments !\n");
@@ -123,5 +128,5 @@ int	main(int ac, char **av, char **env)
 		add_history (exenv.line);
 		free (exenv.line);
 	}
-	ft_freegarbe(mode.trash);
+	ft_freegarbe(g_mode.trash);
 }

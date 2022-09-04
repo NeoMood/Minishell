@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 15:03:01 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void	parse_multicmd(t_exenv exenv, t_fds	*fds)
 	while (vars.num--)
 		wait(&status);
 	if (WIFEXITED(status))
-		mode.g_exit = WEXITSTATUS(status);
+		g_mode.g_exit = WEXITSTATUS(status);
 	dup2(tmp1, 1);
 	close(tmp1);
 	dup2(tmp2, 0);

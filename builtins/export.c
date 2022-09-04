@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 15:50:35 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 17:51:54 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,23 +213,23 @@ void	update_envalue(t_env	*env, char *key, char *val)
 	}
 }
 
-char	*ft_strcat(char *dest, char *src)
-{
-	unsigned int	i;
-	unsigned int	j;
+// char	*ft_strcat(char *dest, char *src)
+// {
+// 	unsigned int	i;
+// 	unsigned int	j;
 
-	i = 0;
-	while (dest[i] != '\0')
-		++i;
-	j = 0;
-	while (src[j] != '\0')
-	{
-		dest[i] = src[j];
-		i++;
-		++j;
-	}
-	return (dest);
-}
+// 	i = 0;
+// 	while (dest[i] != '\0')
+// 		++i;
+// 	j = 0;
+// 	while (src[j] != '\0')
+// 	{
+// 		dest[i] = src[j];
+// 		i++;
+// 		++j;
+// 	}
+// 	return (dest);
+// }
 
 // char	*ft_strcat(char *dst, const char *src)
 // {
@@ -256,7 +256,7 @@ void	add_value(t_exp	*exp, char *key, char *val)
 	while (exp)
 	{
 		if (!ft_strcmp(exp->key, key))
-			ft_strcat(exp->value, val);
+			exp->value = ft_strjoin(exp->value, val);
 		exp = exp->next;
 	}
 }
@@ -266,7 +266,7 @@ void	add_envalue(t_env	*env, char *key, char *val)
 	while (env)
 	{
 		if (!ft_strcmp(env->key, key))
-			ft_strcat(env->value, val);
+			env->value = ft_strjoin(env->value, val);
 		env = env->next;
 	}
 }
@@ -308,14 +308,15 @@ void	ft_export(t_exenv exenv)
 					if (check_key(key))
 					{
 						printf("export: `%s': not a valid identifier\n", key);
-						mode.g_exit = 1;
+						g_mode.g_exit = 1;
 						return ;
 					}
 					if (if_exists(exenv.exp, key))
 						add_value(exenv.exp, key, &val[1]);
 					if (if_exists2(exenv.env, key))
 						add_envalue(exenv.env, key, &val[1]);
-					else
+					else if (!if_exists(exenv.exp, key)
+						&& !if_exists2(exenv.env, key))
 					{
 						ft_lstadd_back(&exenv.exp,
 							ft_createcell2(key, &val[1]));
@@ -329,7 +330,7 @@ void	ft_export(t_exenv exenv)
 					if (check_key(key))
 					{
 						printf("export: `%s': not a valid identifier\n", key);
-						mode.g_exit = 1;
+						g_mode.g_exit = 1;
 						return ;
 					}
 					if (if_exists(exenv.exp, key))
@@ -351,7 +352,7 @@ void	ft_export(t_exenv exenv)
 				{
 					printf("export: `%s': not a valid identifier\n",
 						exenv.args->arg[i]);
-					mode.g_exit = 1;
+					g_mode.g_exit = 1;
 					return ;
 				}
 				if (!if_exists(exenv.exp, exenv.args->arg[i]))

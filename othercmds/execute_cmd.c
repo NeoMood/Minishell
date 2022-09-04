@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 15:25:37 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	processing_cmd(char *path, char **cmd, char **env)
 {
-	mode.g_sig = 0;
+	g_mode.g_sig = 0;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (execve(path, cmd, env) == -1)
@@ -71,13 +71,13 @@ void	forking(char *path, char **cmd, char **new_env)
 	pid = fork();
 	if (pid < 0)
 		return (perror("pipe"));
-	mode.g_sig = 1;
+	g_mode.g_sig = 1;
 	if (pid == 0)
 		processing_cmd(path, cmd, new_env);
 	waitpid(pid, &status, 0);
-	mode.g_sig = 0;
+	g_mode.g_sig = 0;
 	if (WIFEXITED(status))
-		mode.g_exit = WEXITSTATUS(status);
+		g_mode.g_exit = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGQUIT)

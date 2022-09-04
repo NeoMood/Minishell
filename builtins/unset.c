@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 00:57:58 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 15:20:47 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_unset(t_exenv exenv)
 			{
 				printf("unset: `%s': not a valid identifier\n",
 					exenv.args->arg[i]);
-				mode.g_exit = 1;
+				g_mode.g_exit = 1;
 				return ;
 			}
 			del_env(exenv.args->arg[i], exenv.env);

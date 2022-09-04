@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:27:57 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:29:59 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_fullcheck(t_tk *list)
 	if (!ft_checksyntaxpip(list) || !ft_checkfirst(list))
 	{
 		printf("Minishell-1.0 : Syntax Error\n");
-		mode.g_exit = 258;
+		g_mode.g_exit = 258;
 		return (0);
 	}
 	return (1);

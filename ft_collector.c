@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 17:41:52 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:36:46 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 16:44:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	*ft_malloc(size_t allocation)
 	str = malloc (allocation);
 	if (!str)
 		exit (1);
-	if (!mode.trash)
-		mode.trash = ft_newgarbage(str);
+	if (!g_mode.trash)
+		g_mode.trash = ft_newgarbage(str);
 	else
-		ft_addbackthegarbe(&mode.trash, ft_newgarbage(str));
+		ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(str));
 	return (str);
 }
 
