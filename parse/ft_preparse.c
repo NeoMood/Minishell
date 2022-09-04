@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:18:10 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:42:35 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:35:11 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_args	*ft_merge(t_args *parse)
 		tmp = parse;
 		while (parse && parse->type != PIPE)
 		{
-			if (parse && (parse->type == IN || parse->type == OUT || parse->type == APPEND || parse->type == HEREDOC))
+			if (parse && (parse->type == IN || parse->type == OUT
+					|| parse->type == APPEND || parse->type == HEREDOC))
 			{
 				if (parse && parse->type == APPEND)
 					ft_addbackarg(&new, ft_args_node(parse->arg, APPEND));
@@ -63,14 +64,14 @@ t_args	*ft_joiner(t_args *parse)
 	new = parse;
 	while (new)
 	{
-		if (new && new->next && new->type == COMMAND && new->next->type == COMMAND)
+		if (new && new->next && new->type == COMMAND
+			&& new->next->type == COMMAND)
 		{
 			new->arg = ft_join2darray(new->arg, new->next->arg);
 			tmp = new->next;
 			new->next = new->next->next;
-			// free(tmp);
 		}
-		else		
+		else
 			new = new->next;
 	}
 	return (parse);

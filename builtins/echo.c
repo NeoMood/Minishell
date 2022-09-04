@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:13:17 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/01 22:59:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:06:53 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	arr_len(char **arr)
 
 	i = -1;
 	while (arr[i])
-        i++;
+		i++;
 	return (i);
 }
 
@@ -88,15 +88,15 @@ int	n_check(char *arg)
 void	ft_echo(char **data)
 {
 	int	i;
-	int len;
+	int	len;
 	int	nl;
 
 	len = arr_len(data);
 	if (len == 1)
-    {
-        printf("\n");
+	{
+		printf("\n");
 		return ;
-    }
+	}
 	nl = 0;
 	i = 1;
 	while (data[i] && n_check(data[i]) == 1)

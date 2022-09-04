@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_utils01.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 21:50:34 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:35:51 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_checkdquotes(int i, char *line, t_tk **list)
 		if (line[j] == '$')
 		{
 			if (line[j - 1] != '\"' && i < j)
-				ft_addtolist(list, ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
+				ft_addtolist(list,
+					ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
 			k = ft_checkdollar(j, line, list);
 			if (line[k] == '\"')
 				return (k + 1);

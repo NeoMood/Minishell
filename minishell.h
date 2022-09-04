@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 14:32:48 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:43:30 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@ typedef struct s_env{
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}t_env ;
+}t_env;
 
 typedef struct s_free{
-	void	*ptr;
-	struct s_free *next;
-}t_free ;
+	void			*ptr;
+	struct s_free	*next;
+}t_free;
 
 typedef struct s_global{
 	t_free	*trash;
 	int		g_sig;
 	int		g_exit;
-}t_global ;
+}t_global;
 
 t_global mode;
 
@@ -54,43 +54,42 @@ typedef struct s_exp{
 	char			*key;
 	char			*value;
 	struct s_exp	*next;
-}t_exp ;
+}t_exp;
 
 typedef struct s_tk{
 	char		*input;
 	int			token;
 	struct s_tk	*next;
-}t_tk ;
+}t_tk;
 
 typedef struct s_args{
-	char 			**arg;
-	e_type 			type;
+	char			**arg;
+	e_type			type;
 	struct s_args	*next;
-}t_args ;
+}t_args;
 
 typedef struct s_vars{
-	char *path;
+	char	*path;
 	int		fd[2];
-	int num;
-	int i;
-	// int f;
-	char **cmd;
-}t_vars ;
+	int		num;
+	int		i;
+	char	**cmd;
+}t_vars;
 
 typedef struct s_file{
-	int 			fd;
+	int				fd;
 	struct s_file	*next;
 	struct s_file	*prev;
-}t_file ;
+}t_file;
 
 typedef struct s_fds{
 	t_file	*out_f;
 	t_file	*in_f;
 	t_file	*app_f;
 	t_file	*here_f;
-	int	new_out;
-	int	new_in;
-}t_fds ;
+	int		new_out;
+	int		new_in;
+}t_fds;
 
 typedef struct s_exenv{
 	t_env		*env;
@@ -100,14 +99,11 @@ typedef struct s_exenv{
 	char		*line;
 	int			shlvl;
 	t_env		*head;
-	// int			i;
-	// int			o;
 	char		**new_env;
 }t_exenv;
 
-
 // UTILS LIBFT
-int	event(void);
+int		event(void);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -117,7 +113,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_join2darray(char **tmp, char **temp);
 int		ft_strcmp(const char *s1, const char *s2);
 size_t	ft_strlcpy_v2(char *dst, const char *src);
-char    *ft_strjoin_v2(char *s1, char *s2);
+char	*ft_strjoin_v2(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strchr(const char *s, int c);
@@ -139,14 +135,14 @@ void	ft_addtolist(t_tk **list, t_tk *lst);
 void	printlist(t_tk *list);
 
 // MINISHELL UTILS
-char    **ft_table(char **tmp2, char *tmp1);
-void    free_twodarray(char **str);
-void    ft_extraspace(char *line);
+char	**ft_table(char **tmp2, char *tmp1);
+void	free_twodarray(char **str);
+void	ft_extraspace(char *line);
 int		ft_isspace(char c);
 void	ft_free(char **tmp);
 
 // LEXER
-t_tk    *ft_token_space(t_tk *list);
+t_tk	*ft_token_space(t_tk *list);
 t_tk	*ft_lexer(char *line);
 
 // ENV AND ITS UTILS
@@ -159,7 +155,7 @@ char	*ft_getvalue(t_env *env, char *key);
 t_exp	*ft_last_node2(t_exp *nv);
 t_env	*ft_last_node(t_env	*nv);
 t_env	*ft_getenv(char **envp);
-void    printenv(t_env *ev);
+void	printenv(t_env *ev);
 char	**our_env(char **env);
 
 // SIGNALS
@@ -187,10 +183,10 @@ t_tk	*ft_expand(t_tk *list, t_env *ev);
 t_tk	*ft_initialparse(t_tk *list);
 
 // SYNYAX ERROR
-int	ft_syntaxredirection(t_tk *list);
-int	ft_checksyntaxpip(t_tk *list);
-int	ft_checkfirst(t_tk *list);
-int	ft_fullcheck(t_tk *list);
+int		ft_syntaxredirection(t_tk *list);
+int		ft_checksyntaxpip(t_tk *list);
+int		ft_checkfirst(t_tk *list);
+int		ft_fullcheck(t_tk *list);
 
 // PRE PARSING
 t_args	*ft_joiner(t_args *parse);
@@ -208,48 +204,47 @@ void	ft_fdadd_back(t_file **lst, t_file *nv);
 t_file	*ft_lstnewfd(int fd);
 t_file	*ft_lstlastfd(t_file *lst);
 void	ft_addbackarg(t_args **pars, t_args *nv);
-t_args  *ft_args_node(char **ar, e_type type);
+t_args	*ft_args_node(char **ar, e_type type);
 t_args	*ft_initialparsing(t_tk *list);
 void	ft_printarg(t_args *args);
-t_args *ft_last_arg(t_args *lst);
+t_args	*ft_last_arg(t_args *lst);
 
 // Exuction PART
-void    ft_redirection(t_fds    *fds, t_exenv exenv);
+void	ft_redirection(t_fds	*fds, t_exenv exenv);
 
 // COMMANDS
 char	*char_checker(t_env *envar, char *arg);
-void	ft_builtins(t_exenv exenv, t_fds    *fds);
+void	ft_builtins(t_exenv exenv, t_fds	*fds);
 char	*expansion(t_env *envar, char *str);
-
 
 // NEO COMMANDS
 void	ft_cd(t_exenv exenv);
-void    ft_pwd(void);
-void    ft_env(t_exenv exenv);
+void	ft_pwd(void);
+void	ft_env(t_exenv exenv);
 void	ft_echo(char **data);
-void    ft_export(t_exenv exenv);
-t_exp   *env_to_exp(t_env *env);
+void	ft_export(t_exenv exenv);
+t_exp	*env_to_exp(t_env *env);
 void	sort_exp(t_exp **exp);
 void	exp_print(t_exp **exp);
-void    ft_unset(t_exenv exenv);
-t_exp   *ft_getexp(char **env);
-char    *get_path(t_env *env,  char **cmd);
-void    parse_cmd(t_exenv exenv);
-void    parse_multicmd(t_exenv exenv, t_fds	*fds);
+void	ft_unset(t_exenv exenv);
+t_exp	*ft_getexp(char **env);
+char	*get_path(t_env	*env, char **cmd);
+void	parse_cmd(t_exenv exenv);
+void	parse_multicmd(t_exenv exenv, t_fds	*fds);
 int		get_error(char *s);
-char    *get_path2(t_env *env,  char **cmd);
-void    get_filerror(char **cmd);
-char 	**get_cmd(char **cmd);
-void    increase_shlvl(t_exenv exenv);
-int 	cmd_num(t_args *args);
+char	*get_path2(t_env	*env, char **cmd);
+void	get_filerror(char **cmd);
+char	**get_cmd(char **cmd);
+void	increase_shlvl(t_exenv exenv);
+int		cmd_num(t_args *args);
 void	ft_lstadd_back(t_exp **lst, t_exp *nv);
-int    ft_exit(t_exenv exenv);
-char    **get_newenv(t_env  *env);
-int     list_size(t_env  *env);
+int		ft_exit(t_exenv exenv);
+char	**get_newenv(t_env	*env);
+int		list_size(t_env	*env);
 int		check_key(char *key);
 
 // MAIN UTILS
-void    ft_execution(t_exenv exenv, t_fds *fds);
+void	ft_execution(t_exenv exenv, t_fds *fds);
 int		ft_check_builtins(t_exenv exenv);
 t_args	*ft_corrector(t_args *parse);
 int		check_pipe(t_args *args);

@@ -6,19 +6,19 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:32:51 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:40:47 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:21:55 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tk *ft_input(char *data, int token)
+t_tk	*ft_input(char *data, int token)
 {
 	t_tk	*list;
 
 	list = NULL;
 	list = ft_malloc(sizeof(t_tk));
-	if(!list)
+	if (!list)
 		return (NULL);
 	list->input = data;
 	list->token = token;
@@ -31,8 +31,8 @@ t_tk	*ft_findlast(t_tk *lst)
 	while (lst)
 	{
 		if (lst->next == NULL)
-			break;
-		lst = lst->next;	
+			break ;
+		lst = lst->next;
 	}
 	return (lst);
 }
@@ -51,7 +51,7 @@ void	printlist(t_tk *list)
 		return ;
 	while (list)
 	{
-		printf("%d ---- [%s]\n",list->token, list->input);
+		printf("%d ---- [%s]\n", list->token, list->input);
 		list = list->next;
 	}
 	puts("_______________\n");

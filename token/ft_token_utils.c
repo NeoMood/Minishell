@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:34:43 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 21:45:07 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:35:31 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_checkroutput(int i, t_tk **list)
 int	ft_checkrinput(int i, t_tk **list)
 {
 	ft_addtolist(list, ft_input(ft_strdup("<"), RINPUT));
-	return (i+ 1);
+	return (i + 1);
 }
 
 int	ft_checkdinput(int i, t_tk **list)

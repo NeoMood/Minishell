@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_checksyntax.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:27:57 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/01 18:40:11 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:29:59 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_checkfirst(t_tk *list)
 			return (0);
 		else if (list->token == ROUTPUT && list->next == NULL)
 			return (0);
-        else if (list->token == PIP && list->next == NULL)
+		else if (list->token == PIP && list->next == NULL)
 			return (0);
 		else if (list->token == DOUTPUT && list->next == NULL)
 			return (0);
@@ -43,7 +43,7 @@ int	ft_checksyntaxpip(t_tk *list)
 		if (list->token == PIP && (list->next && list->next->token == PIP))
 			return (0);
 		if (list->token == PIP && (list->next && list->next->next
-			&& list->next->token == SP && list->next->next->token == PIP))
+				&& list->next->token == SP && list->next->next->token == PIP))
 			return (0);
 		list = list->next;
 	}

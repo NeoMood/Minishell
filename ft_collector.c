@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_collector.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 17:41:52 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 21:36:55 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:36:46 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_malloc(size_t allocation)
 
 t_free	*ft_newgarbage(void *ptr)
 {
-    t_free	*trash;
+	t_free	*trash;
 
 	trash = malloc(sizeof(t_free));
 	if (!trash)
@@ -64,11 +64,12 @@ t_free	*ft_lstgarbage(t_free *lst)
 void	ft_freegarbe(t_free *list)
 {
 	t_free	*tmp;
+
 	while (list)
 	{
 		tmp = list;
 		free (tmp->ptr);
-       	free (tmp->next->ptr);
+		free (tmp->next->ptr);
 		tmp = tmp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/03 00:23:59 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:50:35 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ int	get_index(const char *s, int c)
 
 char	*get_key(const char *s, int c)
 {
-	int i;
-	int j;
-	char *key;
-	char *tmp;
+	int		i;
+	int		j;
+	char	*key;
+	char	*tmp;
 
 	j = get_index(s, c);
 	i = 0;
-	tmp = (char*)malloc(sizeof(char) * j + 1);
-	while(i < j)
+	tmp = (char *)malloc(sizeof(char) * j + 1);
+	while (i < j)
 	{
 		tmp[i] = s[i];
 		i++;
@@ -47,35 +47,35 @@ char	*get_key(const char *s, int c)
 	tmp[i] = '\0';
 	key = ft_strdup(tmp);
 	free(tmp);
-	return(key);
+	return (key);
 }
 
-int		if_exists(t_exp	*exp, char *key)
+int	if_exists(t_exp	*exp, char *key)
 {
 	t_exp	*tmp;
 
 	tmp = exp;
-	while(tmp)
+	while (tmp)
 	{
-		if(!ft_strcmp(tmp->key, key))
-			return(1);
+		if (!ft_strcmp(tmp->key, key))
+			return (1);
 		tmp = tmp->next;
 	}
-	return(0);
+	return (0);
 }
 
-int		if_exists2(t_env	*env, char *key)
+int	if_exists2(t_env	*env, char *key)
 {
 	t_env	*tmp;
 
 	tmp = env;
-	while(tmp)
+	while (tmp)
 	{
-		if(!ft_strcmp(tmp->key, key))
-			return(1);
+		if (!ft_strcmp(tmp->key, key))
+			return (1);
 		tmp = tmp->next;
 	}
-	return(0);
+	return (0);
 }
 
 t_exp	*ft_lstlast(t_exp *lst)
@@ -108,15 +108,10 @@ void	exp_print(t_exp **exp)
 	new = *exp;
 	while (new)
 	{
-		if(new->key)
+		if (new->key)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(new->key, 1);
-			// if(*new->value == '\0')
-			// {
-			// 	ft_putstr_fd("=", 1);
-			// 	ft_putstr_fd("\"\"", 1);
-			// }
 			if (*new->value != '\0')
 			{
 				ft_putstr_fd("=", 1);
@@ -143,7 +138,7 @@ void	sort_exp(t_exp **exp)
 	i = *exp;
 	while (i)
 	{
-		if(i->key)
+		if (i->key)
 		{
 			j = i->next;
 			while (j)
@@ -164,7 +159,7 @@ void	sort_exp(t_exp **exp)
 	}
 }
 
-t_exp   *ft_getexp(char **env)
+t_exp	*ft_getexp(char **env)
 {
 	t_exp	*save;
 	char	*key;
@@ -175,33 +170,34 @@ t_exp   *ft_getexp(char **env)
 	save = NULL;
 	while (env[i])
 	{
-        key = ft_substr(env[i], 0,ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')));
+		key = ft_substr(env[i], 0,
+				ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '=')));
 		value = ft_strdup(ft_strchr(env[i], '=') + 1);
 		ft_addbacknode2(&save, ft_createcell2(key, value));
 		i++;
 	}
-    return (save);
+	return (save);
 }
 
 int	check_plequal(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(arg[i])
+	while (arg[i])
 	{
-		if(arg[i] == '+' && arg[i + 1] == '=')
-			return(1);
+		if (arg[i] == '+' && arg[i + 1] == '=')
+			return (1);
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
 void	update_value(t_exp	*exp, char *key, char *val)
 {
-	while(exp)
+	while (exp)
 	{
-		if(!ft_strcmp(exp->key, key))
+		if (!ft_strcmp(exp->key, key))
 			exp->value = ft_strdup(val);
 		exp = exp->next;
 	}
@@ -209,9 +205,9 @@ void	update_value(t_exp	*exp, char *key, char *val)
 
 void	update_envalue(t_env	*env, char *key, char *val)
 {
-	while(env)
+	while (env)
 	{
-		if(!ft_strcmp(env->key, key))
+		if (!ft_strcmp(env->key, key))
 			env->value = ft_strdup(val);
 		env = env->next;
 	}
@@ -232,7 +228,6 @@ char	*ft_strcat(char *dest, char *src)
 		i++;
 		++j;
 	}
-	// dest[i] = '\0';
 	return (dest);
 }
 
@@ -258,9 +253,9 @@ char	*ft_strcat(char *dest, char *src)
 
 void	add_value(t_exp	*exp, char *key, char *val)
 {
-	while(exp)
+	while (exp)
 	{
-		if(!ft_strcmp(exp->key, key))
+		if (!ft_strcmp(exp->key, key))
 			ft_strcat(exp->value, val);
 		exp = exp->next;
 	}
@@ -268,60 +263,62 @@ void	add_value(t_exp	*exp, char *key, char *val)
 
 void	add_envalue(t_env	*env, char *key, char *val)
 {
-	while(env)
+	while (env)
 	{
-		if(!ft_strcmp(env->key, key))
+		if (!ft_strcmp(env->key, key))
 			ft_strcat(env->value, val);
 		env = env->next;
 	}
 }
 
-int check_key(char *key)
+int	check_key(char *key)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(ft_isdigit(key[0]))
-		return(1);
-	while(key[i])
+	if (ft_isdigit(key[0]))
+		return (1);
+	while (key[i])
 	{
-		if(key[i] < 48 || (key[i] > 57 && key[i] < 65) || (key[i] > 90 && key[i] < 97) || key[i] > 122)
-			return(1);
+		if (key[i] < 48 || (key[i] > 57 && key[i] < 65)
+			|| (key[i] > 90 && key[i] < 97) || key[i] > 122)
+			return (1);
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
-void    ft_export(t_exenv exenv)
+void	ft_export(t_exenv exenv)
 {
-	char *val;
-	char *key;
-	int	i;
-	
+	char	*val;
+	char	*key;
+	int		i;
+
 	i = 1;
-	if(exenv.args->arg[1])
+	if (exenv.args->arg[1])
 	{
-		while(exenv.args->arg[i])
+		while (exenv.args->arg[i])
 		{
-			if(ft_strchr(exenv.args->arg[i], '='))
+			if (ft_strchr(exenv.args->arg[i], '='))
 			{
-				if(check_plequal(exenv.args->arg[i]))
+				if (check_plequal(exenv.args->arg[i]))
 				{
 					key = get_key(exenv.args->arg[i], '+');
 					val = ft_strchr(exenv.args->arg[i], '=');
-					if(check_key(key))
+					if (check_key(key))
 					{
 						printf("export: `%s': not a valid identifier\n", key);
 						mode.g_exit = 1;
 						return ;
 					}
-					if(if_exists(exenv.exp, key))
+					if (if_exists(exenv.exp, key))
 						add_value(exenv.exp, key, &val[1]);
-					if(if_exists2(exenv.env, key))
+					if (if_exists2(exenv.env, key))
 						add_envalue(exenv.env, key, &val[1]);
 					else
 					{
-						ft_lstadd_back(&exenv.exp, ft_createcell2(key, &val[1]));
+						ft_lstadd_back(&exenv.exp,
+							ft_createcell2(key, &val[1]));
 						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
 					}
 				}
@@ -329,36 +326,38 @@ void    ft_export(t_exenv exenv)
 				{
 					val = ft_strchr(exenv.args->arg[i], '=');
 					key = get_key(exenv.args->arg[i], '=');
-					if(check_key(key))
+					if (check_key(key))
 					{
 						printf("export: `%s': not a valid identifier\n", key);
 						mode.g_exit = 1;
 						return ;
 					}
-					if(if_exists(exenv.exp, key))
+					if (if_exists(exenv.exp, key))
 					{
 						update_value(exenv.exp, key, &val[1]);
 						update_envalue(exenv.env, key, &val[1]);
 					}
-					else if(!if_exists(exenv.exp, key))
+					else if (!if_exists(exenv.exp, key))
 					{
-						ft_lstadd_back(&exenv.exp, ft_createcell2(key, &val[1]));
+						ft_lstadd_back(&exenv.exp,
+							ft_createcell2(key, &val[1]));
 						ft_addbacknode(&exenv.env, ft_createcell(key, &val[1]));
-						// printf("%s\n", ft_last_node(env)->key);
 					}
 				}
 			}
-			else if(!ft_strchr(exenv.args->arg[i], '='))
+			else if (!ft_strchr(exenv.args->arg[i], '='))
 			{
-				if(check_key(exenv.args->arg[i]))
+				if (check_key(exenv.args->arg[i]))
 				{
-					printf("export: `%s': not a valid identifier\n", exenv.args->arg[i]);
+					printf("export: `%s': not a valid identifier\n",
+						exenv.args->arg[i]);
 					mode.g_exit = 1;
 					return ;
 				}
-				if(!if_exists(exenv.exp, exenv.args->arg[i]))
+				if (!if_exists(exenv.exp, exenv.args->arg[i]))
 				{
-					ft_lstadd_back(&exenv.exp, ft_createcell2(exenv.args->arg[i], ""));
+					ft_lstadd_back(&exenv.exp,
+						ft_createcell2(exenv.args->arg[i], ""));
 					sort_exp(&exenv.exp);
 				}
 			}

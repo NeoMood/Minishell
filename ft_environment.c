@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 00:42:08 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:37:01 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 char	**our_env(char **env)
 {
 	char	**our_env;
-	int	i;
+	int		i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 		i++;
 	our_env = malloc(sizeof(char *) * (i + 1));
 	if (!our_env)

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:52:26 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:43:29 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:37:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,6 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-// void	ft_free(char **str)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	while (str[++i])
-// 		free(str[i]);
-// 	free(str);
-// }
-
 char	**ft_table(char **tmp2, char *tmp1)
 {
 	char	**final_arr;
@@ -56,7 +46,6 @@ char	**ft_table(char **tmp2, char *tmp1)
 		i = -1;
 		while (tmp2[++i])
 			final_arr[i] = ft_strdup(tmp2[i]);
-		// ft_free(tmp2);
 	}
 	final_arr[i++] = ft_strdup(tmp1);
 	final_arr[i] = NULL;

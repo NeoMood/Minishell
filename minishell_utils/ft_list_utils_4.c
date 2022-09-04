@@ -6,16 +6,16 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:22:13 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:41:06 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:45:56 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_args  *ft_args_node(char **ar, e_type type)
+t_args	*ft_args_node(char **ar, e_type type)
 {
-    t_args	*new;
-	
+	t_args	*new;
+
 	new = ft_malloc(sizeof(t_args));
 	if (!new)
 		return (NULL);
@@ -25,7 +25,7 @@ t_args  *ft_args_node(char **ar, e_type type)
 	return (new);
 }
 
-t_args *ft_last_arg(t_args *lst)
+t_args	*ft_last_arg(t_args *lst)
 {
 	while (lst)
 	{
@@ -38,14 +38,14 @@ t_args *ft_last_arg(t_args *lst)
 
 void	ft_addbackarg(t_args **pars, t_args *nv)
 {
-	t_args *tmp;
+	t_args	*tmp;
 
 	tmp = (*pars);
 	if ((*pars))
 	{
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = nv;	
+		tmp->next = nv;
 	}
 	else
 		*pars = nv;
@@ -53,7 +53,9 @@ void	ft_addbackarg(t_args **pars, t_args *nv)
 
 void	ft_printarg(t_args *args)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (args)
 	{
 		i = 0;

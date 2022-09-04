@@ -6,16 +6,16 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 17:03:27 by sgmira            #+#    #+#             */
-/*   Updated: 2022/08/19 17:10:29 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:20:07 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    ft_pwd(void)
+void	ft_pwd(void)
 {
-    char cwd[1024];
+	char	cwd[1024];
 
-    getcwd(cwd, sizeof(cwd));
-    printf("%s\n", cwd);
+	getcwd(cwd, sizeof(cwd));
+	printf("%s\n", cwd);
 }

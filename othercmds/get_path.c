@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:15:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/02 22:18:22 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/04 15:29:05 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,6 @@ char	*get_path(t_env *env, char **cmd)
 			i++;
 		}
 	}
-	paths = ft_split(env_path(env), ':');
-	i = 0;
-	if (paths)
-	{
-		while (paths[i])
-		{
-			path = ft_strdup(paths[i]);
-			path = ft_strjoin_v2(path, "/");
-			path = ft_strjoin_v2(path, cmd[0]);
-			if (access(path, X_OK) == 0)
-				return (path);
-			free(path);
-			i++;
-		}
-	}
 	get_error (cmd[0]);
 	return (NULL);
 }
@@ -113,7 +98,7 @@ void	get_filerror(char **cmd)
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
-char	*get_path2 (t_env *env, char **cmd)
+char	*get_path2(t_env *env, char **cmd)
 {
 	char	*path;
 	char	cwd[1024];
