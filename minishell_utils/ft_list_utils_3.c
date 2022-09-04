@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:33:14 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:46:39 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 23:02:58 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,29 +58,4 @@ t_exp	*ft_last_node2(t_exp *nv)
 		nv = nv->next;
 	}
 	return (nv);
-}
-
-void	ft_addbacknode(t_env **env, t_env *nv)
-{
-	if (*env)
-		ft_last_node(*env)->next = nv;
-	else
-		*env = nv;
-}
-
-void	ft_addbacknode2(t_exp **exp, t_exp *nv)
-{
-	if (*exp)
-		ft_last_node2(*exp)->next = nv;
-	else
-		*exp = nv;
-}
-
-void	printenv(t_env *ev)
-{
-	while (ev)
-	{
-		printf("%s %s\n", ev->key, ev->value);
-		ev = ev->next;
-	}
 }

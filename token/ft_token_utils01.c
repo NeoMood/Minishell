@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 21:24:20 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 23:08:34 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,4 @@ int	ft_checkdollar(int i, char *line, t_tk **list)
 		j++;
 	ft_addtolist(list, ft_input(ft_substr(line, i, j - i), VAR));
 	return (j);
-}
-
-int	ft_getword(char *line, int i)
-{
-	int	count;
-
-	count = i;
-	while (line[i] && line[i] != ' ' && line[i] != '|'
-		&& line[i] != '>' && line[i] != '<' && line[i] != '$')
-	{
-		count++;
-		i++;
-	}
-	return (count);
 }

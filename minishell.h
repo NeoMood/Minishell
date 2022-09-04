@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 22:42:51 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 23:07:11 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void	ft_collectheredoc(t_tk **list, t_args **herdoc);
 void	ft_collectword(t_tk **list, t_args **word);
 t_args	*ft_finalparsing(char *line, char **env);
 void	ft_collectpip(t_tk **list, t_args **pip);
+void	ft_collectinput(t_tk **list, t_args **redirection);
 
 // MINISHELL UTILS
 void	ft_fdadd_back(t_file **lst, t_file *nv);
@@ -263,6 +264,24 @@ char	*get_key(const char *s, int c);
 int		if_exists(t_exp	*exp, char *key);
 int		if_exists2(t_env	*env, char *key);
 int		check_plequal(char *arg);
+t_exp	*ft_lstlast(t_exp *lst);
+void	exp_print(t_exp **exp);
+t_exp	*ft_getexp(char **env);
+int		check_key(char *key);
+void	sort_util(char	*tmp, char	*tmpv, t_exp	**i, t_exp	**j);
+void	sort_exp(t_exp **exp);
+void	update_value(t_exp	*exp, char *key, char *val);
+void	update_envalue(t_env	*env, char *key, char *val);
+void	add_value(t_exp	*exp, char *key, char *val);
+void	sort_n_print(t_exenv *exenv);
+void	out_check(t_fds	**fds);
+int		check_redirections2(t_exenv *exenv, t_fds	**fds);
+void	check_redirections(t_exenv *exenv, t_fds	**fds);
+void	check_command(t_exenv *exenv, t_fds	**fds);
+void	ft_error(t_exenv exenv);
+void	ft_handlelong(t_exenv exenv);
+void	ft_negativenum(int j, t_exenv exenv);
+void	ft_postifnum(int j, t_exenv exenv);
 
 // MAIN UTILS
 void	ft_execution(t_exenv exenv, t_fds *fds);

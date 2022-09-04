@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:34:43 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:35:31 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/04 23:08:13 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,4 @@ int	ft_checkdoutput(int i, t_tk **list)
 {
 	ft_addtolist(list, ft_input(ft_strdup("<<"), DOUTPUT));
 	return (i + 2);
-}
-
-int	ft_checkspace(int i, t_tk **list)
-{
-	ft_addtolist(list, ft_input(ft_strdup(" "), SP));
-	return (i + 1);
 }
