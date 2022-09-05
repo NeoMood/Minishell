@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 16:58:09 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 17:14:37 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 
-typedef enum s_def{
+typedef enum e_def{
 	PIP,
 	VAR,
 	SQUOTE,
@@ -38,14 +38,16 @@ typedef enum s_def{
 	DINPUT,
 	DOUTPUT,
 	WORD,
-	SP}	e_def;
-typedef enum		s_type{
+	SP
+}	t_def;
+typedef enum e_type{
 	COMMAND,
 	PIPE,
 	IN,
 	OUT,
 	APPEND,
-	HEREDOC} e_type;
+	HEREDOC
+}	t_type;
 typedef struct s_env{
 	char			*key;
 	char			*value;
@@ -61,6 +63,7 @@ typedef struct s_global{
 	t_free	*trash;
 	int		g_sig;
 	int		g_exit;
+	int		g_check;
 }t_global;
 
 t_global	g_mode;
@@ -79,7 +82,7 @@ typedef struct s_tk{
 
 typedef struct s_args{
 	char			**arg;
-	e_type			type;
+	t_type			type;
 	struct s_args	*next;
 }t_args;
 
@@ -220,7 +223,7 @@ void	ft_fdadd_back(t_file **lst, t_file *nv);
 t_file	*ft_lstnewfd(int fd);
 t_file	*ft_lstlastfd(t_file *lst);
 void	ft_addbackarg(t_args **pars, t_args *nv);
-t_args	*ft_args_node(char **ar, e_type type);
+t_args	*ft_args_node(char **ar, t_type type);
 t_args	*ft_initialparsing(t_tk *list);
 void	ft_printarg(t_args *args);
 t_args	*ft_last_arg(t_args *lst);

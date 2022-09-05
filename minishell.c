@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 16:55:54 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 17:13:53 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	main(int ac, char **av, char **env)
 	exenv.shlvl = 1;
 	g_mode.g_exit = 0;
 	g_mode.g_sig = 0;
+	g_mode.g_check = 0;
 	ft_hide_c();
 	if (ac != 1)
 	{

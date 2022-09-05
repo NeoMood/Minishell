@@ -6,13 +6,13 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:22:13 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:45:56 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 17:14:41 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_args	*ft_args_node(char **ar, e_type type)
+t_args	*ft_args_node(char **ar, t_type type)
 {
 	t_args	*new;
 
