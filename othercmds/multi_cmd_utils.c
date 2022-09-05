@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 22:30:52 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 22:33:57 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 19:47:22 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	processing_firstcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	else
 	{
 		if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
-			write(2, "execve Error!", 14);
+			exit(EXIT_FAILURE);
 	}
 	exit(EXIT_FAILURE);
 }
@@ -61,7 +61,7 @@ void	processing_mdlcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	else
 	{
 		if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
-			write(2, "execve Error!", 14);
+			exit(EXIT_FAILURE);
 	}
 	exit(EXIT_FAILURE);
 }
@@ -84,7 +84,7 @@ void	processing_lastcmd(t_vars *vars, t_exenv exenv, int *fd, t_fds	*fds)
 	else
 	{
 		if (execve(vars->path, vars->cmd, exenv.new_env) == -1)
-			write(2, "execve Error!", 14);
+			exit(EXIT_FAILURE);
 	}
 	exit(EXIT_FAILURE);
 }

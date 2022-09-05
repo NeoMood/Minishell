@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 21:49:23 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:49:27 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_tk	*ft_expand(t_tk *list, t_env *ev)
 		{
 			temp = list->input;
 			list->input = ft_strdup(ft_getvalue(ev, list->input + 1));
-			free(temp);
 		}
 		list = list->next;
 	}
@@ -70,6 +69,7 @@ char	**get_newenv(t_env	*env)
 	new_env = malloc((sizeof(char *) * (list_size(env) + 1)));
 	if (!new_env)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(new_env));
 	i = 0;
 	while (env)
 	{

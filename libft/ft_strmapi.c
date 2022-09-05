@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 19:26:07 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:36:47 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 21:58:30 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strmapi(char const *s, char (*f) (unsigned int, char))
 		return (NULL);
 	i = 0;
 	j = ft_strlen(s);
-	temp = ft_malloc ((j + 1) * sizeof(char));
+	temp = malloc ((j + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
 	while (s[i])

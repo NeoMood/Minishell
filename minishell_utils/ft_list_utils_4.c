@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:22:13 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 17:14:41 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:03:56 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ t_args	*ft_args_node(char **ar, t_type type)
 {
 	t_args	*new;
 
-	new = ft_malloc(sizeof(t_args));
+	new = malloc(sizeof(t_args));
 	if (!new)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(new));
 	new->arg = ar;
 	new->type = type;
 	new->next = NULL;

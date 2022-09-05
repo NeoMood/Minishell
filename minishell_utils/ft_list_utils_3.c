@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:33:14 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 23:02:58 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:05:19 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ t_env	*ft_createcell(char *key, char	*value)
 {
 	t_env	*env;
 
-	env = ft_malloc(sizeof(t_env));
+	env = malloc(sizeof(t_env));
 	if (!env)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(env));
 	env->key = key;
 	env->value = value;
 	env->next = NULL;
@@ -29,9 +30,10 @@ t_exp	*ft_createcell2(char *key, char	*value)
 {
 	t_exp	*exp;
 
-	exp = ft_malloc(sizeof(t_exp));
+	exp = malloc(sizeof(t_exp));
 	if (!exp)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(exp));
 	exp->key = key;
 	exp->value = value;
 	exp->next = NULL;

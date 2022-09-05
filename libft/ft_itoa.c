@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 17:19:30 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:35:04 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:34:11 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ static int	countdigits(int d)
 	return (i);
 }
 
+void	ft_itoa_util(int *n, char	**temp)
+{
+	if (*n < 0)
+	{
+		*temp[0] = '-';
+		*n *= -1;
+	}
+}
+
 char	*ft_itoa(int n)
 {
 	int		i;
@@ -39,14 +48,11 @@ char	*ft_itoa(int n)
 		return (ft_strdup("-2147483648"));
 	if (n == 0)
 		return (ft_strdup("0"));
-	temp = ft_malloc((j + 1) * sizeof(char));
+	temp = malloc((j + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
-	if (n < 0)
-	{
-		temp[0] = '-';
-		n *= -1;
-	}
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(temp));
+	ft_itoa_util(&n, &temp);
 	temp[j--] = '\0';
 	while (n > 0)
 	{

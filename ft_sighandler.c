@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sighandler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 17:29:40 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 16:56:33 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 18:28:46 by yamzil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ void	ft_handler(int sig)
 		i++;
 }
 
-void    ft_hide_c(void)
+void	ft_hide_c(void)
 {
-    struct termios    attr;
+	struct termios	att;
 
-    tcgetattr(STDIN_FILENO, &attr);
-    attr.c_lflag &= ~ECHOCTL;
-    tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	tcgetattr(STDIN_FILENO, &att);
+	att.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &att);
 }
 
-void    show_ctrl(void)
+void	show_ctrl(void)
 {
-    struct termios    attr;
+	struct termios	att;
 
-    tcgetattr(STDIN_FILENO, &attr);
-    attr.c_lflag |= ECHOCTL;
-    tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	tcgetattr(STDIN_FILENO, &att);
+	att.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &att);
 }

@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:03:50 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:35:44 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:04:26 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	if (!s)
 		return (NULL);
-	temp = ft_malloc ((count_thewords(s, c) + 1) * sizeof (char *));
+	temp = malloc ((count_thewords(s, c) + 1) * sizeof (char *));
 	if (!temp)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(temp));
 	while (*s)
 	{
 		while (*s == c)

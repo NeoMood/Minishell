@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 18:52:26 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:37:23 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:04:18 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,16 @@ char	**ft_table(char **tmp2, char *tmp1)
 	if (!tmp1)
 		final_arr = NULL;
 	if (!tmp2)
-		final_arr = ft_malloc(sizeof(char *) * 2);
+	{
+		final_arr = malloc(sizeof(char *) * 2);
+		ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(final_arr));
+	}
 	else
 	{
 		while (tmp2[i])
 			i++;
-		final_arr = ft_malloc (sizeof(char *) * (i + 2));
+		final_arr = malloc (sizeof(char *) * (i + 2));
+		ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(final_arr));
 		i = -1;
 		while (tmp2[++i])
 			final_arr[i] = ft_strdup(tmp2[i]);

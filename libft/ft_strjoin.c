@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 18:06:53 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:47:40 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:37:43 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	n = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	temp = ft_malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	temp = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(temp));
 	while (s1[i])
 		temp[n++] = s1[i++];
 	i = 0;
@@ -32,6 +33,16 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		temp[n++] = s2[i++];
 	temp[n] = '\0';
 	return (temp);
+}
+
+void	ft_strjoin_util(char **s1)
+{
+	if (!(*s1))
+	{
+		(*s1) = (char *)malloc(1);
+		(*s1)[0] = '\0';
+		ft_addbackthegarbe(&g_mode.trash, ft_newgarbage((*s1)));
+	}
 }
 
 char	*ft_strjoin_v2(char *s1, char *s2)
@@ -43,14 +54,11 @@ char	*ft_strjoin_v2(char *s1, char *s2)
 
 	if (!s2)
 		return (NULL);
-	if (!s1)
-	{
-		s1 = (char *)ft_malloc(1);
-		s1[0] = '\0';
-	}
-	temp = ft_malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
+	ft_strjoin_util(&s1);
+	temp = malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!temp)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(temp));
 	i = 0;
 	j = 0;
 	while (s1[i])
@@ -75,9 +83,10 @@ char	**ft_join2darray(char **tmp, char **temp)
 	j = 0;
 	while (temp[j])
 		j++;
-	new = ft_malloc ((i + j + 1) * sizeof(char *));
+	new = malloc ((i + j + 1) * sizeof(char *));
 	if (!new)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(temp));
 	i = 0;
 	k = 0;
 	while (tmp[i])

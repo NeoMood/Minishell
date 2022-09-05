@@ -6,7 +6,7 @@
 #    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/09/05 17:50:32 by sgmira           ###   ########.fr        #
+#    Updated: 2022/09/05 22:31:59 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC =	minishell.c\
 		./othercmds/multi_cmd_utils.c\
 		./othercmds/multi_cmd_utils2.c\
 		ft_redirections.c\
+		redirections_utils.c\
 		ft_environment.c\
 		ft_sighandler.c\
 		ft_minishell_utils.c\
@@ -73,9 +74,10 @@ SRC =	minishell.c\
 
 INC = 	minishell.h
 LIB = ../libft
-LFLAGS := -L/goinfre/$(USER)/.brew/opt/readline/lib
-IFLAGS := -I/goinfre/$(USER)/.brew/opt/readline/include
+LFLAGS = -L/Users/sgmira/.brew/opt/readline/lib
+IFLAGS = -I/Users/sgmira/.brew/opt/readline/include
 CFLAGS = -Wall -Werror -Wextra $(IFLAGS)
+# -fsanitize=address -g 
 OBJ = $(SRC:.c=.o) 
 CC = cc
 

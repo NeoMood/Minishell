@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 17:14:37 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:11:34 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ typedef struct s_exenv{
 
 // UTILS LIBFT
 int		event(void);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+// char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char const *s, int start, int len);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
@@ -177,8 +178,8 @@ char	**our_env(char **env);
 
 // SIGNALS
 void	ft_handler(int sig);
-void    ft_hide_c(void);
-void    ft_show_c(void);
+void	ft_hide_c(void);
+void	ft_show_c(void);
 
 // LEXER UTILS
 int		ft_checkdquotes(int i, char *line, t_tk **list);
@@ -229,7 +230,11 @@ void	ft_printarg(t_args *args);
 t_args	*ft_last_arg(t_args *lst);
 
 // Exuction PART
-int	ft_redirection(t_fds	*fds, t_exenv exenv);
+int		ft_redirection(t_fds	*fds, t_exenv exenv);
+void	init_fds(t_fds **fds);
+int		ft_openout(t_args *nw);
+int		ft_openin(t_args *nw);
+int		ft_append(t_args *nw);
 
 // COMMANDS
 char	*char_checker(t_env *envar, char *arg);
@@ -298,7 +303,7 @@ void	my_exit(void);
 // free
 void	ft_freegarbe(t_free *list);
 void	ft_addbackthegarbe(t_free **lst, t_free *nv);
-void	*ft_malloc(size_t allocation);
+// void	*ft_malloc(size_t allocation);
 t_free	*ft_lstgarbage(t_free *lst);
 t_free	*ft_newgarbage(void *ptr);
 

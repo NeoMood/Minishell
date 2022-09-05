@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 17:16:55 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:35:55 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:04:32 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ char	*ft_strdup(const char *s1)
 		return (NULL);
 	i = 0;
 	j = ft_strlen(s1);
-	temp = ft_malloc((j + 1) * sizeof (char));
+	temp = malloc((j + 1) * sizeof (char));
 	if (!temp)
 		return (0);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(temp));
 	while (s1[i])
 	{
 		temp[i] = s1[i];

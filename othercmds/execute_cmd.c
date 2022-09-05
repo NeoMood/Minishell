@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 22:36:06 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 19:46:49 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	processing_cmd(char *path, char **cmd, char **env)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (execve(path, cmd, env) == -1)
-		return ;
-	exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 }
 
 void	forking(char *path, char **cmd, char **new_env)

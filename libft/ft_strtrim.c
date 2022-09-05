@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 21:13:16 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/03 23:36:57 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:12:17 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	checkbegin(char const *str, char const *c)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < ft_strlen(str))
@@ -54,9 +54,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	k = checkbegin(s1, set);
 	if ((j - k) <= 0)
 		return (ft_strdup (""));
-	temp = (char *) ft_malloc((j - k + 1) * sizeof (char));
+	temp = malloc((j - k + 1) * sizeof (char));
 	if (!temp)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(temp));
 	while (k < j)
 	{
 		temp[i] = s1[k];

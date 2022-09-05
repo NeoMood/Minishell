@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 17:32:51 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 15:21:55 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:03:10 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ t_tk	*ft_input(char *data, int token)
 	t_tk	*list;
 
 	list = NULL;
-	list = ft_malloc(sizeof(t_tk));
+	list = malloc(sizeof(t_tk));
 	if (!list)
 		return (NULL);
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(list));
 	list->input = data;
 	list->token = token;
 	list->next = NULL;

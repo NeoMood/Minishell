@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 17:13:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 22:02:31 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	list = ft_expand(list, exenv.env);
 	exenv.args = ft_initialparsing(list);
 	exenv.args = ft_corrector(exenv.args);
-	if(!ft_redirection(fds, exenv))
+	if (!ft_redirection(fds, exenv))
 		execution_part(&exenv, &fds, tmp1, tmp2);
-	// ft_printarg(exenv.args);
 }
 
 void	ft_readline(t_exenv	*exenv, t_fds	**fds)
@@ -72,7 +71,8 @@ int	main(int ac, char **av, char **env)
 	t_fds	*fds;
 
 	(void)av;
-	fds = ft_malloc(sizeof(t_fds));
+	fds = malloc(sizeof(t_fds));
+	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(fds));
 	exenv.envar = env;
 	exenv.shlvl = 1;
 	g_mode.g_exit = 0;
