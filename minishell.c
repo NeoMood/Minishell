@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 16:12:29 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 16:55:54 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	exenv.args = ft_corrector(exenv.args);
 	if(!ft_redirection(fds, exenv))
 		execution_part(&exenv, &fds, tmp1, tmp2);
+	// ft_printarg(exenv.args);
 }
 
 void	ft_readline(t_exenv	*exenv, t_fds	**fds)
@@ -62,6 +63,7 @@ void	ft_readline(t_exenv	*exenv, t_fds	**fds)
 		add_history (exenv->line);
 		free (exenv->line);
 	}
+	ft_show_c();
 }
 
 int	main(int ac, char **av, char **env)
@@ -73,9 +75,9 @@ int	main(int ac, char **av, char **env)
 	fds = ft_malloc(sizeof(t_fds));
 	exenv.envar = env;
 	exenv.shlvl = 1;
-	// rl_catch_signals = 0;
 	g_mode.g_exit = 0;
 	g_mode.g_sig = 0;
+	ft_hide_c();
 	if (ac != 1)
 	{
 		printf("\033[0;31m Invalid Number Arguments !\n");

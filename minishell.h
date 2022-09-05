@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 16:12:59 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 16:58:09 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <termios.h>
 # include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -172,8 +173,9 @@ void	printenv(t_env *ev);
 char	**our_env(char **env);
 
 // SIGNALS
-void	ft_handlerg_modes(char *str);
 void	ft_handler(int sig);
+void    ft_hide_c(void);
+void    ft_show_c(void);
 
 // LEXER UTILS
 int		ft_checkdquotes(int i, char *line, t_tk **list);
