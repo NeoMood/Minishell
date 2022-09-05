@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/04 23:07:11 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 16:12:59 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ void	ft_printarg(t_args *args);
 t_args	*ft_last_arg(t_args *lst);
 
 // Exuction PART
-void	ft_redirection(t_fds	*fds, t_exenv exenv);
+int	ft_redirection(t_fds	*fds, t_exenv exenv);
 
 // COMMANDS
 char	*char_checker(t_env *envar, char *arg);
