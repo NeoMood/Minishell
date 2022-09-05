@@ -6,24 +6,11 @@
 #    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/09/04 23:08:56 by sgmira           ###   ########.fr        #
+#    Updated: 2022/09/05 17:50:32 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#  -fsanitize=address
 NAME = minishell
-
-CFLAGS = -g -Wall -Werror -Wextra
-
-CC = cc
-
-HEADER = minishell.h \
-
-INCLUDE_READLINE = $(addprefix $(READLINE),/include)
-
-LIB_READLINE = $(addprefix $(READLINE),/lib)
-
-READLINE = $(shell brew --prefix readline)
 
 SRC =	minishell.c\
 		utils_main.c\
@@ -84,23 +71,22 @@ SRC =	minishell.c\
 		libft/ft_itoa.c\
 		libft/ft_isdigit.c\
 
-OBJS = $(SRC:.c=.o)
-
-%.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) -I $(INCLUDE_READLINE) -c $< -o $@
+INC = 	minishell.h
+LIB = ../libft
+LFLAGS := -L/goinfre/$(USER)/.brew/opt/readline/lib
+IFLAGS := -I/goinfre/$(USER)/.brew/opt/readline/include
+CFLAGS = -Wall -Werror -Wextra $(IFLAGS)
+OBJ = $(SRC:.c=.o) 
+CC = cc
 
 all : $(NAME)
 
-$(NAME) : $(OBJS) $(HEADER)
-	$(CC) $(CFLAGS) $(OBJS) -I $(INCLUDE_READLINE) -L $(LIB_READLINE) -o $(NAME) -lreadline
-	clear
+$(NAME) : $(INC) $(OBJ)
+	@$(CC) $(CFLAGS) $(LFLAGS)  -I $(LIB) -lreadline -lncurses $(SRC) -o $(NAME)
 
 clean : 
-	rm -f $(OBJS)
-	clear
+	@rm -rf $(OBJ)
 
-fclean : clean
-	rm -f $(NAME)
-	clear
-
+fclean :
+	@rm -rf $(OBJ) $(NAME)
 re : fclean all
