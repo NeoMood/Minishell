@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/05 16:52:36 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/05 23:17:40 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	equal_case(char	*key, char	*val, t_exenv *exenv, int i)
 	if (if_exists(exenv->exp, key))
 	{
 		update_value(exenv->exp, key, &val[1]);
-		update_envalue(exenv->env, key, &val[1]);
+		ft_addbacknode(&exenv->env, ft_createcell(key, &val[1]));
 	}
 	else if (!if_exists(exenv->exp, key))
 	{
