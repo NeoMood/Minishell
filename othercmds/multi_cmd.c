@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 22:55:12 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/05 20:01:55 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/07 00:23:17 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,28 @@ void	abs_path(t_vars	*vars, t_exenv *exenv)
 
 void	check_multicmd(t_exenv *exenv, t_fds	**fds, t_vars	*vars)
 {
-	if (exenv->args->type == COMMAND)
+	if (exenv->args)
 	{
-		if (access(exenv->args->arg[0], X_OK) == 0)
-			abs_path(vars, exenv);
-		else
+		if (exenv->args->type == COMMAND)
 		{
-			if (exenv->args->arg[0][0] == '.'
-				&& exenv->args->arg[0][1] == '/')
-			{
-				vars->path = get_path2(exenv->env, exenv->args->arg);
-				if (!ft_strcmp(exenv->args->arg[0], "./minishell"))
-					increase_shlvl((*exenv));
-			}
+			if (access(exenv->args->arg[0], X_OK) == 0)
+				abs_path(vars, exenv);
 			else
-				vars->path = get_path(exenv->env, exenv->args->arg);
-			vars->cmd = exenv->args->arg;
+			{
+				if (exenv->args->arg[0] && exenv->args->arg[0][0] == '.'
+					&& exenv->args->arg[0][1] == '/')
+					vars->path = get_path2(exenv->env, exenv->args->arg);
+				else
+					vars->path = get_path(exenv->env, exenv->args->arg);
+				vars->cmd = exenv->args->arg;
+			}
+			if (vars->path)
+				execute_multicmd(vars, (*exenv), (*fds));
+			free(vars->path);
+			(*fds)->new_out = 1;
+			(*fds)->new_in = 0;
+			vars->i++;
 		}
-		execute_multicmd(vars, (*exenv), (*fds));
-		free(vars->path);
-		(*fds)->new_out = 1;
-		(*fds)->new_in = 0;
-		vars->i++;
 	}
 }
 

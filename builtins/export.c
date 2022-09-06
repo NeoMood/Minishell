@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:51:13 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/05 23:17:40 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 16:18:15 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	add_envalue(t_env	*env, char *key, char *val)
 void	plequal_case(char	*key, char	*val, t_exenv *exenv, int i)
 {
 	key = get_key(exenv->args->arg[i], '+');
-	val = ft_strchr(exenv->args->arg[i], '=');
+	val = ft_strtrim(ft_strchr(exenv->args->arg[i], '='), "=\"");
 	if (check_key(key))
 	{
 		printf("export: `%s': not a valid identifier\n", key);
@@ -33,21 +33,19 @@ void	plequal_case(char	*key, char	*val, t_exenv *exenv, int i)
 		return ;
 	}
 	if (if_exists(exenv->exp, key))
-		add_value(exenv->exp, key, &val[1]);
+		add_value(exenv->exp, key, val);
 	if (if_exists2(exenv->env, key))
-		add_envalue(exenv->env, key, &val[1]);
-	else if (!if_exists(exenv->exp, key)
-		&& !if_exists2(exenv->env, key))
-	{
+		add_envalue(exenv->env, key, val);
+	if (!if_exists(exenv->exp, key))
 		ft_lstadd_back(&exenv->exp,
-			ft_createcell2(key, &val[1]));
-		ft_addbacknode(&exenv->env, ft_createcell(key, &val[1]));
-	}
+			ft_createcell2(key, val));
+	if (!if_exists2(exenv->env, key))
+		ft_addbacknode(&exenv->env, ft_createcell(key, val));
 }
 
 void	equal_case(char	*key, char	*val, t_exenv *exenv, int i)
 {
-	val = ft_strchr(exenv->args->arg[i], '=');
+	val = ft_strtrim(ft_strchr(exenv->args->arg[i], '='), "=\"");
 	key = get_key(exenv->args->arg[i], '=');
 	if (check_key(key))
 	{
@@ -56,16 +54,14 @@ void	equal_case(char	*key, char	*val, t_exenv *exenv, int i)
 		return ;
 	}
 	if (if_exists(exenv->exp, key))
-	{
-		update_value(exenv->exp, key, &val[1]);
-		ft_addbacknode(&exenv->env, ft_createcell(key, &val[1]));
-	}
-	else if (!if_exists(exenv->exp, key))
-	{
+		update_value(exenv->exp, key, val);
+	if (if_exists2(exenv->env, key))
+		update_envalue(exenv->env, key, val);
+	if (!if_exists2(exenv->env, key))
+		ft_addbacknode(&exenv->env, ft_createcell(key, val));
+	if (!if_exists(exenv->exp, key))
 		ft_lstadd_back(&exenv->exp,
-			ft_createcell2(key, &val[1]));
-		ft_addbacknode(&exenv->env, ft_createcell(key, &val[1]));
-	}
+			ft_createcell2(key, val));
 }
 
 void	noequal_case(t_exenv *exenv, int i)

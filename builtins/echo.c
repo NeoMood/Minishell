@@ -6,65 +6,17 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:13:17 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 15:06:53 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 22:36:17 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// int n_check(char *arg)
-// {
-//     int i;
-
-//     if (!ft_strncmp(arg, "-n", 2))
-// 	{
-// 		i = 2;
-// 		while (arg[i] && arg[i] == 'n')
-// 			i++;
-// 		if (!arg[i])
-// 			return (1);
-// 	}
-// 	return (0);
-// }
-
-// void    ft_echo(t_exenv exenv)
-// {
-//     int i;
-
-//     i = 0;
-//     puts("HERE");
-//     if(!ft_strcmp(exenv.args->arg[1], "-n"))
-//     {
-//         i = 2;
-//         // while (exenv.args->arg[i] && exenv.args->arg[i] == 'n')
-// 		// 	i++;
-//         // if (!arg[i])
-// 		// 	return ;
-//         printf("~~~~%s\n", exenv.args->arg[i]);
-//         while(exenv.args->arg[i])
-//         {
-//             printf("%s", exenv.args->arg[i]);
-//             i++;
-//         }
-//     }
-//     else
-//     {
-//         i = 1;
-//         while(exenv.args->arg[i])
-//         {
-//             printf("%s", exenv.args->arg[i]);
-//             // printf(" ");
-//             i++;
-//         }
-//         printf("\n");
-//     }
-// }
-
 int	arr_len(char **arr)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	while (arr[i])
 		i++;
 	return (i);
@@ -111,5 +63,6 @@ void	ft_echo(char **data)
 	}
 	if (!nl)
 		printf("\n");
+	g_mode.g_exit = 0;
 	return ;
 }

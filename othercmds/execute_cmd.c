@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/05 19:46:49 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 23:52:25 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	forking(char *path, char **cmd, char **new_env)
 	waitpid(pid, &status, 0);
 	g_mode.g_sig = 0;
 	if (WIFEXITED(status))
-		g_mode.g_exit = WEXITSTATUS(status);
+		g_mode.g_exit = status % 255;
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGQUIT)
@@ -45,8 +45,11 @@ void	forking(char *path, char **cmd, char **new_env)
 			printf("Quit: %d\n", WTERMSIG(status));
 			g_mode.g_exit = 131;
 		}
-		else if (WTERMSIG(status) != SIGINT)
-			g_mode.g_exit = WTERMSIG(status);
+		else if (WTERMSIG(status) == SIGINT)
+		{
+			puts("^C");
+			g_mode.g_exit = WTERMSIG(status) + 128;
+		}
 	}
 }
 
@@ -61,24 +64,6 @@ char	**get_cmd(char **cmd)
 		i++;
 	cmd[0] = ft_strdup(tmp[i - 1]);
 	return (cmd);
-}
-
-void	increase_shlvl(t_exenv exenv)
-{
-	exenv.shlvl++;
-	while (exenv.env)
-	{
-		if (!ft_strcmp(exenv.env->key, "SHLVL"))
-			exenv.env->value = ft_strdup(ft_itoa(exenv.shlvl));
-		exenv.env = exenv.env->next;
-	}
-	exenv.shlvl++;
-	while (exenv.exp)
-	{
-		if (!ft_strcmp(exenv.exp->key, "SHLVL"))
-			exenv.exp->value = ft_strdup(ft_itoa(exenv.shlvl));
-		exenv.exp = exenv.exp->next;
-	}
 }
 
 void	parse_cmd(t_exenv exenv)
@@ -96,14 +81,11 @@ void	parse_cmd(t_exenv exenv)
 	{
 		if (exenv.args->arg[0] && exenv.args->arg[0][0] == '.'
 			&& exenv.args->arg[0][1] == '/')
-		{
 			path = get_path2(exenv.env, exenv.args->arg);
-			if (!ft_strcmp(exenv.args->arg[0], "./minishell"))
-				increase_shlvl(exenv);
-		}
 		else
 			path = get_path(exenv.env, exenv.args->arg);
 		cmd = exenv.args->arg;
 	}
-	forking(path, cmd, exenv.new_env);
+	if (path)
+		forking(path, cmd, exenv.new_env);
 }

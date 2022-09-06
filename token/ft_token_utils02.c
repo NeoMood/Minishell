@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:08:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 23:08:32 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 23:17:15 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ int	ft_getword(char *line, int i)
 	int	count;
 
 	count = i;
-	while (line[i] && line[i] != ' ' && line[i] != '|'
-		&& line[i] != '>' && line[i] != '<' && line[i] != '$')
+	while ((line[i] && line[i] != ' ' && line[i] != '|'
+			&& line[i] != '>' && line[i] != '<' && line[i] != '$'
+			&& line[i] != '\'' && line[i] != '\"')
+		|| (line[i] == ' ' && line[i - 1] == '\"' ))
 	{
 		count++;
 		i++;

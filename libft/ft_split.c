@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:03:50 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 22:04:26 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 15:32:50 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,6 @@ int	count_thewords(const char *str, char c)
 	}
 	return (count);
 }
-
-// static char	**free_temp(char **ss)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (ss[i])
-// 	{
-// 		free(ss[i]);
-// 		i++;
-// 	}
-// 	free (ss);
-// 	return (NULL);
-// }
 
 static int	count_charr(const char *s, char c)
 {

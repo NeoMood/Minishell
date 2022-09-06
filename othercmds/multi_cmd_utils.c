@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 22:30:52 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/05 19:47:22 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/07 00:25:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	get_error(char *s)
 	i = 0;
 	if (!s)
 	{
-		write(2, "invalid command!\n", 18);
+		write(2, "command not found!\n", 20);
 		g_mode.g_exit = 127;
 		return (1);
 	}
@@ -123,7 +123,7 @@ int	get_error(char *s)
 			write(1, &s[i], 1);
 			i++;
 		}
-		write(2, ": No such file or directory\n", 29);
+		write(2, ": command not found\n", 21);
 		g_mode.g_exit = 127;
 		return (1);
 	}

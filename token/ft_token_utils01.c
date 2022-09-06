@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 17:11:49 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 23:16:04 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ int	ft_checksquotes(int i, char *line, t_tk **list)
 {
 	int	j;
 
-	j = i + 1;
+	j = i;
 	while (line[j] && line[j] != '\'')
 		j++;
 	if (line[j] == '\'')
 		ft_addtolist(list, ft_input(ft_substr(line, i, j - i), SQUOTE));
 	else
 	{
-		printf("Syntax Error\n");
+		g_mode.g_check = 1;
 		return (j + 1);
 	}
 	return (j + 1);

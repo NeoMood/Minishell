@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 22:35:18 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 22:38:10 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 23:52:00 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ void	get_filerror(char **cmd)
 {
 	ft_putstr_fd(cmd[0], 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
+	g_mode.g_exit = 127;
 }

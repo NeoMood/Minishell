@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:04:54 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/04 23:05:47 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 23:38:25 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ void	ft_collectword(t_tk **list, t_args **word)
 			|| (*list)->token == SP || (*list)->token == SQUOTE))
 	{
 		tmp = ft_strjoin_v2(tmp, (*list)->input);
-		if ((*list) && (*list)->next && (*list)->next->token == SP)
-			(*list) = (*list)->next;
-		tmp1 = ft_table(tmp1, tmp);
-		tmp = NULL;
 		(*list) = (*list)->next;
+		if ((*list) && ((*list)->token == SP))
+		{
+			// if ((*list)->token == SP)
+				(*list) = (*list)->next;
+			tmp1 = ft_table(tmp1, tmp);
+			free (tmp);
+			tmp = NULL;
+		}
 	}
 	tmp1 = ft_table(tmp1, tmp);
 	ft_addbackarg(word, ft_args_node(tmp1, COMMAND));

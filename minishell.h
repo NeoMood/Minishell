@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:53:56 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 22:11:34 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 15:32:40 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,12 @@ typedef struct s_exenv{
 	t_args		*args;
 	char		**envar;
 	char		*line;
-	int			shlvl;
 	t_env		*head;
 	char		**new_env;
 }t_exenv;
 
 // UTILS LIBFT
 int		event(void);
-// char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_substr(char const *s, int start, int len);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -259,7 +257,6 @@ int		get_error(char *s);
 char	*get_path2(t_env	*env, char **cmd);
 void	get_filerror(char **cmd);
 char	**get_cmd(char **cmd);
-void	increase_shlvl(t_exenv exenv);
 int		cmd_num(t_args *args);
 void	ft_lstadd_back(t_exp **lst, t_exp *nv);
 int		ft_exit(t_exenv exenv);

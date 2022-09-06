@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/05 22:02:31 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/06 23:51:03 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	list = ft_expand(list, exenv.env);
 	exenv.args = ft_initialparsing(list);
 	exenv.args = ft_corrector(exenv.args);
+	// printlist(list);
+	// ft_printarg(exenv.args);
 	if (!ft_redirection(fds, exenv))
 		execution_part(&exenv, &fds, tmp1, tmp2);
 }
@@ -65,6 +67,22 @@ void	ft_readline(t_exenv	*exenv, t_fds	**fds)
 	ft_show_c();
 }
 
+void	update_shlvl(t_exenv	exenv)
+{
+	while (exenv.env)
+	{
+		if (!ft_strcmp(exenv.env->key, "SHLVL"))
+			exenv.env->value = ft_itoa((ft_atoi(exenv.env->value) + 1));
+		exenv.env = exenv.env->next;
+	}
+	while (exenv.exp)
+	{
+		if (!ft_strcmp(exenv.exp->key, "SHLVL"))
+			exenv.exp->value = ft_itoa((ft_atoi(exenv.exp->value) + 1));
+		exenv.exp = exenv.exp->next;
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_exenv	exenv;
@@ -74,7 +92,6 @@ int	main(int ac, char **av, char **env)
 	fds = malloc(sizeof(t_fds));
 	ft_addbackthegarbe(&g_mode.trash, ft_newgarbage(fds));
 	exenv.envar = env;
-	exenv.shlvl = 1;
 	g_mode.g_exit = 0;
 	g_mode.g_sig = 0;
 	g_mode.g_check = 0;
@@ -88,6 +105,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	exenv.env = ft_getenv(exenv.envar);
 	exenv.exp = ft_getexp(exenv.envar);
+	update_shlvl(exenv);
 	ft_readline(&exenv, &fds);
 	ft_freegarbe(g_mode.trash);
 }
