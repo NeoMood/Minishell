@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:13:17 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/06 22:36:17 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/08 22:04:57 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,4 @@ void	ft_echo(char **data)
 	if (!nl)
 		printf("\n");
 	g_mode.g_exit = 0;
-	return ;
 }

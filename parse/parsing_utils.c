@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 23:04:54 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/06 23:38:25 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/08 22:08:52 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	ft_collectword(t_tk **list, t_args **word)
 		(*list) = (*list)->next;
 		if ((*list) && ((*list)->token == SP))
 		{
-			// if ((*list)->token == SP)
 				(*list) = (*list)->next;
 			tmp1 = ft_table(tmp1, tmp);
 			free (tmp);

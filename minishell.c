@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 17:13:03 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/06 23:51:03 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/08 22:13:23 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ static void	lastparse(char *line, t_exenv exenv, t_fds	*fds)
 	list = ft_expand(list, exenv.env);
 	exenv.args = ft_initialparsing(list);
 	exenv.args = ft_corrector(exenv.args);
-	// printlist(list);
-	// ft_printarg(exenv.args);
 	if (!ft_redirection(fds, exenv))
 		execution_part(&exenv, &fds, tmp1, tmp2);
 }
@@ -57,7 +55,7 @@ void	ft_readline(t_exenv	*exenv, t_fds	**fds)
 {
 	while (1)
 	{
-		exenv->line = readline("➜ minishell 💩💩$> ");
+		exenv->line = readline("➜ minishell $> ");
 		if (!exenv->line)
 			my_exit();
 		lastparse(exenv->line, (*exenv), (*fds));
@@ -72,13 +70,23 @@ void	update_shlvl(t_exenv	exenv)
 	while (exenv.env)
 	{
 		if (!ft_strcmp(exenv.env->key, "SHLVL"))
-			exenv.env->value = ft_itoa((ft_atoi(exenv.env->value) + 1));
+		{
+			if ((ft_atoi(exenv.env->value) < 0))
+				exenv.env->value = ft_itoa(0);
+			else
+				exenv.env->value = ft_itoa((ft_atoi(exenv.env->value) + 1));
+		}
 		exenv.env = exenv.env->next;
 	}
 	while (exenv.exp)
 	{
 		if (!ft_strcmp(exenv.exp->key, "SHLVL"))
-			exenv.exp->value = ft_itoa((ft_atoi(exenv.exp->value) + 1));
+		{
+			if ((ft_atoi(exenv.exp->value) < 0))
+				exenv.exp->value = ft_itoa(0);
+			else
+				exenv.exp->value = ft_itoa((ft_atoi(exenv.exp->value) + 1));
+		}
 		exenv.exp = exenv.exp->next;
 	}
 }

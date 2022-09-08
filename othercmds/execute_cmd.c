@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 17:55:02 by sgmira            #+#    #+#             */
-/*   Updated: 2022/09/06 23:52:25 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/08 21:59:08 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@ void	processing_cmd(char *path, char **cmd, char **env)
 	signal(SIGQUIT, SIG_DFL);
 	if (execve(path, cmd, env) == -1)
 		exit(EXIT_FAILURE);
+}
+
+void	sig_util(int status)
+{
+	if (WTERMSIG(status) == SIGQUIT)
+	{
+		printf("Quit: %d\n", WTERMSIG(status));
+		g_mode.g_exit = 131;
+	}
+	else if (WTERMSIG(status) == SIGINT)
+	{
+		puts("^C");
+		g_mode.g_exit = WTERMSIG(status) + 128;
+	}
 }
 
 void	forking(char *path, char **cmd, char **new_env)
@@ -39,18 +53,7 @@ void	forking(char *path, char **cmd, char **new_env)
 	if (WIFEXITED(status))
 		g_mode.g_exit = status % 255;
 	else if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGQUIT)
-		{
-			printf("Quit: %d\n", WTERMSIG(status));
-			g_mode.g_exit = 131;
-		}
-		else if (WTERMSIG(status) == SIGINT)
-		{
-			puts("^C");
-			g_mode.g_exit = WTERMSIG(status) + 128;
-		}
-	}
+		sig_util(status);
 }
 
 char	**get_cmd(char **cmd)
