@@ -6,7 +6,7 @@
 #    By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 15:50:50 by yamzil            #+#    #+#              #
-#    Updated: 2022/09/07 00:18:24 by sgmira           ###   ########.fr        #
+#    Updated: 2022/09/08 22:20:25 by sgmira           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ INC = 	minishell.h
 LIB = ../libft
 LFLAGS = -L/Users/sgmira/.brew/opt/readline/lib
 IFLAGS = -I/Users/sgmira/.brew/opt/readline/include
-CFLAGS = -g -Wall -Werror -Wextra $(IFLAGS) -fsanitize=address
+CFLAGS = -g -Wall -Werror -Wextra $(IFLAGS)
 
 OBJ = $(SRC:.c=.o) 
 CC = cc
