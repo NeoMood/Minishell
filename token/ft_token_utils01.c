@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:31:49 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/06 23:16:04 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/09 19:29:37 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_norm(int j, int i, char *line, t_tk **list)
 {
-	if (line[j] == '\"' && j != i + 1)
-		ft_addtolist(list, ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
-	else if (j != i + 1)
+	if (line[j] == '\"' && j != i)
+		ft_addtolist(list, ft_input(ft_substr(line, i, j - i), WORD));
+	else if (j != i)
 	{
 		g_mode.g_check = 1;
 		return (j + 1);
@@ -33,26 +33,26 @@ int	ft_norm2(int j)
 int	ft_checkdquotes(int i, char *line, t_tk **list)
 {
 	int	j;
-	int	k;
 
 	j = i;
-	while (line[j])
+	while (line[j] && line[j] != '\"')
 	{
 		if (line[j] == '$')
 		{
 			if (line[j - 1] != '\"' && i < j)
 				ft_addtolist(list,
-					ft_input(ft_substr(line, i + 1, j - i - 1), WORD));
-			k = ft_checkdollar(j, line, list);
-			if (line[k] == '\"')
-				return (k + 1);
-			else if (line[k] != '\"' && line[k] == '\0')
+					ft_input(ft_substr(line, i, j - i), WORD));
+			j = ft_checkdollar(j, line, list);
+			if (line[j] == '\"')
+				return (j + 1);
+			else if (line[j] != '\"' && line[j] == '\0')
 				j = ft_norm2(j);
-			i = k;
+			i = j;
 		}
-		j++;
 		if (line[j] == '\"')
 			break ;
+		if (line[j] != '$')
+			j++;
 	}
 	return (ft_norm(j, i, line, list));
 }

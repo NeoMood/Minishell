@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenization.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yamzil <yamzil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 20:31:59 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/02 21:52:25 by yamzil           ###   ########.fr       */
+/*   Updated: 2022/09/09 19:29:55 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_length_of_next_token(int i, char *line, t_tk **list)
 	else if (line[i] == '\'')
 		return (ft_checksquotes(i + 1, line, list));
 	else if (line[i] == '\"')
-		return (ft_checkdquotes(i, line, list));
+		return (ft_checkdquotes(i + 1, line, list));
 	else if (line[i] == '|')
 		return (ft_checkpip(i, list));
 	else if (line[i] == '>' && line[i + 1] == '>')

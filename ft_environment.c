@@ -6,7 +6,7 @@
 /*   By: sgmira <sgmira@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:52:37 by yamzil            #+#    #+#             */
-/*   Updated: 2022/09/09 00:22:41 by sgmira           ###   ########.fr       */
+/*   Updated: 2022/09/09 20:04:51 by sgmira           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_getvalue(t_env *env, char *key)
 			return (env->value);
 		env = env->next;
 	}
-	return (NULL);
+	return ("");
 }
 
 t_tk	*ft_expand(t_tk *list, t_env *ev)
@@ -73,10 +73,13 @@ char	**get_newenv(t_env	*env)
 	i = 0;
 	while (env)
 	{
-		new_env[i] = ft_strdup(env->key);
-		new_env[i] = ft_strjoin(new_env[i], "=");
-		new_env[i] = ft_strjoin(new_env[i], env->value);
-		i++;
+		if (env->key)
+		{
+			new_env[i] = ft_strdup(env->key);
+			new_env[i] = ft_strjoin(new_env[i], "=");
+			new_env[i] = ft_strjoin(new_env[i], env->value);
+			i++;
+		}
 		env = env->next;
 	}
 	new_env[i] = NULL;
